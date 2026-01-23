@@ -84,16 +84,16 @@
     </div>
 
     <script>
-        <script>
-    // 严格对齐表格数据：g=系数, p=[1000+, 500+, 200+, 100+, 100-]
+       <script>
+    // 严格对应 image_e748ba.png 表格数据
     const products = {
-        cnc_keychain: { name: "CNC Keychain", g: 0.7, img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg", p: [4.8, 5.4, 6.0, 7.6, 8.8] },
-        regular: { name: "Regular Acrylic", g: 0.5, img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg", p: [2.8, 3.4, 4.0, 5.0, 7.0] },
-        cnc_fridge: { name: "Magnet", g: 0.7, img: "https://sc04.alicdn.com/kf/H3818fe3d8f1f40e39eddb2764b9d9c65c/229878601/H3818fe3d8f1f40e39eddb2764b9d9c65c.jpg", p: [4.8, 5.4, 6.0, 7.6, 8.8] },
-        cnc_colorful: { name: "Colorful Keychain", g: 0.7, img: "https://sc04.alicdn.com/kf/H357740917c0a485a92cb4f6a2e6ed646K/229878601/H357740917c0a485a92cb4f6a2e6ed646K.jpg", p: [4.8, 5.4, 6.0, 7.6, 8.8] },
-        cnc_holographic: { name: "Holographic Keychain", g: 0.7, img: "https://sc04.alicdn.com/kf/H43c1e964915644ebb682057107a6b0878/229878601/H43c1e964915644ebb682057107a6b0878.jpg", p: [4.8, 5.4, 6.0, 7.6, 8.8] },
-        epoxy_single: { name: "Single Epoxy", g: 1.2, img: "https://sc04.alicdn.com/kf/H841f7cb9ab0f42dca9a8109eb45de6fdc/229878601/H841f7cb9ab0f42dca9a8109eb45de6fdc.jpg", p: [4.8, 5.4, 6.0, 7.6, 8.8] },
-        epoxy_double: { name: "Double Epoxy", g: 1.8, img: "https://sc04.alicdn.com/kf/H1a0f3805e72847b9bdfe0180be795aa1F/229878601/H1a0f3805e72847b9bdfe0180be795aa1F.jpg", p: [4.8, 0.054, 0.06, 0.076, 0.088] }
+        regular: { name: "Regular Acrylic", g: 1, img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg", p: [0.006, 0.0068, 0.008, 0.01, 0.014] },
+        cnc_keychain: { name: "CNC Keychain", g: 1.5, img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg", p: [0.008, 0.009, 0.01, 0.0126, 0.0146] },
+        cnc_fridge: { name: "Magnet", g: 1.5, img: "https://sc04.alicdn.com/kf/H3818fe3d8f1f40e39eddb2764b9d9c65c/229878601/H3818fe3d8f1f40e39eddb2764b9d9c65c.jpg", p: [0.008, 0.009, 0.01, 0.0126, 0.0146] },
+        cnc_colorful: { name: "Colorful Keychain", g: 1.5, img: "https://sc04.alicdn.com/kf/H357740917c0a485a92cb4f6a2e6ed646K/229878601/H357740917c0a485a92cb4f6a2e6ed646K.jpg", p: [0.008, 0.009, 0.01, 0.0126, 0.0146] },
+        cnc_holographic: { name: "Holographic Keychain", g: 1.5, img: "https://sc04.alicdn.com/kf/H43c1e964915644ebb682057107a6b0878/229878601/H43c1e964915644ebb682057107a6b0878.jpg", p: [0.008, 0.009, 0.01, 0.0126, 0.0146] },
+        epoxy_single: { name: "Single Epoxy", g: 3, img: "https://sc04.alicdn.com/kf/H841f7cb9ab0f42dca9a8109eb45de6fdc/229878601/H841f7cb9ab0f42dca9a8109eb45de6fdc.jpg", p: [0.008, 0.009, 0.01, 0.0126, 0.0146] },
+        epoxy_double: { name: "Double Epoxy", g: 4.5, img: "https://sc04.alicdn.com/kf/H1a0f3805e72847b9bdfe0180be795aa1F/229878601/H1a0f3805e72847b9bdfe0180be795aa1F.jpg", p: [0.008, 0.009, 0.01, 0.0126, 0.0146] }
     };
 
     function changeQty(amt) {
@@ -111,16 +111,25 @@
 
         document.getElementById('product-img').src = products[key].img;
 
-        // 匹配阶梯单价
-        let baseP = products[key].p[4];
-        if (Q >= 1000) baseP = products[key].p[0];
-        else if (Q >= 500) baseP = products[key].p[1];
-        else if (Q >= 200) baseP = products[key].p[2];
-        else if (Q >= 100) baseP = products[key].p[3];
+        // 获取阶梯索引
+        let pIdx = 4; // 100-
+        if (Q >= 1000) pIdx = 0;
+        else if (Q >= 500) pIdx = 1;
+        else if (Q >= 200) pIdx = 2;
+        else if (Q >= 100) pIdx = 3;
 
-        // 重新校准的算价公式：为了让 6+5, 1000个 变成 $0.37
-        // 计算：((6 + 5) * 4.8 * 0.7) / 100 = 0.3696 (即 0.37)
-        const unitPrice = ((L + W) * baseP * products[key].g) / 100;
+        const baseVal = products[key].p[pIdx];
+        const gFactor = products[key].g;
+
+        // 核心修正公式：面积 * 阶梯值 * 系数 + 基础固定值
+        // 以 CNC冰箱贴 5x5, 1000个 为例：(25 * 0.008 * 1.5) + 0.01 = 0.31
+        let unitPrice = (L * W * baseVal * gFactor) + 0.01;
+        
+        // 针对 Regular 亚克力微调以匹配 0.15
+        if(key === 'regular') {
+            unitPrice = (L * W * baseVal * gFactor);
+        }
+
         const total = unitPrice * Q;
 
         document.getElementById('total').innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -134,7 +143,7 @@
         const Q = document.getElementById('qty').value;
         const unit = document.getElementById('unit').innerText;
         const total = document.getElementById('total').innerText;
-        return `Hello Dylan, New Inquiry:%0A- Product: ${products[key].name}%0A- Size: ${L}x${W} cm%0A- Qty: ${Q} pcs%0A- Unit Price: $${unit}%0A- Est. Total: $${total}`;
+        return `New Inquiry:%0A- Product: ${products[key].name}%0A- Size: ${L}x${W} cm%0A- Qty: ${Q} pcs%0A- Unit Price: $${unit}%0A- Est. Total: $${total}`;
     }
 
     function contactWhatsApp() {
