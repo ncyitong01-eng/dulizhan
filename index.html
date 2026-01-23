@@ -3,130 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dylan Custom - Price Calculator</title>
+    <title>Dylan Factory - Precision Quote</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .gradient-btn { background: linear-gradient(90deg, #25D366 0%, #128C7E 100%); }
         .card-shadow { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .input-focus:focus { border-color: #128C7E; background-color: white; }
     </style>
 </head>
 <body class="bg-slate-50 pb-10 font-sans text-slate-900">
 
     <div class="max-w-md mx-auto bg-white shadow-md rounded-b-[2.5rem] overflow-hidden">
         <div class="relative">
-            <img id="product-img" src="https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg" class="w-full h-80 object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-6">
-                <h1 class="text-white text-3xl font-black tracking-tight uppercase">Instant Quote</h1>
+            <img id="product-img" src="https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg" class="w-full h-72 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent flex items-end p-6">
+                <h1 class="text-white text-3xl font-black uppercase tracking-tight">Precision Quote</h1>
             </div>
         </div>
     </div>
 
-    <div class="max-w-md mx-auto px-6 mt-8 space-y-6">
+    <div class="max-w-md mx-auto px-6 mt-6 space-y-4">
         
-        <div class="bg-white p-6 rounded-3xl card-shadow">
-            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">1. Select Process</label>
-            <select id="product-select" onchange="updateUI()" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 font-bold text-lg outline-none cursor-pointer">
+        <div class="bg-white p-5 rounded-2xl card-shadow">
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-2 tracking-widest">1. Process</label>
+            <select id="product-select" onchange="updateUI()" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 font-bold outline-none cursor-pointer">
                 <option value="cnc_keychain">CNC 钥匙扣 (CNC Keychain)</option>
                 <option value="regular">常规亚克力钥匙扣 (Regular)</option>
+                <option value="cnc_fridge">CNC 冰箱贴 (Magnet)</option>
+                <option value="cnc_colorful">CNC 炫彩钥匙扣 (Colorful)</option>
+                <option value="cnc_holographic">CNC 全息钥匙扣 (Holographic)</option>
+                <option value="epoxy_single">单面环氧树脂 (Single Epoxy)</option>
                 <option value="epoxy_double">双面环氧树脂 (Double Epoxy)</option>
             </select>
         </div>
 
-        <div class="bg-white p-6 rounded-3xl card-shadow">
-            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">2. Select Size (cm)</label>
-            <div class="grid grid-cols-3 gap-3">
-                <button onclick="setSize(3)" class="size-btn border-2 border-slate-100 rounded-xl py-3 font-bold active:bg-green-50" id="size-3">3x3</button>
-                <button onclick="setSize(5)" class="size-btn border-2 border-green-500 bg-green-50 rounded-xl py-3 font-bold text-green-700" id="size-5">5x5</button>
-                <button onclick="setSize(7)" class="size-btn border-2 border-slate-100 rounded-xl py-3 font-bold active:bg-green-50" id="size-7">7x7</button>
+        <div class="bg-white p-5 rounded-2xl card-shadow grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Length (cm)</label>
+                <input type="number" id="len" value="5" oninput="updateUI()" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 font-black text-xl text-center input-focus outline-none transition-all">
             </div>
-            <input type="hidden" id="selected-size" value="5">
-        </div>
-
-        <div class="bg-white p-6 rounded-3xl card-shadow">
-            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest text-center">3. Enter Quantity (MOQ: 50)</label>
-            <div class="flex items-center justify-center space-x-4">
-                <button onclick="changeQty(-50)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center font-bold text-slate-400">-</button>
-                <input type="number" id="qty" value="1000" oninput="updateUI()" class="w-32 text-center text-4xl font-black text-green-600 bg-slate-50 border-none rounded-2xl p-2 outline-none">
-                <button onclick="changeQty(50)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center font-bold text-slate-400">+</button>
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Width (cm)</label>
+                <input type="number" id="wid" value="5" oninput="updateUI()" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 font-black text-xl text-center input-focus outline-none transition-all">
             </div>
         </div>
 
-        <div class="bg-slate-900 rounded-[2.5rem] p-10 text-center text-white shadow-2xl border-4 border-white">
-            <p class="text-green-400 text-xs font-black tracking-[0.2em] mb-3 uppercase">Estimated Total</p>
-            <div class="text-7xl font-black mb-2 tracking-tighter leading-none">$ <span id="total">0.00</span></div>
-            <div class="inline-flex items-center bg-white/10 px-5 py-2 rounded-full border border-white/10">
-                <span class="text-xs text-slate-400 font-bold uppercase mr-2">Unit Price:</span>
-                <span class="text-lg font-black text-white leading-none">$ <span id="unit">0.00</span></span>
+        <div class="bg-white p-5 rounded-2xl card-shadow text-center">
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">3. Quantity (pcs)</label>
+            <div class="flex items-center justify-center space-x-3">
+                <button onclick="changeQty(-100)" class="w-10 h-10 rounded-full border-2 border-slate-100 font-bold text-slate-400 active:bg-slate-100">-</button>
+                <input type="number" id="qty" value="1000" oninput="updateUI()" class="w-32 text-center text-3xl font-black text-green-600 bg-slate-50 rounded-xl p-2 outline-none">
+                <button onclick="changeQty(100)" class="w-10 h-10 rounded-full border-2 border-slate-100 font-bold text-slate-400 active:bg-slate-100">+</button>
             </div>
         </div>
 
-        <button onclick="contactWhatsApp()" class="w-full gradient-btn text-white font-black py-6 rounded-3xl shadow-2xl flex items-center justify-center space-x-3 active:scale-95 transition-all">
-            <span class="text-xl uppercase tracking-wider">Start My Order</span>
-        </button>
-    </div>
-
-    <script>
-        const products = {
-            cnc_keychain: { name: "CNC 钥匙扣", g: 6.5, img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            regular: { name: "常规亚克力钥匙扣", g: 1, img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg", p: [0.028, 0.034, 0.04, 0.05, 0.07] },
-            epoxy_double: { name: "双面环氧树脂", g: 4.5, img: "https://sc04.alicdn.com/kf/H1a0f3805e72847b9bdfe0180be795aa1F/229878601/H1a0f3805e72847b9bdfe0180be795aa1F.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] }
-        };
-
-        function setSize(size) {
-            document.getElementById('selected-size').value = size;
-            document.querySelectorAll('.size-btn').forEach(btn => {
-                btn.classList.remove('border-green-500', 'bg-green-50', 'text-green-700');
-                btn.classList.add('border-slate-100');
-            });
-            const activeBtn = document.getElementById('size-' + size);
-            activeBtn.classList.add('border-green-500', 'bg-green-50', 'text-green-700');
-            activeBtn.classList.remove('border-slate-100');
-            updateUI();
-        }
-
-        function changeQty(amount) {
-            const input = document.getElementById('qty');
-            let val = parseInt(input.value) || 0;
-            val = Math.max(50, val + amount);
-            input.value = val;
-            updateUI();
-        }
-
-        function updateUI() {
-            const key = document.getElementById('product-select').value;
-            const size = parseInt(document.getElementById('selected-size').value);
-            let Q = parseInt(document.getElementById('qty').value) || 0;
-            
-            document.getElementById('product-img').src = products[key].img;
-
-            let baseP = products[key].p[4]; 
-            if (Q >= 1000) baseP = products[key].p[0];
-            else if (Q >= 500) baseP = products[key].p[1];
-            else if (Q >= 200) baseP = products[key].p[2];
-            else if (Q >= 100) baseP = products[key].p[3];
-
-            // 包含尺寸因素的计算公式：阶梯价 * 系数 * (尺寸/5的平方)
-            // 这样 5x5 的价格不变，尺寸越大价格越高
-            const sizeFactor = (size * size) / 25;
-            const unitPrice = baseP * products[key].g * sizeFactor;
-            const total = unitPrice * Q;
-            
-            document.getElementById('total').innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('unit').innerText = unitPrice.toFixed(3);
-        }
-
-        function contactWhatsApp() {
-            const key = document.getElementById('product-select').value;
-            const size = document.getElementById('selected-size').value;
-            const Q = document.getElementById('qty').value;
-            const total = document.getElementById('total').innerText;
-            const unit = document.getElementById('unit').innerText;
-            const phone = "8615180463235";
-            const text = `Hi Dylan, I want to order:%0A- Product: ${products[key].name}%0A- Size: ${size}x${size}cm%0A- Qty: ${Q} pcs%0A- Unit Price: $${unit}%0A- Total: $${total}`;
-            window.open(`https://wa.me/${phone}?text=${text}`);
-        }
-        updateUI();
-    </script>
-</body>
-</html>
+        <div class="bg-slate-900 rounded-[2rem] p-8 text-center text-white shadow-2xl border-4 border-white">
+            <p class="text-green-400 text-xs font-black tracking-widest mb-2 uppercase">Est. Total Price</p>
+            <div class="text-6xl font-black mb-1 leading-none">$ <span id="total">0.00</span></div>
+            <div class="text-slate-400 text-sm font-medium">Unit: $<span id="unit">0.
