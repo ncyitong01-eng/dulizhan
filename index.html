@@ -77,4 +77,58 @@
         };
 
         function updateQty(val) {
-            const el
+            const el = document.getElementById('p_qty');
+            el.value = Math.max(50, (parseInt(el.value) || 0) + val);
+            calculatePrice();
+        }
+
+        function calculatePrice() {
+            try {
+                const type = document.getElementById('p_type').value;
+                const L = parseFloat(document.getElementById('p_len').value) || 0;
+                const W = parseFloat(document.getElementById('p_wid').value) || 0;
+                const Q = parseInt(document.getElementById('p_qty').value) || 0;
+
+                document.getElementById('product-img').src = db[type].img;
+
+                let idx = 4; 
+                if (Q >= 1000) idx = 0;
+                else if (Q >= 500) idx = 1;
+                else if (Q >= 200) idx = 2;
+                else if (Q >= 100) idx = 3;
+
+                // 核心计算：面积 * 0.008 * 系数 (对齐你的 5x5 = 0.31 逻辑)
+                let unit = (L * W * 0.008 * db[type].g);
+                if (type !== 'regular') unit += 0.01;
+                
+                const ratio = db[type].p[idx] / db[type].p[0];
+                unit = unit * ratio;
+                const total = unit * Q;
+
+                document.getElementById('res_total').innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('res_unit').innerText = unit.toFixed(3);
+            } catch (e) { console.error(e); }
+        }
+
+        function getMsg() {
+            const type = document.getElementById('p_type').value;
+            const L = document.getElementById('p_len').value;
+            const W = document.getElementById('p_wid').value;
+            const Q = document.getElementById('p_qty').value;
+            const u = document.getElementById('res_unit').innerText;
+            const t = document.getElementById('res_total').innerText;
+            return `Inquiry From Dylan Factory:%0A- Product: ${type}%0A- Size: ${L}x${W}cm%0A- Qty: ${Q}pcs%0A- Unit: $${u}%0A- Total: $${t}`;
+        }
+
+        function sendWhatsApp() {
+            window.open(`https://wa.me/8615180463235?text=${getMsg()}`);
+        }
+
+        function sendEmail() {
+            window.location.href = `mailto:ncyitong01@gmail.com?subject=Custom Inquiry&body=${getMsg().replace(/%0A/g, '\n')}`;
+        }
+
+        window.onload = calculatePrice;
+    </script>
+</body>
+</html>
