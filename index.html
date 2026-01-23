@@ -24,7 +24,6 @@
     </div>
 
     <div class="max-w-md mx-auto px-6 mt-6 space-y-4">
-        
         <div class="bg-white p-5 rounded-2xl card-shadow">
             <label class="block text-xs font-bold text-gray-400 uppercase mb-2">1. Product Type</label>
             <select id="p_type" onchange="calculatePrice()" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold text-gray-700 outline-none">
@@ -69,8 +68,13 @@
     </div>
 
     <script>
-        // 核心数据 (对齐 image_e748ba.png)
         const db = {
             regular: { g: 1, p: [0.028, 0.034, 0.04, 0.05, 0.07], img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg" },
             cnc_keychain: { g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg" },
-            cnc_fridge: { g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "
+            cnc_fridge: { g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H3818fe3d8f1f40e39eddb2764b9d9c65c/229878601/H3818fe3d8f1f40e39eddb2764b9d9c65c.jpg" },
+            epoxy_single: { g: 3, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H841f7cb9ab0f42dca9a8109eb45de6fdc/229878601/H841f7cb9ab0f42dca9a8109eb45de6fdc.jpg" },
+            epoxy_double: { g: 4.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H1a0f3805e72847b9bdfe0180be795aa1F/229878601/H1a0f3805e72847b9bdfe0180be795aa1F.jpg" }
+        };
+
+        function updateQty(val) {
+            const el
