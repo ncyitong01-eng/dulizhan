@@ -3,32 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dylan Custom - Instant Quote</title>
+    <title>Dylan Custom - Price Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .gradient-btn { background: linear-gradient(90deg, #25D366 0%, #128C7E 100%); }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: #128C7E; cursor: pointer; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        .card-shadow { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        /* 隐藏输入框上下箭头 */
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
-<body class="bg-gray-50 pb-10 font-sans">
+<body class="bg-slate-50 pb-10 font-sans text-slate-900">
 
-    <div class="max-w-md mx-auto bg-white shadow-lg rounded-b-[2rem] overflow-hidden">
+    <div class="max-w-md mx-auto bg-white shadow-md rounded-b-[2.5rem] overflow-hidden">
         <div class="relative">
-            <img id="product-img" src="https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg" class="w-full h-72 object-cover">
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-5">
-                <h1 class="text-white text-2xl font-black uppercase tracking-tight">Factory Quote</h1>
+            <img id="product-img" src="https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg" class="w-full h-80 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-6">
+                <h1 class="text-white text-3xl font-black tracking-tight uppercase">Instant Quote</h1>
             </div>
         </div>
     </div>
 
-    <div class="max-w-md mx-auto px-5 mt-6 space-y-5">
+    <div class="max-w-md mx-auto px-6 mt-8 space-y-6">
         
-        <div class="bg-white p-5 rounded-2xl card-shadow">
-            <label class="block text-xs font-bold text-gray-400 uppercase mb-2 tracking-widest">Select Process</label>
-            <select id="product-select" onchange="updateUI()" class="w-full bg-gray-50 border-gray-100 rounded-xl p-3 text-gray-800 font-bold focus:ring-2 focus:ring-green-500 outline-none border">
+        <div class="bg-white p-6 rounded-3xl card-shadow">
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">Select Process</label>
+            <select id="product-select" onchange="updateUI()" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 font-bold text-lg outline-none focus:border-green-500 transition-colors cursor-pointer">
+                <option value="cnc_keychain">CNC 钥匙扣 (CNC Keychain)</option>
                 <option value="regular">常规亚克力钥匙扣</option>
-                <option value="cnc_keychain">CNC 钥匙扣</option>
                 <option value="cnc_fridge">CNC 冰箱贴</option>
                 <option value="cnc_colorful">CNC 炫彩钥匙扣</option>
                 <option value="cnc_holographic">CNC 全息钥匙扣</option>
@@ -37,97 +38,79 @@
             </select>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl card-shadow grid grid-cols-2 gap-4">
-            <div>
-                <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Length (cm)</label>
-                <input type="number" id="len" value="5" oninput="updateUI()" class="w-full bg-gray-50 border-gray-100 rounded-xl p-3 font-black text-lg border outline-none focus:bg-white transition-all">
+        <div class="bg-white p-6 rounded-3xl card-shadow">
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest text-center">Enter Quantity (MOQ: 50)</label>
+            <div class="flex items-center justify-center space-x-4">
+                <button onclick="changeQty(-50)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center font-bold text-slate-400 hover:bg-slate-50 active:scale-90 transition-all">-</button>
+                <input type="number" id="qty" value="1000" oninput="updateUI()" class="w-32 text-center text-4xl font-black text-green-600 bg-slate-50 border-none rounded-2xl p-2 outline-none focus:ring-2 focus:ring-green-500">
+                <button onclick="changeQty(50)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center font-bold text-slate-400 hover:bg-slate-50 active:scale-90 transition-all">+</button>
             </div>
-            <div>
-                <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Width (cm)</label>
-                <input type="number" id="wid" value="5" oninput="updateUI()" class="w-full bg-gray-50 border-gray-100 rounded-xl p-3 font-black text-lg border outline-none focus:bg-white transition-all">
+            <p class="text-center text-[10px] text-slate-300 font-bold uppercase mt-4">Tip: More quantity = lower unit price</p>
+        </div>
+
+        <div class="bg-slate-900 rounded-[2.5rem] p-10 text-center text-white shadow-2xl border-4 border-white">
+            <p class="text-green-400 text-xs font-black tracking-[0.2em] mb-3 uppercase">Estimated Price</p>
+            <div class="text-7xl font-black mb-2 tracking-tighter leading-none">$ <span id="total">0.00</span></div>
+            <div class="inline-flex items-center bg-white/10 px-5 py-2 rounded-full border border-white/10">
+                <span class="text-xs text-slate-400 font-bold uppercase mr-2">Unit Price:</span>
+                <span class="text-lg font-black text-white leading-none">$ <span id="unit">0.00</span></span>
             </div>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl card-shadow">
-            <div class="flex justify-between items-end mb-4">
-                <label class="text-xs font-bold text-gray-400 uppercase">Order Quantity</label>
-                <div class="text-2xl font-black text-green-600"><span id="qty-display">100</span> <span class="text-sm font-normal text-gray-400">pcs</span></div>
-            </div>
-            <input type="range" id="qty" min="50" max="2000" step="50" value="100" oninput="updateUI()" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-700">
-            <div class="flex justify-between text-[10px] text-gray-400 mt-2 font-bold">
-                <span>MIN: 50</span>
-                <span>MAX: 2000+</span>
-            </div>
-        </div>
-
-        <div class="bg-gray-900 rounded-[2rem] p-8 text-center text-white shadow-2xl relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-4 opacity-10">
-                <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.3-.25.64-.25 1.01 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-            </div>
-            <p class="text-green-400 text-xs uppercase font-black tracking-widest mb-2">Total Estimate</p>
-            <div class="text-6xl font-black mb-1">$ <span id="total">0.00</span></div>
-            <div class="inline-block bg-white/10 px-4 py-1 rounded-full text-gray-300 text-xs font-medium">
-                Unit Price: $<span id="unit">0.00</span>
-            </div>
-        </div>
-
-        <button onclick="contactWhatsApp()" class="w-full gradient-btn text-white font-black py-5 rounded-2xl shadow-xl flex items-center justify-center space-x-3 active:scale-[0.97] transition-all">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            <span class="uppercase tracking-wider">Start Custom Order</span>
+        <button onclick="contactWhatsApp()" class="w-full gradient-btn text-white font-black py-6 rounded-3xl shadow-2xl flex items-center justify-center space-x-3 active:scale-95 transition-all">
+            <span class="text-xl uppercase tracking-wider">Start My Order</span>
         </button>
     </div>
 
     <script>
-        // 基于 Data_All 表格的完整映射
         const products = {
-            regular: { name: "常规亚克力钥匙扣", g: 1, img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg", p: [0.028, 0.034, 0.04, 0.05, 0.07] },
-            cnc_keychain: { name: "CNC 钥匙扣", g: 1.5, img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            cnc_fridge: { name: "CNC 冰箱贴", g: 1.5, img: "https://sc04.alicdn.com/kf/H3818fe3d8f1f40e39eddb2764b9d9c65c/229878601/H3818fe3d8f1f40e39eddb2764b9d9c65c.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            cnc_colorful: { name: "CNC 炫彩钥匙扣", g: 1.5, img: "https://sc04.alicdn.com/kf/H357740917c0a485a92cb4f6a2e6ed646K/229878601/H357740917c0a485a92cb4f6a2e6ed646K.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            cnc_holographic: { name: "CNC 全息钥匙扣", g: 1.5, img: "https://sc04.alicdn.com/kf/H43c1e964915644ebb682057107a6b0878/229878601/H43c1e964915644ebb682057107a6b0878.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            epoxy_single: { name: "单面环氧树脂", g: 3, img: "https://sc04.alicdn.com/kf/H841f7cb9ab0f42dca9a8109eb45de6fdc/229878601/H841f7cb9ab0f42dca9a8109eb45de6fdc.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            epoxy_double: { name: "双面环氧树脂", g: 4.5, img: "https://sc04.alicdn.com/kf/H1a0f3805e72847b9bdfe0180be795aa1F/229878601/H1a0f3805e72847b9bdfe0180be795aa1F.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] }
+            cnc_keychain: { name: "CNC 钥匙扣", g: 6.5, img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
+            regular: { name: "常规亚克力钥匙扣", g: 6.5, img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg", p: [0.028, 0.034, 0.04, 0.05, 0.07] },
+            cnc_fridge: { name: "CNC 冰箱贴", g: 6.5, img: "https://sc04.alicdn.com/kf/H3818fe3d8f1f40e39eddb2764b9d9c65c/229878601/H3818fe3d8f1f40e39eddb2764b9d9c65c.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
+            cnc_colorful: { name: "CNC 炫彩钥匙扣", g: 6.5, img: "https://sc04.alicdn.com/kf/H357740917c0a485a92cb4f6a2e6ed646K/229878601/H357740917c0a485a92cb4f6a2e6ed646K.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
+            cnc_holographic: { name: "CNC 全息钥匙扣", g: 6.5, img: "https://sc04.alicdn.com/kf/H43c1e964915644ebb682057107a6b0878/229878601/H43c1e964915644ebb682057107a6b0878.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
+            epoxy_single: { name: "单面环氧树脂", g: 6.5, img: "https://sc04.alicdn.com/kf/H841f7cb9ab0f42dca9a8109eb45de6fdc/229878601/H841f7cb9ab0f42dca9a8109eb45de6fdc.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
+            epoxy_double: { name: "双面环氧树脂", g: 6.5, img: "https://sc04.alicdn.com/kf/H1a0f3805e72847b9bdfe0180be795aa1F/229878601/H1a0f3805e72847b9bdfe0180be795aa1F.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] }
         };
+
+        function changeQty(amount) {
+            const input = document.getElementById('qty');
+            let val = parseInt(input.value) || 0;
+            val = Math.max(0, val + amount);
+            input.value = val;
+            updateUI();
+        }
 
         function updateUI() {
             const key = document.getElementById('product-select').value;
-            const L = parseFloat(document.getElementById('len').value) || 0;
-            const W = parseFloat(document.getElementById('wid').value) || 0;
-            const Q = parseInt(document.getElementById('qty').value);
+            let Q = parseInt(document.getElementById('qty').value) || 0;
             
-            document.getElementById('qty-display').innerText = Q;
             document.getElementById('product-img').src = products[key].img;
 
-            // 价格阶梯逻辑: p[0]=1000+, p[1]=500+, p[2]=200+, p[3]=100+, p[4]=100-
-            let stepP = products[key].p[4]; 
-            if (Q >= 1000) stepP = products[key].p[0];
-            else if (Q >= 500) stepP = products[key].p[1];
-            else if (Q >= 200) stepP = products[key].p[2];
-            else if (Q >= 100) stepP = products[key].p[3];
+            // 阶梯价格判定
+            let baseP = products[key].p[4]; 
+            if (Q >= 1000) baseP = products[key].p[0];
+            else if (Q >= 500) baseP = products[key].p[1];
+            else if (Q >= 200) baseP = products[key].p[2];
+            else if (Q >= 100) baseP = products[key].p[3];
 
-            // 核心公式: (长 * 宽 * 阶梯单价 + 系数) * 数量
-            const total = (L * W * stepP + products[key].g) * Q;
+            const unitPrice = baseP * products[key].g;
+            const total = unitPrice * Q;
             
-            document.getElementById('total').innerText = total.toFixed(2);
-            document.getElementById('unit').innerText = (total / Q).toFixed(2);
+            document.getElementById('total').innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('unit').innerText = unitPrice.toFixed(3);
         }
 
         function contactWhatsApp() {
             const key = document.getElementById('product-select').value;
-            const pName = products[key].name;
-            const L = document.getElementById('len').value;
-            const W = document.getElementById('wid').value;
             const Q = document.getElementById('qty').value;
             const total = document.getElementById('total').innerText;
-            
-            // 您的 WhatsApp 信息
+            const unit = document.getElementById('unit').innerText;
             const phone = "8615180463235";
-            const text = `Hi Dylan, I need a formal quote:%0A----------------------------%0AProduct: ${pName}%0ASize: ${L} x ${W} cm%0AQuantity: ${Q} pcs%0AEst. Total: $${total}%0A----------------------------%0APlease check my custom design.`;
-            
+            const text = `Hi Dylan, I want to order:%0A- Product: ${products[key].name}%0A- Qty: ${Q} pcs%0A- Unit Price: $${unit}%0A- Total: $${total}%0AAvailable for order?`;
             window.open(`https://wa.me/${phone}?text=${text}`);
         }
-
-        updateUI(); // 初始化加载
+        updateUI();
     </script>
 </body>
 </html>
