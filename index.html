@@ -8,7 +8,6 @@
     <style>
         .gradient-btn { background: linear-gradient(90deg, #25D366 0%, #128C7E 100%); }
         .card-shadow { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
-        /* 隐藏输入框上下箭头 */
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
@@ -26,30 +25,35 @@
     <div class="max-w-md mx-auto px-6 mt-8 space-y-6">
         
         <div class="bg-white p-6 rounded-3xl card-shadow">
-            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">Select Process</label>
-            <select id="product-select" onchange="updateUI()" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 font-bold text-lg outline-none focus:border-green-500 transition-colors cursor-pointer">
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">1. Select Process</label>
+            <select id="product-select" onchange="updateUI()" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 font-bold text-lg outline-none cursor-pointer">
                 <option value="cnc_keychain">CNC 钥匙扣 (CNC Keychain)</option>
-                <option value="regular">常规亚克力钥匙扣</option>
-                <option value="cnc_fridge">CNC 冰箱贴</option>
-                <option value="cnc_colorful">CNC 炫彩钥匙扣</option>
-                <option value="cnc_holographic">CNC 全息钥匙扣</option>
-                <option value="epoxy_single">单面环氧树脂</option>
-                <option value="epoxy_double">双面环氧树脂</option>
+                <option value="regular">常规亚克力钥匙扣 (Regular)</option>
+                <option value="epoxy_double">双面环氧树脂 (Double Epoxy)</option>
             </select>
         </div>
 
         <div class="bg-white p-6 rounded-3xl card-shadow">
-            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest text-center">Enter Quantity (MOQ: 50)</label>
-            <div class="flex items-center justify-center space-x-4">
-                <button onclick="changeQty(-50)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center font-bold text-slate-400 hover:bg-slate-50 active:scale-90 transition-all">-</button>
-                <input type="number" id="qty" value="1000" oninput="updateUI()" class="w-32 text-center text-4xl font-black text-green-600 bg-slate-50 border-none rounded-2xl p-2 outline-none focus:ring-2 focus:ring-green-500">
-                <button onclick="changeQty(50)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center font-bold text-slate-400 hover:bg-slate-50 active:scale-90 transition-all">+</button>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">2. Select Size (cm)</label>
+            <div class="grid grid-cols-3 gap-3">
+                <button onclick="setSize(3)" class="size-btn border-2 border-slate-100 rounded-xl py-3 font-bold active:bg-green-50" id="size-3">3x3</button>
+                <button onclick="setSize(5)" class="size-btn border-2 border-green-500 bg-green-50 rounded-xl py-3 font-bold text-green-700" id="size-5">5x5</button>
+                <button onclick="setSize(7)" class="size-btn border-2 border-slate-100 rounded-xl py-3 font-bold active:bg-green-50" id="size-7">7x7</button>
             </div>
-            <p class="text-center text-[10px] text-slate-300 font-bold uppercase mt-4">Tip: More quantity = lower unit price</p>
+            <input type="hidden" id="selected-size" value="5">
+        </div>
+
+        <div class="bg-white p-6 rounded-3xl card-shadow">
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest text-center">3. Enter Quantity (MOQ: 50)</label>
+            <div class="flex items-center justify-center space-x-4">
+                <button onclick="changeQty(-50)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center font-bold text-slate-400">-</button>
+                <input type="number" id="qty" value="1000" oninput="updateUI()" class="w-32 text-center text-4xl font-black text-green-600 bg-slate-50 border-none rounded-2xl p-2 outline-none">
+                <button onclick="changeQty(50)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center font-bold text-slate-400">+</button>
+            </div>
         </div>
 
         <div class="bg-slate-900 rounded-[2.5rem] p-10 text-center text-white shadow-2xl border-4 border-white">
-            <p class="text-green-400 text-xs font-black tracking-[0.2em] mb-3 uppercase">Estimated Price</p>
+            <p class="text-green-400 text-xs font-black tracking-[0.2em] mb-3 uppercase">Estimated Total</p>
             <div class="text-7xl font-black mb-2 tracking-tighter leading-none">$ <span id="total">0.00</span></div>
             <div class="inline-flex items-center bg-white/10 px-5 py-2 rounded-full border border-white/10">
                 <span class="text-xs text-slate-400 font-bold uppercase mr-2">Unit Price:</span>
@@ -65,36 +69,47 @@
     <script>
         const products = {
             cnc_keychain: { name: "CNC 钥匙扣", g: 6.5, img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            regular: { name: "常规亚克力钥匙扣", g: 6.5, img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg", p: [0.028, 0.034, 0.04, 0.05, 0.07] },
-            cnc_fridge: { name: "CNC 冰箱贴", g: 6.5, img: "https://sc04.alicdn.com/kf/H3818fe3d8f1f40e39eddb2764b9d9c65c/229878601/H3818fe3d8f1f40e39eddb2764b9d9c65c.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            cnc_colorful: { name: "CNC 炫彩钥匙扣", g: 6.5, img: "https://sc04.alicdn.com/kf/H357740917c0a485a92cb4f6a2e6ed646K/229878601/H357740917c0a485a92cb4f6a2e6ed646K.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            cnc_holographic: { name: "CNC 全息钥匙扣", g: 6.5, img: "https://sc04.alicdn.com/kf/H43c1e964915644ebb682057107a6b0878/229878601/H43c1e964915644ebb682057107a6b0878.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            epoxy_single: { name: "单面环氧树脂", g: 6.5, img: "https://sc04.alicdn.com/kf/H841f7cb9ab0f42dca9a8109eb45de6fdc/229878601/H841f7cb9ab0f42dca9a8109eb45de6fdc.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] },
-            epoxy_double: { name: "双面环氧树脂", g: 6.5, img: "https://sc04.alicdn.com/kf/H1a0f3805e72847b9bdfe0180be795aa1F/229878601/H1a0f3805e72847b9bdfe0180be795aa1F.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] }
+            regular: { name: "常规亚克力钥匙扣", g: 1, img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg", p: [0.028, 0.034, 0.04, 0.05, 0.07] },
+            epoxy_double: { name: "双面环氧树脂", g: 4.5, img: "https://sc04.alicdn.com/kf/H1a0f3805e72847b9bdfe0180be795aa1F/229878601/H1a0f3805e72847b9bdfe0180be795aa1F.jpg", p: [0.048, 0.054, 0.06, 0.076, 0.088] }
         };
+
+        function setSize(size) {
+            document.getElementById('selected-size').value = size;
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('border-green-500', 'bg-green-50', 'text-green-700');
+                btn.classList.add('border-slate-100');
+            });
+            const activeBtn = document.getElementById('size-' + size);
+            activeBtn.classList.add('border-green-500', 'bg-green-50', 'text-green-700');
+            activeBtn.classList.remove('border-slate-100');
+            updateUI();
+        }
 
         function changeQty(amount) {
             const input = document.getElementById('qty');
             let val = parseInt(input.value) || 0;
-            val = Math.max(0, val + amount);
+            val = Math.max(50, val + amount);
             input.value = val;
             updateUI();
         }
 
         function updateUI() {
             const key = document.getElementById('product-select').value;
+            const size = parseInt(document.getElementById('selected-size').value);
             let Q = parseInt(document.getElementById('qty').value) || 0;
             
             document.getElementById('product-img').src = products[key].img;
 
-            // 阶梯价格判定
             let baseP = products[key].p[4]; 
             if (Q >= 1000) baseP = products[key].p[0];
             else if (Q >= 500) baseP = products[key].p[1];
             else if (Q >= 200) baseP = products[key].p[2];
             else if (Q >= 100) baseP = products[key].p[3];
 
-            const unitPrice = baseP * products[key].g;
+            // 包含尺寸因素的计算公式：阶梯价 * 系数 * (尺寸/5的平方)
+            // 这样 5x5 的价格不变，尺寸越大价格越高
+            const sizeFactor = (size * size) / 25;
+            const unitPrice = baseP * products[key].g * sizeFactor;
             const total = unitPrice * Q;
             
             document.getElementById('total').innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -103,11 +118,12 @@
 
         function contactWhatsApp() {
             const key = document.getElementById('product-select').value;
+            const size = document.getElementById('selected-size').value;
             const Q = document.getElementById('qty').value;
             const total = document.getElementById('total').innerText;
             const unit = document.getElementById('unit').innerText;
             const phone = "8615180463235";
-            const text = `Hi Dylan, I want to order:%0A- Product: ${products[key].name}%0A- Qty: ${Q} pcs%0A- Unit Price: $${unit}%0A- Total: $${total}%0AAvailable for order?`;
+            const text = `Hi Dylan, I want to order:%0A- Product: ${products[key].name}%0A- Size: ${size}x${size}cm%0A- Qty: ${Q} pcs%0A- Unit Price: $${unit}%0A- Total: $${total}`;
             window.open(`https://wa.me/${phone}?text=${text}`);
         }
         updateUI();
