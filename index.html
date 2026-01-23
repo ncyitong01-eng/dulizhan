@@ -31,17 +31,19 @@
                 <option value="cnc_keychain">CNC 钥匙扣 (CNC Keychain)</option>
                 <option value="regular">常规亚克力 (Regular Acrylic)</option>
                 <option value="cnc_fridge">CNC 冰箱贴 (Magnet)</option>
+                <option value="cnc_hologram">CNC 炫彩钥匙扣 (Holographic)</option>
+                <option value="cnc_fullhologram">CNC 全息钥匙扣 (Full Hologram)</option>
                 <option value="epoxy_single">单面环氧 (Single Epoxy)</option>
                 <option value="epoxy_double">双面环氧 (Double Epoxy)</option>
             </select>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-            <div class="bg-white p-5 rounded-3xl card-shadow border-2 border-transparent focus-within:border-blue-400 transition-all">
+            <div class="bg-white p-5 rounded-3xl card-shadow">
                 <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 text-center">Length (cm)</label>
                 <input type="number" id="p_len" value="5" oninput="calculatePrice()" class="w-full text-2xl font-black outline-none text-center bg-transparent">
             </div>
-            <div class="bg-white p-5 rounded-3xl card-shadow border-2 border-transparent focus-within:border-blue-400 transition-all">
+            <div class="bg-white p-5 rounded-3xl card-shadow">
                 <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 text-center">Width (cm)</label>
                 <input type="number" id="p_wid" value="5" oninput="calculatePrice()" class="w-full text-2xl font-black outline-none text-center bg-transparent">
             </div>
@@ -50,41 +52,38 @@
         <div class="bg-white p-6 rounded-3xl card-shadow text-center">
             <label class="block text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">3. Order Quantity (pcs)</label>
             <div class="flex items-center justify-center space-x-8">
-                <button onclick="updateQty(-100)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center text-2xl font-bold text-slate-300 hover:bg-slate-50 active:scale-90 transition-all">-</button>
+                <button onclick="updateQty(-100)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center text-2xl font-bold text-slate-300">-</button>
                 <input type="number" id="p_qty" value="1000" oninput="calculatePrice()" class="w-28 text-4xl font-black text-green-500 text-center outline-none bg-transparent">
-                <button onclick="updateQty(100)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center text-2xl font-bold text-slate-300 hover:bg-slate-50 active:scale-90 transition-all">+</button>
+                <button onclick="updateQty(100)" class="w-12 h-12 rounded-full border-2 border-slate-100 flex items-center justify-center text-2xl font-bold text-slate-300">+</button>
             </div>
         </div>
 
-        <div class="bg-[#111827] rounded-[2.5rem] p-8 text-center text-white shadow-2xl relative overflow-hidden">
-            <div class="relative z-10">
-                <p class="text-green-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Estimated Total</p>
-                <div class="text-6xl font-black mb-3 flex justify-center items-start">
-                    <span class="text-2xl mt-2 mr-1 opacity-80">$</span>
-                    <span id="res_total">0.00</span>
-                </div>
-                <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 border border-white/10">
-                    <span class="text-slate-400 text-xs font-medium mr-2">Unit Price:</span>
-                    <span class="text-white font-bold text-sm">$ <span id="res_unit">0.000</span></span>
-                </div>
+        <div class="bg-[#111827] rounded-[2.5rem] p-8 text-center text-white shadow-2xl">
+            <p class="text-green-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Estimated Total</p>
+            <div class="text-6xl font-black mb-3 flex justify-center items-start">
+                <span class="text-2xl mt-2 mr-1 opacity-80">$</span>
+                <span id="res_total">0.00</span>
+            </div>
+            <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 border border-white/10">
+                <span class="text-slate-400 text-xs font-medium mr-2">Unit Price:</span>
+                <span class="text-white font-bold text-sm">$ <span id="res_unit">0.00</span></span>
             </div>
         </div>
 
         <div class="grid gap-4 pt-2">
-            <button onclick="sendWhatsApp()" class="whatsapp-btn text-white font-black py-5 rounded-2xl shadow-lg active:scale-95 transition-all flex items-center justify-center space-x-2">
-                <span>CONTACT VIA WHATSAPP</span>
-            </button>
-            <button onclick="sendEmail()" class="email-btn text-white font-black py-5 rounded-2xl shadow-lg active:scale-95 transition-all flex items-center justify-center space-x-2">
-                <span>INQUIRY VIA EMAIL</span>
-            </button>
+            <button onclick="sendWhatsApp()" class="whatsapp-btn text-white font-black py-5 rounded-2xl shadow-lg active:scale-95 transition-all flex items-center justify-center">CONTACT VIA WHATSAPP</button>
+            <button onclick="sendEmail()" class="email-btn text-white font-black py-5 rounded-2xl shadow-lg active:scale-95 transition-all flex items-center justify-center">INQUIRY VIA EMAIL</button>
         </div>
     </div>
 
     <script>
+        // 数据库更新：添加了炫彩和全息工艺
         const db = {
             regular: { g: 1, p: [0.028, 0.034, 0.04, 0.05, 0.07], img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg" },
             cnc_keychain: { g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg" },
             cnc_fridge: { g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H3818fe3d8f1f40e39eddb2764b9d9c65c/229878601/H3818fe3d8f1f40e39eddb2764b9d9c65c.jpg" },
+            cnc_hologram: { g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H357740917c0a485a92cb4f6a2e6ed646K/229878601/H357740917c0a485a92cb4f6a2e6ed646K.jpg" },
+            cnc_fullhologram: { g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H43c1e964915644ebb682057107a6b0878/229878601/H43c1e964915644ebb682057107a6b0878.jpg" },
             epoxy_single: { g: 3, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H841f7cb9ab0f42dca9a8109eb45de6fdc/229878601/H841f7cb9ab0f42dca9a8109eb45de6fdc.jpg" },
             epoxy_double: { g: 4.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H1a0f3805e72847b9bdfe0180be795aa1F/229878601/H1a0f3805e72847b9bdfe0180be795aa1F.jpg" }
         };
@@ -110,7 +109,6 @@
                 else if (Q >= 200) idx = 2;
                 else if (Q >= 100) idx = 3;
 
-                // 核心算法：对齐表格逻辑
                 let unit = (L * W * 0.008 * db[type].g);
                 if (type !== 'regular') unit += 0.01;
                 
@@ -118,28 +116,24 @@
                 unit = unit * ratio;
                 const total = unit * Q;
 
+                // 更新：单价显示改为小数点后两位 (.toFixed(2))
                 document.getElementById('res_total').innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                document.getElementById('res_unit').innerText = unit.toFixed(3);
-            } catch (e) { console.error("Calculation Error:", e); }
+                document.getElementById('res_unit').innerText = unit.toFixed(2);
+            } catch (e) { console.error(e); }
         }
 
         function getMsg() {
-            const type = document.getElementById('p_type').options[document.getElementById('p_type').selectedIndex].text;
+            const typeText = document.getElementById('p_type').options[document.getElementById('p_type').selectedIndex].text;
             const L = document.getElementById('p_len').value;
             const W = document.getElementById('p_wid').value;
             const Q = document.getElementById('p_qty').value;
             const u = document.getElementById('res_unit').innerText;
             const t = document.getElementById('res_total').innerText;
-            return `Inquiry From Dylan Factory:%0A- Product: ${type}%0A- Size: ${L}x${W}cm%0A- Qty: ${Q}pcs%0A- Unit: $${u}%0A- Total: $${t}`;
+            return `Inquiry From Dylan Factory:%0A- Product: ${typeText}%0A- Size: ${L}x${W}cm%0A- Qty: ${Q}pcs%0A- Unit: $${u}%0A- Total: $${t}`;
         }
 
-        function sendWhatsApp() {
-            window.open(`https://wa.me/8615180463235?text=${getMsg()}`);
-        }
-
-        function sendEmail() {
-            window.location.href = `mailto:ncyitong01@gmail.com?subject=Custom Inquiry&body=${getMsg().replace(/%0A/g, '\n')}`;
-        }
+        function sendWhatsApp() { window.open(`https://wa.me/8615180463235?text=${getMsg()}`); }
+        function sendEmail() { window.location.href = `mailto:ncyitong01@gmail.com?subject=Custom Inquiry&body=${getMsg().replace(/%0A/g, '\n')}`; }
 
         window.onload = calculatePrice;
     </script>
