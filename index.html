@@ -3,84 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dylan Factory - Quote System</title>
+    <title>Dylan Factory Quote</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
-        .whatsapp-btn { background: linear-gradient(90deg, #25D366 0%, #128C7E 100%); }
-        .email-btn { background: linear-gradient(90deg, #EA4335 0%, #C5221F 100%); }
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .whatsapp-btn { background: #25D366; }
+        .email-btn { background: #EA4335; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
-<body class="bg-slate-50 pb-10 font-sans text-slate-900">
+<body class="bg-gray-50 pb-10 font-sans">
 
-    <div class="max-w-md mx-auto bg-white shadow-md rounded-b-[2.5rem] overflow-hidden">
+    <div class="max-w-md mx-auto bg-white shadow-lg rounded-b-[2rem] overflow-hidden">
         <div class="relative">
-            <img id="product-img" src="https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg" class="w-full h-64 object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-                <h1 class="text-white text-3xl font-black uppercase tracking-tight">Precision Quote</h1>
+            <img id="product-img" src="https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg" class="w-full h-56 object-cover">
+            <div class="absolute inset-0 bg-black/40 flex items-end p-6">
+                <h1 class="text-white text-2xl font-bold uppercase tracking-tight">Factory Quote System</h1>
             </div>
         </div>
     </div>
 
     <div class="max-w-md mx-auto px-6 mt-6 space-y-4">
         
-        <div class="bg-white p-5 rounded-3xl card-shadow">
-            <label class="block text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">1. Select Product Type</label>
-            <select id="product-select" onchange="updateUI()" class="w-full bg-slate-50 border border-slate-100 rounded-2xl p-4 font-bold text-lg outline-none focus:border-green-500 transition-colors cursor-pointer">
-                <option value="cnc_keychain">CNC 钥匙扣 (CNC Keychain)</option>
-                <option value="regular">常规亚克力钥匙扣 (Regular)</option>
-                <option value="cnc_fridge">CNC 冰箱贴 (Magnet)</option>
-                <option value="cnc_colorful">CNC 炫彩钥匙扣 (Colorful)</option>
-                <option value="cnc_holographic">CNC 全息钥匙扣 (Holographic)</option>
-                <option value="epoxy_single">单面环氧树脂 (Single Epoxy)</option>
-                <option value="epoxy_double">双面环氧树脂 (Double Epoxy)</option>
+        <div class="bg-white p-5 rounded-2xl card-shadow">
+            <label class="block text-xs font-bold text-gray-400 uppercase mb-2">1. Product Type</label>
+            <select id="p_type" onchange="calculatePrice()" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold text-gray-700 outline-none">
+                <option value="cnc_keychain">CNC Keychain (CNC 钥匙扣)</option>
+                <option value="regular">Regular Acrylic (常规亚克力)</option>
+                <option value="cnc_fridge">Magnet (冰箱贴)</option>
+                <option value="epoxy_single">Single Epoxy (单面环氧)</option>
+                <option value="epoxy_double">Double Epoxy (双面环氧)</option>
             </select>
         </div>
 
-        <div class="bg-white p-5 rounded-3xl card-shadow grid grid-cols-2 gap-4">
-            <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 text-center tracking-tighter">Length (cm)</label>
-                <input type="number" id="len" value="5" oninput="updateUI()" class="w-full bg-slate-50 border border-slate-100 rounded-2xl p-4 font-bold text-xl text-center outline-none focus:border-green-500">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded-2xl card-shadow">
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Length (cm)</label>
+                <input type="number" id="p_len" value="5" oninput="calculatePrice()" class="w-full text-xl font-bold outline-none text-center">
             </div>
-            <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 text-center tracking-tighter">Width (cm)</label>
-                <input type="number" id="wid" value="5" oninput="updateUI()" class="w-full bg-slate-50 border border-slate-100 rounded-2xl p-4 font-bold text-xl text-center outline-none focus:border-green-500">
-            </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-3xl card-shadow text-center">
-            <label class="block text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">3. Order Quantity (pcs)</label>
-            <div class="flex items-center justify-between px-2">
-                <button onclick="changeQty(-100)" class="w-12 h-12 rounded-xl border border-slate-100 flex items-center justify-center font-bold text-slate-300 hover:bg-slate-50 active:scale-95 transition-all">-</button>
-                <input type="number" id="qty" value="1000" oninput="updateUI()" class="w-24 text-center text-3xl font-black text-green-600 bg-transparent outline-none">
-                <button onclick="changeQty(100)" class="w-12 h-12 rounded-xl border border-slate-100 flex items-center justify-center font-bold text-slate-300 hover:bg-slate-50 active:scale-95 transition-all">+</button>
+            <div class="bg-white p-4 rounded-2xl card-shadow">
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Width (cm)</label>
+                <input type="number" id="p_wid" value="5" oninput="calculatePrice()" class="w-full text-xl font-bold outline-none text-center">
             </div>
         </div>
 
-        <div class="bg-slate-900 rounded-[2.5rem] p-8 text-center text-white shadow-xl relative overflow-hidden">
-            <p class="text-green-400 text-[10px] font-bold tracking-widest mb-1 uppercase">Estimated Total</p>
-            <div class="text-6xl font-black mb-2">$ <span id="total">0.00</span></div>
-            <div class="inline-block bg-white/10 px-4 py-1 rounded-full border border-white/5">
-                <span class="text-[10px] text-slate-400 font-bold uppercase mr-2">Unit Price:</span>
-                <span class="text-lg font-bold text-white">$ <span id="unit">0.000</span></span>
+        <div class="bg-white p-5 rounded-2xl card-shadow text-center">
+            <label class="block text-xs font-bold text-gray-400 uppercase mb-3">3. Quantity (pcs)</label>
+            <div class="flex items-center justify-center space-x-6">
+                <button onclick="updateQty(-100)" class="text-2xl font-bold text-gray-300">-</button>
+                <input type="number" id="p_qty" value="1000" oninput="calculatePrice()" class="w-24 text-3xl font-black text-green-600 text-center outline-none bg-transparent">
+                <button onclick="updateQty(100)" class="text-2xl font-bold text-gray-300">+</button>
             </div>
         </div>
 
-        <div class="space-y-3 pt-2">
-            <button onclick="contactWhatsApp()" class="w-full whatsapp-btn text-white font-black py-5 rounded-2xl shadow-lg flex items-center justify-center active:scale-[0.98] transition-all uppercase tracking-widest">
-                Contact via WhatsApp
-            </button>
-            <button onclick="contactEmail()" class="w-full email-btn text-white font-black py-5 rounded-2xl shadow-lg flex items-center justify-center active:scale-[0.98] transition-all uppercase tracking-widest">
-                Contact via Email
-            </button>
+        <div class="bg-gray-900 rounded-[2rem] p-8 text-center text-white shadow-xl">
+            <p class="text-green-400 text-xs font-bold uppercase mb-1">Estimated Total</p>
+            <div class="text-5xl font-black mb-2">$ <span id="res_total">0.00</span></div>
+            <p class="text-gray-400 text-sm">Unit: $ <span id="res_unit">0.000</span></p>
+        </div>
+
+        <div class="grid gap-3">
+            <button onclick="sendWhatsApp()" class="whatsapp-btn text-white font-bold py-4 rounded-xl shadow-lg active:scale-95 transition-all">WhatsApp Inquiry</button>
+            <button onclick="sendEmail()" class="email-btn text-white font-bold py-4 rounded-xl shadow-lg active:scale-95 transition-all">Email Inquiry</button>
         </div>
     </div>
 
     <script>
-        // 核心价格数据 (严格对应 image_e748ba.png)
-        const products = {
-            regular: { name: "Regular Acrylic", g: 1, p: [0.028, 0.034, 0.04, 0.05, 0.07], img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg" },
-            cnc_keychain: { name: "CNC Keychain", g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg" },
-            cnc_fridge: { name: "Magnet", g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H3818fe3d8f1f40e39eddb2764b9d9c65c/229878601/H3818fe3d8f1f40e39eddb2764b9d9c65c.jpg" },
-            cnc_colorful: { name: "Colorful Keychain", g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "
+        // 核心数据 (对齐 image_e748ba.png)
+        const db = {
+            regular: { g: 1, p: [0.028, 0.034, 0.04, 0.05, 0.07], img: "https://sc04.alicdn.com/kf/H79a18e8a6d21416cb0c9744138ff31c1q/229878601/H79a18e8a6d21416cb0c9744138ff31c1q.jpg" },
+            cnc_keychain: { g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "https://sc04.alicdn.com/kf/H2a23eb5289d14612b66674a37cc8cb30z/229878601/H2a23eb5289d14612b66674a37cc8cb30z.jpg" },
+            cnc_fridge: { g: 1.5, p: [0.048, 0.054, 0.06, 0.076, 0.088], img: "
