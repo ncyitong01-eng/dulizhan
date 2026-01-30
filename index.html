@@ -3,112 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHENYI MERCH - 报价终端</title>
+    <title>SHENYI MERCH 报价系统</title>
     <style>
         :root { --primary: #3498db; --accent: #e67e22; --dark: #2c3e50; --bg: #f4f7f6; }
         body { font-family: 'PingFang SC', sans-serif; background: var(--bg); padding: 40px 20px; color: var(--dark); margin: 0; }
-        .gallery-title { text-align: center; margin-bottom: 40px; font-weight: 300; letter-spacing: 2px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; max-width: 1400px; margin: auto; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; max-width: 1400px; margin: auto; }
         
-        /* 卡片样式 */
-        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s ease; border: 1px solid transparent; }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 12px 25px rgba(0,0,0,0.12); border-color: var(--primary); }
-        .card-img { width: 100%; height: 220px; object-fit: cover; background: #fff; display: block; }
-        .card-body { padding: 18px; text-align: center; }
-        .card-body h3 { margin: 0; font-size: 1.05rem; color: var(--dark); line-height: 1.4; }
+        /* 产品卡片 */
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; border: 1px solid #eee; }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card-img { width: 100%; height: 200px; object-fit: cover; background: #fff; }
+        .card-body { padding: 15px; text-align: center; }
+        .card-body h3 { margin: 0; font-size: 1rem; color: var(--dark); }
 
-        /* 模态框 */
+        /* 弹窗界面 */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; width: 95%; max-width: 900px; display: flex; border-radius: 20px; overflow: hidden; position: relative; max-height: 90vh; }
+        .modal-content { background: white; width: 90%; max-width: 850px; display: flex; border-radius: 15px; overflow: hidden; position: relative; max-height: 90vh; }
         .m-left { flex: 1; background: #fff; display: flex; align-items: center; justify-content: center; padding: 20px; border-right: 1px solid #eee; }
-        .m-left img { max-width: 100%; max-height: 450px; border-radius: 10px; }
-        .m-right { flex: 1.2; padding: 40px; overflow-y: auto; }
-        .close { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: #bbb; }
+        .m-left img { max-width: 100%; max-height: 400px; border-radius: 8px; }
+        .m-right { flex: 1.2; padding: 30px; overflow-y: auto; }
+        .close { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #999; }
 
-        /* 核价表单 */
-        .group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem; color: #666; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        .price-box { background: #fff9f4; padding: 25px; border-radius: 12px; border-left: 6px solid var(--accent); margin-top: 30px; }
-        .price-box strong { font-size: 2.2rem; color: var(--accent); }
-        .btn-add { background: #f0f0f0; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; margin-top: 5px; }
+        /* 输入框 */
+        .group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; color: #666; }
+        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .price-box { background: #fff5ed; padding: 20px; border-radius: 10px; border-left: 5px solid var(--accent); margin-top: 20px; }
+        .price-box strong { font-size: 1.8rem; color: var(--accent); }
     </style>
 </head>
 <body>
 
-<h1 class="gallery-title">SHENYI MERCH PRODUCT GALLERY</h1>
+<h2 style="text-align:center; margin-bottom:30px;">SHENYI MERCH PRODUCT GALLERY</h2>
 
-<div class="gallery-grid" id="gallery"></div>
+<div class="gallery-grid" id="mainGallery">
+    </div>
 
-<div id="modal" class="modal">
+<div id="itemModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeM()">&times;</span>
+        <span class="close" id="closeBtn">&times;</span>
         <div class="m-left"><img id="mImg" src=""></div>
         <div class="m-right">
-            <h2 id="mTitle" style="margin-top:0;">产品核价</h2>
+            <h2 id="mTitle" style="margin-top:0;">核价</h2>
             <div id="mFields"></div>
             <div class="price-box">
-                <span style="font-size:0.9rem; color:#666;">Estimate Unit Price (USD)</span><br>
-                <strong>$<span id="resU">0.00</span></strong>
+                <small>USD Unit Price</small><br>
+                <strong>$<span id="resUnit">0.00</span></strong>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// --- 产品配置库：严格对应你提供的文件名 ---
-const PRODUCTS = [
-    // 钥匙扣类
-    { type: 'keychain', name: '常规亚克力钥匙扣', img: 'changguiyakeliyoushikou.jpg', premium: 1.5, fMulti: 1 },
-    { type: 'keychain', name: 'CNC 亚克力钥匙扣', img: 'cncyakeliyoushikou.jpg', premium: 1.5, fMulti: 1.5 },
-    { type: 'keychain', name: '炫彩亚克力钥匙扣', img: 'xuancaiyakeliyoushikou.jpg', premium: 1.5, fMulti: 1.5 },
-    { type: 'keychain', name: '全息亚克力钥匙扣', img: 'quanxiyakeliyoushikou.jpg', premium: 1.5, fMulti: 1.5 },
-
-    // 常规吧唧类 (1.5x 溢价)
-    { type: 'badge', name: '常规吧唧 (25/32/44/58mm)', img: 'changguibaji.jpg', premium: 1.5, price: [1.0, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65] },
-    { type: 'badge', name: '常规吧唧 (65/75mm)', img: 'changguibaji.jpg', premium: 1.5, price: [2.0, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2] },
-
-    // 双闪吧唧类 (1.3x 溢价)
-    { type: 'flash', name: '双闪吧唧 (65/75mm)', img: 'shuangshanbaji6575mm.jpg', premium: 1.3, price: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
-    { type: 'flash', name: '双闪吧唧 (其他形状)', img: 'shuangshanbaji.jpg', premium: 1.3, price: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
-
-    // 立牌类
-    { type: 'stand', name: '亚克力立牌', img: 'yakelilipai.jpg', premium: 1.5 }
+// --- 核心数据库：请确保图片文件名完全一致 ---
+const DATA = [
+    { type: 'keychain', name: '常规亚克力钥匙扣', img: 'changguiyakeliyoushikou.jpg', pre: 1.5, multi: 1 },
+    { type: 'keychain', name: 'CNC 亚克力钥匙扣', img: 'cncyakeliyoushikou.jpg', pre: 1.5, multi: 1.5 },
+    { type: 'keychain', name: '炫彩亚克力钥匙扣', img: 'xuancaiyakeliyoushikou.jpg', pre: 1.5, multi: 1.5 },
+    { type: 'keychain', name: '全息亚克力钥匙扣', img: 'quanxiyakeliyoushikou.jpg', pre: 1.5, multi: 1.5 },
+    { type: 'badge', name: '常规吧唧 (25-58mm)', img: 'changguibaji.jpg', pre: 1.5, prices: [1.0, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65] },
+    { type: 'badge', name: '常规吧唧 (65/75mm)', img: 'changguibaji.jpg', pre: 1.5, prices: [2.0, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2] },
+    { type: 'flash', name: '双闪吧唧 (65/75mm)', img: 'shuangshanbaji6575mm.jpg', pre: 1.3, prices: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
+    { type: 'stand', name: '亚克力立牌', img: 'yakelilipai.jpg', pre: 1.5 }
 ];
 
-let activeP = null;
+let selectedItem = null;
 
-function init() {
-    const g = document.getElementById('gallery');
-    PRODUCTS.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'card';
-        div.onclick = () => openM(p);
-        div.innerHTML = `<img src="${p.img}" class="card-img" loading="lazy">
-                         <div class="card-body"><h3>${p.name}</h3></div>`;
-        g.appendChild(div);
+// 初始化渲染
+function initGallery() {
+    const gallery = document.getElementById('mainGallery');
+    DATA.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.onclick = () => showModal(index);
+        card.innerHTML = `
+            <img src="${item.img}" class="card-img">
+            <div class="card-body"><h3>${item.name}</h3></div>
+        `;
+        gallery.appendChild(card);
     });
 }
 
-function openM(p) {
-    activeP = p;
-    document.getElementById('mTitle').innerText = p.name;
-    document.getElementById('mImg').src = p.img;
-    const f = document.getElementById('mFields');
-    f.innerHTML = "";
+function showModal(idx) {
+    selectedItem = DATA[idx];
+    document.getElementById('mTitle').innerText = selectedItem.name;
+    document.getElementById('mImg').src = selectedItem.img;
+    const fields = document.getElementById('mFields');
+    fields.innerHTML = "";
 
-    if (p.type === 'keychain') {
-        f.innerHTML = `<div class="group"><label>尺寸 (长 x 宽 cm)</label><div style="display:flex;gap:10px;"><input type="number" id="L" value="5" oninput="run()"> <input type="number" id="W" value="5" oninput="run()"></div></div>
-                       <div class="group"><label>订购数量</label><input type="number" id="qty" value="100" oninput="run()"></div>`;
-    } else if (p.type === 'badge' || p.type === 'flash') {
-        f.innerHTML = `<div class="group"><label>订购数量</label><input type="number" id="qty" value="100" oninput="run()"></div>`;
-    } else if (p.type === 'stand') {
-        f.innerHTML = `<div id="sList"><label>组件尺寸 (L x W cm)</label><div style="display:flex;gap:10px;margin-bottom:10px;"><input type="number" class="sL" value="5" oninput="run()"> <input type="number" class="sW" value="5" oninput="run()"></div></div>
-                       <button class="btn-add" onclick="addS()">+ 添加组件</button>
-                       <div class="group" style="margin-top:15px;"><label>订单总数</label><input type="number" id="qty" value="200" oninput="run()"></div>`;
+    // 渲染不同产品的输入框
+    if (selectedItem.type === 'keychain') {
+        fields.innerHTML = `
+            <div class="group"><label>尺寸 L*W (cm)</label>
+            <div style="display:flex;gap:5px;"><input type="number" id="inpL" value="5"> <input type="number" id="inpW" value="5"></div></div>
+            <div class="group"><label>数量</label><input type="number" id="inpQ" value="100"></div>`;
+    } else if (selectedItem.type === 'badge' || selectedItem.type === 'flash') {
+        fields.innerHTML = `<div class="group"><label>订购数量</label><input type="number" id="inpQ" value="100"></div>`;
+    } else if (selectedItem.type === 'stand') {
+        fields.innerHTML = `
+            <div id="sCont"><div class="group"><label>组件 1 (cm)</label>
+            <div style="display:flex;gap:5px;"><input type="number" class="sL" value="5"> <input type="number" class="sW" value="5"></div></div></div>
+            <button onclick="addComp()" style="margin-bottom:10px;">+ 添加组件</button>
+            <div class="group"><label>订单总数</label><input type="number" id="inpQ" value="200"></div>`;
     }
-    document.getElementById('modal').style.display = 'flex';
-    run();
+
+    document.getElementById('itemModal').style.display = 'flex';
+    // 为新生成的输入框绑定计算事件
+    document.querySelectorAll('#mFields input').forEach(i => i.oninput = calc);
+    calc();
 }
 
 function getF1(q) {
@@ -116,13 +118,40 @@ function getF1(q) {
     if (q >= 500) return 0.035; if (q >= 200) return 0.04; if (q >= 100) return 0.045; return 0.05;
 }
 
-function run() {
-    const q = parseInt(document.getElementById('qty').value) || 0;
-    let unit = 0;
+function calc() {
+    const q = parseInt(document.getElementById('inpQ').value) || 0;
+    let res = 0;
 
-    if (activeP.type === 'keychain') {
-        const l = parseFloat(document.getElementById('L').value), w = parseFloat(document.getElementById('W').value);
-        const area = q >= 200 ? (l+0.5)*(w+0.5) : l*w;
-        unit = (area * getF1(q) * activeP.fMulti * activeP.premium) / 7;
-    } else if (activeP.type === 'badge' || activeP.type === 'flash') {
-        const idx = q>=3000?6:q>=
+    if (selectedItem.type === 'keychain') {
+        const l = parseFloat(document.getElementById('inpL').value) || 0, w = parseFloat(document.getElementById('inpW').value) || 0;
+        const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
+        res = (area * getF1(q) * selectedItem.multi * selectedItem.pre) / 7;
+    } else if (selectedItem.type === 'badge' || selectedItem.type === 'flash') {
+        const idx = q>=3000?6:q>=2000?5:q>=600?4:q>=300?3:q>=100?2:q>=10?1:0;
+        res = (selectedItem.prices[idx] * selectedItem.pre) / 7;
+    } else if (selectedItem.type === 'stand') {
+        let totalRMB = 0; const f1 = getF1(q);
+        document.querySelectorAll('#sCont > div').forEach(row => {
+            const l = parseFloat(row.querySelector('.sL').value) || 0, w = parseFloat(row.querySelector('.sW').value) || 0;
+            const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
+            totalRMB += (area * f1 * 1.5);
+        });
+        res = totalRMB / 7;
+    }
+    document.getElementById('resUnit').innerText = res.toFixed(2);
+}
+
+function addComp() {
+    const div = document.createElement('div');
+    div.className = 'group';
+    div.innerHTML = `<label>新组件 (cm)</label><div style="display:flex;gap:5px;"><input type="number" class="sL" value="5" oninput="calc()"> <input type="number" class="sW" value="5" oninput="calc()"></div>`;
+    document.getElementById('sCont').appendChild(div);
+    calc();
+}
+
+document.getElementById('closeBtn').onclick = () => { document.getElementById('itemModal').style.display = 'none'; };
+window.onload = initGallery;
+</script>
+
+</body>
+</html>
