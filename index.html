@@ -3,147 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Production Quote Calculator</title>
+    <title>Your Factory | Custom Acrylic & Badges</title>
     <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; line-height: 1.6; background: #f4f4f9; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-        select, input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-        .checkbox-group input { width: auto; }
-        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        button:hover { background: #0056b3; }
-        #result { margin-top: 20px; padding: 15px; background: #e9f7ef; border-radius: 4px; display: none; }
-        .disclaimer { margin-top: 20px; font-size: 0.85em; color: #666; font-style: italic; border-top: 1px solid #eee; padding-top: 10px; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333; }
+        header { background: #2c3e50; color: white; padding: 20px; text-align: center; }
+        section { padding: 40px 20px; max-width: 1200px; margin: auto; }
+        .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .card { border: 1px solid #ddd; border-radius: 8px; width: 300px; overflow: hidden; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .calc-box { background: #f9f9f9; padding: 30px; border-radius: 10px; border: 2px solid #3498db; }
+        input, select { padding: 10px; margin: 10px 0; width: 100%; box-sizing: border-box; }
+        .price-display { font-size: 24px; color: #e74c3c; font-weight: bold; }
+        .btn { background: #27ae60; color: white; padding: 15px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>Quote Calculator</h2>
-    
-    <div class="input-group">
-        <label>Product Type</label>
-        <select id="productType" onchange="toggleInputs()">
-            <optgroup label="Standees (立牌)">
-                <option value="stand_1">Standee Single 1mm</option>
-                <option value="stand_2">Standee Single 2mm</option>
-                <option value="stand_3">Standee Double 3+1mm</option>
-            </optgroup>
-            <optgroup label="Keychains (钥匙扣)">
-                <option value="key_reg">Regular Acrylic Keychain</option>
-                <option value="key_cnc">CNC Keychain</option>
-                <option value="key_epoxy_s">Single Epoxy</option>
-                <option value="key_epoxy_d">Double Epoxy</option>
-            </optgroup>
-            <optgroup label="Badges (吧唧)">
-                <option value="badge_glitter">Glitter Badge (双闪)</option>
-                <option value="badge_reg">Standard Badge (覆膜)</option>
-            </optgroup>
-        </select>
-    </div>
+<header>
+    <h1>Direct Factory: Custom Merch Solution</h1>
+    <p>Professional UV Printing & Acrylic Cutting</p>
+</header>
 
-    <div id="dimInputs">
-        <div class="input-group">
-            <label>Length (cm)</label>
-            <input type="number" id="length" placeholder="e.g. 5">
+<section id="about">
+    <h2>About Our Factory</h2>
+    <div class="grid">
+        <div style="flex: 1; min-width: 300px;">
+            <p>We are a specialized factory located in China, focusing on high-quality acrylic products and custom badges. With our advanced UV printers and CNC cutting machines, we provide one-stop service from design to shipping.</p>
+            <img src="gongchang-q.jpg" style="width: 100%; border-radius: 8px;" alt="Factory Machine">
         </div>
-        <div class="input-group">
-            <label>Width (cm)</label>
-            <input type="number" id="width" placeholder="e.g. 5">
+        <div style="flex: 1; min-width: 300px;">
+            <img src="gongchang11 (1).jpg" style="width: 100%; border-radius: 8px; margin-bottom: 10px;" alt="Factory Environment">
+            <p>✓ Fast Turnaround | ✓ Low MOQ | ✓ Worldwide Shipping</p>
         </div>
     </div>
+</section>
 
-    <div id="badgeSizeInput" style="display:none;">
-        <label>Size Specification</label>
-        <select id="badgeSize">
-            <option value="small">25-58mm (Small)</option>
-            <option value="medium">65-75mm (Medium)</option>
-            <option value="large">80mm+ (Large)</option>
-        </select>
-    </div>
-
-    <div class="input-group">
-        <label>Quantity</label>
-        <input type="number" id="quantity" placeholder="e.g. 100">
-    </div>
-
-    <div id="optionsGroup">
-        <div class="checkbox-group" id="baseOpt">
-            <input type="checkbox" id="hasBase"> <label>With Base (+20% cost)</label>
+<section id="calculator" style="background: #ecf0f1;">
+    <h2>Instant Quote (Custom Badge)</h2>
+    <div class="calc-box">
+        <p>Select Quantity for 58mm Standard Badge:</p>
+        <input type="number" id="quantity" placeholder="Enter quantity (e.g. 100)" oninput="calculatePrice()">
+        <div id="result">
+            <p>Unit Price: <span class="price-display" id="unitPrice">$0.00</span></p>
+            <p>Total Cost: <span class="price-display" id="totalPrice">$0.00</span></p>
         </div>
-        <div class="checkbox-group" id="fabricOpt" style="display:none;">
-            <input type="checkbox" id="isFabric"> <label>Fabric/Embroidery (+2.0 RMB)</label>
+        <a href="https://wa.me/YOURNUMBER" class="btn">Order via WhatsApp</a>
+    </div>
+</section>
+
+<section id="products">
+    <h2>Our Hot Products</h2>
+    <div class="grid">
+        <div class="card">
+            <img src="shuangshanbaji.jpg" alt="Badge">
+            <div style="padding:15px;"><h3>Holographic Badge</h3><p>Vivid colors with flash effect.</p></div>
+        </div>
+        <div class="card">
+            <img src="yakelilipai.jpg" alt="Standee">
+            <div style="padding:15px;"><h3>Acrylic Standee</h3><p>Clear edges and high transparency.</p></div>
+        </div>
+        <div class="card">
+            <img src="yaoyaole.jpg" alt="Shaker">
+            <div style="padding:15px;"><h3>Acrylic Shaker</h3><p>Interactive and fun custom merch.</p></div>
         </div>
     </div>
-
-    <button onclick="calculate()">Calculate Quote</button>
-
-    <div id="result">
-        <strong>Unit Price:</strong> $<span id="unitUSD">0.00</span><br>
-        <strong>Total Price:</strong> $<span id="totalUSD">0.00</span>
-    </div>
-
-    <div class="disclaimer">
-        * The price is for reference only and does not include shipping costs.
-    </div>
-</div>
+</section>
 
 <script>
-    function toggleInputs() {
-        const type = document.getElementById('productType').value;
-        document.getElementById('dimInputs').style.display = type.includes('badge') ? 'none' : 'block';
-        document.getElementById('badgeSizeInput').style.display = type.includes('badge') ? 'block' : 'none';
-        document.getElementById('baseOpt').style.display = type.startsWith('stand') ? 'flex' : 'none';
-        document.getElementById('fabricOpt').style.display = type === 'badge_glitter' ? 'flex' : 'none';
-    }
+    function calculatePrice() {
+        let qty = document.getElementById('quantity').value;
+        let unitPrice = 0;
 
-    function calculate() {
-        const type = document.getElementById('productType').value;
-        const qty = parseFloat(document.getElementById('quantity').value) || 0;
-        const L = parseFloat(document.getElementById('length').value) || 0;
-        const W = parseFloat(document.getElementById('width').value) || 0;
-        const exchangeRate = 7;
-        const minRMB = 0.4;
-        
-        let rmbUnit = 0;
+        // 逻辑来自你的 Google 表格 Sheet4 (吧唧报价)
+        if (qty >= 1 && qty <= 49) unitPrice = 0.29;
+        else if (qty >= 50 && qty <= 99) unitPrice = 0.25;
+        else if (qty >= 100 && qty <= 199) unitPrice = 0.18;
+        else if (qty >= 200 && qty <= 499) unitPrice = 0.14;
+        else if (qty >= 500 && qty <= 999) unitPrice = 0.12;
+        else if (qty >= 1000 && qty <= 1999) unitPrice = 0.11;
+        else if (qty >= 2000 && qty <= 2999) unitPrice = 0.10;
+        else if (qty >= 3000) unitPrice = 0.09;
 
-        // 1. Standee & Keychain Logic (Area based)
-        if (!type.includes('badge')) {
-            let area = (qty >= 200) ? (L + 0.5) * (W + 0.5) : (L * W);
-            let factor1 = 0.028; // Default base
-            let factor2 = 1.0;   // Default multiplier
-
-            if (type === 'stand_1') factor1 = 0.02;
-            if (type === 'key_cnc') factor2 = 1.5;
-            if (type === 'key_epoxy_s') factor2 = 3.0;
-            if (type === 'key_epoxy_d') factor2 = 4.5;
-
-            rmbUnit = area * factor1 * factor2;
-            if (document.getElementById('hasBase').checked) rmbUnit *= 1.2;
-            if (rmbUnit < minRMB) rmbUnit = minRMB;
-        } 
-        // 2. Badge Logic (Tier based)
-        else {
-            const size = document.getElementById('badgeSize').value;
-            // Example Simplified Tier Logic based on your sheet
-            if (size === 'small') {
-                rmbUnit = (qty >= 1000) ? 2.1 : (qty >= 500 ? 2.3 : 2.4);
-            } else {
-                rmbUnit = (qty >= 1000) ? 2.3 : 2.7;
-            }
-            if (document.getElementById('isFabric').checked) rmbUnit += 2.0;
+        if (qty > 0) {
+            document.getElementById('unitPrice').innerText = '$' + unitPrice.toFixed(2);
+            document.getElementById('totalPrice').innerText = '$' + (unitPrice * qty).toFixed(2);
         }
-
-        // Final Conversion
-        let unitUSD = Math.round((rmbUnit / exchangeRate) * 100) / 100;
-        let totalUSD = unitUSD * qty;
-
-        document.getElementById('unitUSD').innerText = unitUSD.toFixed(2);
-        document.getElementById('totalUSD').innerText = totalUSD.toFixed(2);
-        document.getElementById('result').style.display = 'block';
     }
 </script>
 
