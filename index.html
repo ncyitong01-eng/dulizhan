@@ -2,194 +2,169 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>SHENYI MERCH 综合核价终端 v2.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHENYI MERCH - 官方核价终端</title>
     <style>
-        :root { --primary: #e67e22; --dark: #2c3e50; --bg: #f9f9f9; }
-        body { font-family: 'PingFang SC', sans-serif; background: var(--bg); padding: 20px; color: var(--dark); }
-        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); display: flex; gap: 25px; }
-        .calc-panel { flex: 1; }
-        .preview-panel { width: 350px; text-align: center; border-left: 1px solid #eee; padding-left: 25px; position: sticky; top: 20px; height: fit-content; }
-        .section { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 8px; background: #fff; }
-        h2 { color: var(--primary); font-size: 1.1em; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
-        label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 0.85em; }
-        select, input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .result-box { background: #fff9f4; padding: 12px; border-radius: 6px; margin-top: 10px; border-left: 4px solid var(--primary); }
-        .unit-price { font-size: 1.4em; color: var(--primary); font-weight: bold; }
-        #product-img { max-width: 100%; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .btn-add { background: #666; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em; margin-top: 10px; }
+        :root { --primary: #3498db; --accent: #e67e22; --dark: #2c3e50; --bg: #f8f9fa; }
+        body { font-family: 'PingFang SC', sans-serif; background: var(--bg); margin: 0; padding: 40px 20px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; max-width: 1200px; margin: auto; }
+        
+        /* 卡片样式 */
+        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; border: 1px solid #eee; }
+        .product-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card-img { width: 100%; height: 200px; object-fit: cover; }
+        .card-body { padding: 15px; text-align: center; }
+        .card-body h3 { margin: 5px 0; font-size: 1.1em; color: var(--dark); }
+
+        /* 弹出层 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 95%; max-width: 900px; display: flex; border-radius: 15px; overflow: hidden; position: relative; max-height: 90vh; }
+        .modal-left { flex: 1; background: #f0f0f0; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .modal-left img { max-width: 100%; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .modal-right { flex: 1.2; padding: 30px; overflow-y: auto; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: #999; }
+
+        /* 计算组件 */
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .price-tag { background: #fff5ed; padding: 15px; border-radius: 8px; border-left: 5px solid var(--accent); margin-top: 20px; }
+        .price-tag strong { font-size: 1.8em; color: var(--accent); }
+        .comp-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .btn-mini { background: #eee; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="calc-panel">
-        <h1 style="font-size: 1.5em; text-align: center; margin-bottom: 20px;">独立站产品核价系统</h1>
+<h1 style="text-align:center; color: var(--dark); margin-bottom:40px;">产品画廊报价系统</h1>
 
-        <div class="section">
-            <h2>🔘 按钮徽章 (Badges)</h2>
-            <div class="grid">
-                <div>
-                    <label>分类</label>
-                    <select id="bCat" onchange="initBadgeSizes()">
-                        <option value="normal">普通覆膜 (1.5x)</option>
-                        <option value="flash">双闪系列 (1.3x)</option>
-                    </select>
-                </div>
-                <div>
-                    <label>规格</label>
-                    <select id="bSize" onchange="calculate()"></select>
-                </div>
-                <div>
-                    <label>数量</label>
-                    <input type="number" id="bQty" value="100" oninput="calculate()">
-                </div>
-            </div>
-            <div class="result-box">美元单价: <span class="unit-price">$<span id="bUnit">0.00</span></span></div>
-        </div>
-
-        <div class="section">
-            <h2>🔑 钥匙扣 (Keychains)</h2>
-            <div class="grid">
-                <div>
-                    <label>工艺类型</label>
-                    <select id="kType" onchange="calculate()">
-                        <option value="normal">常规亚克力 (Factor:1)</option>
-                        <option value="cnc">CNC 工艺 (Factor:1.5)</option>
-                        <option value="color">炫彩工艺 (Factor:1.5)</option>
-                        <option value="holo">全息工艺 (Factor:1.5)</option>
-                        <option value="epoxy">单面环氧树脂 (Factor:3)</option>
-                    </select>
-                </div>
-                <div>
-                    <label>尺寸 (长 x 宽 cm)</label>
-                    <div style="display:flex; gap:5px;">
-                        <input type="number" id="kL" value="5" placeholder="长" oninput="calculate()">
-                        <input type="number" id="kW" value="5" placeholder="宽" oninput="calculate()">
-                    </div>
-                </div>
-                <div>
-                    <label>订单数量</label>
-                    <input type="number" id="kQty" value="100" oninput="calculate()">
-                </div>
-            </div>
-            <div class="result-box">美元单价: <span class="unit-price">$<span id="kUnit">0.00</span></span></div>
-        </div>
-
-        <div class="section">
-            <h2>🧩 亚克力立牌 (Stands)</h2>
-            <div id="standList">
-                <div class="comp-row" style="display:flex; gap:10px; margin-bottom:5px;">
-                    <input type="number" class="sL" placeholder="长" value="5" oninput="calculate()">
-                    <input type="number" class="sW" placeholder="宽" value="5" oninput="calculate()">
-                </div>
-            </div>
-            <button class="btn-add" onclick="addStandRow()">+ 增加组件</button>
-            <div style="margin-top:10px; width:32%;">
-                <label>订单总数</label>
-                <input type="number" id="sQty" value="200" oninput="calculate()">
-            </div>
-            <div class="result-box">单套美元: <span class="unit-price">$<span id="sUnit">0.00</span></span></div>
-        </div>
+<div class="gallery-grid">
+    <div class="product-card" onclick="openCalc('badge_normal', '常规覆膜吧唧', 'changguibaji.jpg')">
+        <img src="changguibaji.jpg" class="card-img">
+        <div class="card-body"><h3>常规覆膜吧唧</h3></div>
     </div>
+    <div class="product-card" onclick="openCalc('badge_flash', '双闪/异形吧唧', 'shuangshanbaji.jpg')">
+        <img src="shuangshanbaji.jpg" class="card-img">
+        <div class="card-body"><h3>双闪/异形吧唧</h3></div>
+    </div>
+    <div class="product-card" onclick="openCalc('keychain', '亚克力钥匙扣', 'keychain_normal.jpg')">
+        <img src="keychain_normal.jpg" class="card-img">
+        <div class="card-body"><h3>亚克力钥匙扣 (全工艺)</h3></div>
+    </div>
+    <div class="product-card" onclick="openCalc('stand', '亚克力立牌', 'acrylic_stand.jpg')">
+        <img src="acrylic_stand.jpg" class="card-img">
+        <div class="card-body"><h3>亚克力立牌 (多组件)</h3></div>
+    </div>
+</div>
 
-    <div class="preview-panel">
-        <h3 id="preview-title" style="font-size:1em;">产品预览</h3>
-        <img id="product-img" src="changguibaji.jpg">
-        <div id="calc-detail" style="font-size:0.8em; text-align:left; color:#777; background:#f9f9f9; padding:10px; border-radius:6px;"></div>
+<div id="calcModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-left"><img id="mImg" src=""></div>
+        <div class="modal-right">
+            <h2 id="mTitle">产品核价</h2>
+            <div id="mFields"></div>
+            <div class="price-tag">
+                USD 单价: <strong>$<span id="resUnit">0.00</span></strong><br>
+                <small id="resNote" style="color:#888"></small>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-// --- 数据字典 ---
-const badgeData = {
-    normal: { premium: 1.5, sizes: { "25-58mm 圆型": [1, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65], "65-75mm/小长方": [2, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2] }, img: "changguibaji.jpg" },
-    flash: { premium: 1.3, sizes: { "圆形(双闪)": [3, 2.5, 2.4, 2.3, 2.1, 1.9, 1.8], "正方形/菱形": [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2], "大椭圆/异形": [5, 3.7, 3.5, 3.3, 3, 2.9, 2.8] }, img: "shuangshanbaji.jpg" }
+// --- 全局核心数据 (找回的数据) ---
+const CONFIG = {
+    keychain: {
+        types: { "常规": 1, "CNC": 1.5, "炫彩": 1.5, "全息": 1.5, "单面环氧": 3 },
+        imgs: { "常规": "keychain_normal.jpg", "CNC": "cnc_keychain.jpg", "炫彩": "color_keychain.jpg", "全息": "holo_keychain.jpg", "单面环氧": "epoxy_keychain.jpg" }
+    },
+    badge_normal: { "25-58mm": [1, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65], "65-75mm/长方": [2, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2] },
+    badge_flash: { 
+        "圆形双闪": [3, 2.5, 2.4, 2.3, 2.1, 1.9, 1.8], 
+        "正方/菱/小椭": [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0],
+        "异形 (猫耳/心/棺材)": [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8]
+    }
 };
 
-// 钥匙扣基础系数 (Factor1) 匹配表格
-const kFactors = {
-    1000: 0.028, 500: 0.034, 200: 0.04, 100: 0.05, 10: 0.07
-};
+let currentMode = "";
 
-// 钥匙扣工艺系数 (Factor 工艺)
-const kTypeMultipliers = {
-    normal: 1, cnc: 1.5, color: 1.5, holo: 1.5, epoxy: 3
-};
+function openCalc(mode, title, img) {
+    currentMode = mode;
+    document.getElementById('mTitle').innerText = title;
+    document.getElementById('mImg').src = img;
+    const fields = document.getElementById('mFields');
+    fields.innerHTML = "";
 
-function initBadgeSizes() {
-    const cat = document.getElementById('bCat').value;
-    const sizeSelect = document.getElementById('bSize');
-    sizeSelect.innerHTML = "";
-    Object.keys(badgeData[cat].sizes).forEach(s => sizeSelect.options.add(new Option(s, s)));
-    calculate();
-}
-
-function addStandRow() {
-    const div = document.createElement('div');
-    div.className = 'comp-row';
-    div.style.cssText = "display:flex; gap:10px; margin-bottom:5px;";
-    div.innerHTML = `<input type="number" value="5" oninput="calculate()">
-                     <input type="number" value="5" oninput="calculate()">`;
-    document.getElementById('standList').appendChild(div);
-    calculate();
-}
-
-function calculate() {
-    // 1. 吧唧计算
-    const bCat = document.getElementById('bCat').value;
-    const bSize = document.getElementById('bSize').value;
-    const bQty = parseInt(document.getElementById('bQty').value) || 0;
-    const pList = badgeData[bCat].sizes[bSize];
-    let bIdx = bQty >= 3000 ? 6 : bQty >= 2000 ? 5 : bQty >= 600 ? 4 : bQty >= 300 ? 3 : bQty >= 100 ? 2 : bQty >= 10 ? 1 : 0;
-    const bUnitUSD = (pList[bIdx] * badgeData[bCat].premium) / 7;
-    document.getElementById('bUnit').innerText = bUnitUSD.toFixed(2);
-
-    // 2. 钥匙扣计算
-    const kType = document.getElementById('kType').value;
-    const kL = parseFloat(document.getElementById('kL').value) || 0;
-    const kW = parseFloat(document.getElementById('kW').value) || 0;
-    const kQty = parseInt(document.getElementById('kQty').value) || 0;
+    if (mode === 'keychain') {
+        fields.innerHTML = `
+            <div class="input-group"><label>工艺选择</label><select id="kType" onchange="updateKImg()">${Object.keys(CONFIG.keychain.types).map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>
+            <div class="input-group"><label>尺寸 (长 x 宽 cm)</label><div class="comp-row"><input type="number" id="L" value="5" oninput="run()"> <input type="number" id="W" value="5" oninput="run()"></div></div>
+            <div class="input-group"><label>数量</label><input type="number" id="qty" value="100" oninput="run()"></div>`;
+    } else if (mode.startsWith('badge')) {
+        const options = CONFIG[mode];
+        fields.innerHTML = `
+            <div class="input-group"><label>规格尺寸</label><select id="bSize" onchange="run()">${Object.keys(options).map(s => `<option value="${s}">${s}</option>`).join('')}</select></div>
+            <div class="input-group"><label>数量</label><input type="number" id="qty" value="100" oninput="run()"></div>`;
+    } else if (mode === 'stand') {
+        fields.innerHTML = `
+            <div id="sList"><label>组件列表 (L x W cm)</label><div class="comp-row"><input type="number" class="sL" value="5" oninput="run()"> <input type="number" class="sW" value="5" oninput="run()"></div></div>
+            <button class="btn-mini" onclick="addS()">+ 增加组件</button>
+            <div class="input-group" style="margin-top:15px;"><label>订购总数</label><input type="number" id="qty" value="200" oninput="run()"></div>`;
+    }
     
-    // 获取基础系数 (Factor1)
-    let kF1 = 0.08; 
-    if (kQty >= 1000) kF1 = 0.028;
-    else if (kQty >= 500) kF1 = 0.034;
-    else if (kQty >= 200) kF1 = 0.04;
-    else if (kQty >= 100) kF1 = 0.05;
-    else if (kQty >= 10) kF1 = 0.07;
-
-    const kMulti = kTypeMultipliers[kType];
-    // 逻辑：面积 * Factor1 * 工艺系数 * 1.5溢价 / 7汇率
-    // 注意：表格备注数量>=200时面积使用(L+0.5)*(W+0.5)
-    let kArea = kQty >= 200 ? (kL + 0.5) * (kW + 0.5) : kL * kW;
-    const kUnitUSD = (kArea * kF1 * kMulti * 1.5) / 7;
-    document.getElementById('kUnit').innerText = kUnitUSD.toFixed(2);
-
-    // 3. 立牌计算 (遵循：多组件、面积补偿、1.5x、除以7)
-    const sQty = parseInt(document.getElementById('sQty').value) || 0;
-    let sF1 = (sQty >= 1000) ? 0.03 : (sQty >= 200) ? 0.04 : 0.05;
-    let sTotalRMB = 0;
-    document.querySelectorAll('#standList .comp-row').forEach(row => {
-        let l = parseFloat(row.querySelectorAll('input')[0].value) || 0;
-        let w = parseFloat(row.querySelectorAll('input')[1].value) || 0;
-        let area = sQty >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
-        sTotalRMB += (area * sF1 * 1.5);
-    });
-    document.getElementById('sUnit').innerText = (sTotalRMB / 7).toFixed(2);
-
-    // 预览更新
-    document.getElementById('product-img').src = badgeData[bCat].img;
-    document.getElementById('calc-detail').innerHTML = `
-        <strong>当前钥匙扣参数:</strong><br>
-        • 基础系数: ${kF1}<br>
-        • 工艺系数: ${kMulti}<br>
-        • 计算面积: ${kArea.toFixed(2)} cm²<br>
-        • 汇率换算: 除以 7
-    `;
+    document.getElementById('calcModal').style.display = 'flex';
+    run();
 }
 
-window.onload = initBadgeSizes;
+function updateKImg() {
+    const type = document.getElementById('kType').value;
+    document.getElementById('mImg').src = CONFIG.keychain.imgs[type] || "keychain_normal.jpg";
+    run();
+}
+
+function addS() {
+    const div = document.createElement('div'); div.className = 'comp-row';
+    div.innerHTML = `<input type="number" class="sL" value="5" oninput="run()"> <input type="number" class="sW" value="5" oninput="run()">`;
+    document.getElementById('sList').appendChild(div); run();
+}
+
+function getF1(q) {
+    if (q >= 3000) return 0.025; if (q >= 2000) return 0.028; if (q >= 1000) return 0.03;
+    if (q >= 500) return 0.035; if (q >= 200) return 0.04; return 0.05;
+}
+
+function run() {
+    const qty = parseInt(document.getElementById('qty').value) || 0;
+    let unit = 0, note = "";
+
+    if (currentMode === 'keychain') {
+        const L = parseFloat(document.getElementById('L').value), W = parseFloat(document.getElementById('W').value);
+        const f1 = getF1(qty), multi = CONFIG.keychain.types[document.getElementById('kType').value];
+        const area = qty >= 200 ? (L+0.5)*(W+0.5) : L*W;
+        unit = (area * f1 * multi * 1.5) / 7;
+        note = `公式: 面积(${area.toFixed(1)}) * Factor(${f1}) * 工艺(${multi}) * 1.5溢价 / 7`;
+    } else if (currentMode.startsWith('badge')) {
+        const premium = currentMode === 'badge_normal' ? 1.5 : 1.3;
+        const prices = CONFIG[currentMode][document.getElementById('bSize').value];
+        const idx = qty>=3000?6:qty>=2000?5:qty>=600?4:qty>=300?3:qty>=100?2:qty>=10?1:0;
+        unit = (prices[idx] * premium) / 7;
+        note = `公式: RMB单价(${prices[idx]}) * ${premium}溢价 / 7`;
+    } else if (currentMode === 'stand') {
+        const f1 = getF1(qty); let totalRMB = 0;
+        document.querySelectorAll('.comp-row').forEach(row => {
+            const l = parseFloat(row.querySelector('.sL').value), w = parseFloat(row.querySelector('.sW').value);
+            const area = qty >= 200 ? (l+0.5)*(w+0.5) : l*w;
+            totalRMB += (area * f1 * 1.5);
+        });
+        unit = totalRMB / 7;
+        note = `公式: 组件总面积 * Factor(${f1}) * 1.5溢价 / 7`;
+    }
+    document.getElementById('resUnit').innerText = unit.toFixed(2);
+    document.getElementById('resNote').innerText = note;
+}
+
+function closeModal() { document.getElementById('calcModal').style.display = 'none'; }
 </script>
 </body>
 </html>
