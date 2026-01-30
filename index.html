@@ -3,69 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHENYI MERCH - 官方核价终端</title>
+    <title>SHENYI MERCH - 官方画廊报价</title>
     <style>
-        :root { --primary: #3498db; --accent: #e67e22; --dark: #2c3e50; --bg: #f8f9fa; }
-        body { font-family: 'PingFang SC', sans-serif; background: var(--bg); margin: 0; padding: 40px 20px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; max-width: 1200px; margin: auto; }
+        :root { --primary: #3498db; --accent: #e67e22; --dark: #2c3e50; --bg: #f4f7f6; }
+        body { font-family: 'PingFang SC', sans-serif; background: var(--bg); padding: 40px 20px; color: var(--dark); }
+        .gallery-title { text-align: center; margin-bottom: 40px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; max-width: 1300px; margin: auto; }
         
-        /* 卡片样式 */
-        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; border: 1px solid #eee; }
-        .product-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .card-img { width: 100%; height: 200px; object-fit: cover; }
+        /* 卡片 */
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .card-img { width: 100%; height: 180px; object-fit: cover; background: #eee; }
         .card-body { padding: 15px; text-align: center; }
-        .card-body h3 { margin: 5px 0; font-size: 1.1em; color: var(--dark); }
+        .card-body h3 { margin: 0; font-size: 1rem; color: var(--dark); }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-top: 5px; background: #e8f4fd; color: #3498db; }
 
-        /* 弹出层 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; width: 95%; max-width: 900px; display: flex; border-radius: 15px; overflow: hidden; position: relative; max-height: 90vh; }
-        .modal-left { flex: 1; background: #f0f0f0; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .modal-left img { max-width: 100%; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .modal-right { flex: 1.2; padding: 30px; overflow-y: auto; }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: #999; }
+        /* 模态框 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 90%; max-width: 850px; display: flex; border-radius: 15px; overflow: hidden; position: relative; }
+        .m-left { flex: 1; background: #f0f0f0; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .m-left img { max-width: 100%; border-radius: 8px; }
+        .m-right { flex: 1.2; padding: 30px; }
+        .close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #999; }
 
-        /* 计算组件 */
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .price-tag { background: #fff5ed; padding: 15px; border-radius: 8px; border-left: 5px solid var(--accent); margin-top: 20px; }
-        .price-tag strong { font-size: 1.8em; color: var(--accent); }
+        /* 表单 */
+        .group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
         .comp-row { display: flex; gap: 8px; margin-bottom: 8px; }
-        .btn-mini { background: #eee; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em; }
+        .price-box { background: #fff5ed; padding: 20px; border-radius: 10px; border-left: 5px solid var(--accent); margin-top: 20px; }
+        .price-box strong { font-size: 2rem; color: var(--accent); }
     </style>
 </head>
 <body>
 
-<h1 style="text-align:center; color: var(--dark); margin-bottom:40px;">产品画廊报价系统</h1>
+<h1 class="gallery-title">SHENYI MERCH 画廊报价单</h1>
 
-<div class="gallery-grid">
-    <div class="product-card" onclick="openCalc('badge_normal', '常规覆膜吧唧', 'changguibaji.jpg')">
-        <img src="changguibaji.jpg" class="card-img">
-        <div class="card-body"><h3>常规覆膜吧唧</h3></div>
+<div class="gallery-grid" id="gallery">
     </div>
-    <div class="product-card" onclick="openCalc('badge_flash', '双闪/异形吧唧', 'shuangshanbaji.jpg')">
-        <img src="shuangshanbaji.jpg" class="card-img">
-        <div class="card-body"><h3>双闪/异形吧唧</h3></div>
-    </div>
-    <div class="product-card" onclick="openCalc('keychain', '亚克力钥匙扣', 'keychain_normal.jpg')">
-        <img src="keychain_normal.jpg" class="card-img">
-        <div class="card-body"><h3>亚克力钥匙扣 (全工艺)</h3></div>
-    </div>
-    <div class="product-card" onclick="openCalc('stand', '亚克力立牌', 'acrylic_stand.jpg')">
-        <img src="acrylic_stand.jpg" class="card-img">
-        <div class="card-body"><h3>亚克力立牌 (多组件)</h3></div>
-    </div>
-</div>
 
-<div id="calcModal" class="modal">
+<div id="modal" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <div class="modal-left"><img id="mImg" src=""></div>
-        <div class="modal-right">
-            <h2 id="mTitle">产品核价</h2>
+        <span class="close" onclick="closeM()">&times;</span>
+        <div class="m-left"><img id="mImg" src=""></div>
+        <div class="m-right">
+            <h2 id="mTitle">产品名</h2>
             <div id="mFields"></div>
-            <div class="price-tag">
-                USD 单价: <strong>$<span id="resUnit">0.00</span></strong><br>
+            <div class="price-box">
+                USD 单价: <strong>$<span id="resU">0.00</span></strong><br>
                 <small id="resNote" style="color:#888"></small>
             </div>
         </div>
@@ -73,98 +58,104 @@
 </div>
 
 <script>
-// --- 全局核心数据 (找回的数据) ---
-const CONFIG = {
-    keychain: {
-        types: { "常规": 1, "CNC": 1.5, "炫彩": 1.5, "全息": 1.5, "单面环氧": 3 },
-        imgs: { "常规": "keychain_normal.jpg", "CNC": "cnc_keychain.jpg", "炫彩": "color_keychain.jpg", "全息": "holo_keychain.jpg", "单面环氧": "epoxy_keychain.jpg" }
-    },
-    badge_normal: { "25-58mm": [1, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65], "65-75mm/长方": [2, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2] },
-    badge_flash: { 
-        "圆形双闪": [3, 2.5, 2.4, 2.3, 2.1, 1.9, 1.8], 
-        "正方/菱/小椭": [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0],
-        "异形 (猫耳/心/棺材)": [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8]
-    }
-};
-
-let currentMode = "";
-
-function openCalc(mode, title, img) {
-    currentMode = mode;
-    document.getElementById('mTitle').innerText = title;
-    document.getElementById('mImg').src = img;
-    const fields = document.getElementById('mFields');
-    fields.innerHTML = "";
-
-    if (mode === 'keychain') {
-        fields.innerHTML = `
-            <div class="input-group"><label>工艺选择</label><select id="kType" onchange="updateKImg()">${Object.keys(CONFIG.keychain.types).map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>
-            <div class="input-group"><label>尺寸 (长 x 宽 cm)</label><div class="comp-row"><input type="number" id="L" value="5" oninput="run()"> <input type="number" id="W" value="5" oninput="run()"></div></div>
-            <div class="input-group"><label>数量</label><input type="number" id="qty" value="100" oninput="run()"></div>`;
-    } else if (mode.startsWith('badge')) {
-        const options = CONFIG[mode];
-        fields.innerHTML = `
-            <div class="input-group"><label>规格尺寸</label><select id="bSize" onchange="run()">${Object.keys(options).map(s => `<option value="${s}">${s}</option>`).join('')}</select></div>
-            <div class="input-group"><label>数量</label><input type="number" id="qty" value="100" oninput="run()"></div>`;
-    } else if (mode === 'stand') {
-        fields.innerHTML = `
-            <div id="sList"><label>组件列表 (L x W cm)</label><div class="comp-row"><input type="number" class="sL" value="5" oninput="run()"> <input type="number" class="sW" value="5" oninput="run()"></div></div>
-            <button class="btn-mini" onclick="addS()">+ 增加组件</button>
-            <div class="input-group" style="margin-top:15px;"><label>订购总数</label><input type="number" id="qty" value="200" oninput="run()"></div>`;
-    }
+// --- 产品数据库：请务必核对图片文件名 ---
+const PRODUCTS = [
+    // 钥匙扣系列
+    { id: 'k1', type: 'keychain', name: '常规亚克力钥匙扣', img: 'keychain_normal.jpg', premium: 1.5, fMulti: 1 },
+    { id: 'k2', type: 'keychain', name: 'CNC 亚克力钥匙扣', img: 'cnc_keychain.jpg', premium: 1.5, fMulti: 1.5 },
+    { id: 'k3', type: 'keychain', name: '炫彩/全息钥匙扣', img: 'color_keychain.jpg', premium: 1.5, fMulti: 1.5 },
     
-    document.getElementById('calcModal').style.display = 'flex';
+    // 双闪吧唧系列 (1.3x 溢价)
+    { id: 'f1', type: 'flash', name: '双闪吧唧 - 25-58mm圆形', img: 'shuangshanbaji.jpg', premium: 1.3, price: [3, 2.5, 2.4, 2.3, 2.1, 1.9, 1.8] },
+    { id: 'f2', type: 'flash', name: '双闪吧唧 - 65-75mm圆形', img: 'shuangshanbaji_75.jpg', premium: 1.3, price: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
+    { id: 'f3', type: 'flash', name: '双闪吧唧 - 正方形/菱形', img: 'zhengfangxingbaji.webp', premium: 1.3, price: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
+    { id: 'f4', type: 'flash', name: '双闪吧唧 - 长方形/小椭圆', img: 'changfangxinbaji.jpg', premium: 1.3, price: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
+    { id: 'f5', type: 'flash', name: '双闪吧唧 - 猫耳形状', img: 'maotoubaji.webp', premium: 1.3, price: [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8] },
+    { id: 'f6', type: 'flash', name: '双闪吧唧 - 心型/钻石', img: 'aixinbaji.webp', premium: 1.3, price: [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8] },
+    { id: 'f7', type: 'flash', name: '双闪吧唧 - 棺材形状', img: 'guancaibaji.webp', premium: 1.3, price: [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8] },
+    { id: 'f8', type: 'flash', name: '双闪吧唧 - 大椭圆', img: 'datuoyuanbaji.jpg', premium: 1.3, price: [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8] },
+
+    // 立牌系列
+    { id: 's1', type: 'stand', name: '亚克力立牌 (多组件)', img: 'acrylic_stand.jpg', premium: 1.5 }
+];
+
+let activeP = null;
+
+// 初始化画廊
+function init() {
+    const g = document.getElementById('gallery');
+    PRODUCTS.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.onclick = () => openM(p);
+        div.innerHTML = `
+            <img src="${p.img}" class="card-img" onerror="this.src='https://via.placeholder.com/200?text=Image+Lost'">
+            <div class="card-body">
+                <h3>${p.name}</h3>
+                <span class="tag">${p.premium}x Premium</span>
+            </div>`;
+        g.appendChild(div);
+    });
+}
+
+function openM(p) {
+    activeP = p;
+    document.getElementById('mTitle').innerText = p.name;
+    document.getElementById('mImg').src = p.img;
+    const f = document.getElementById('mFields');
+    f.innerHTML = "";
+
+    if (p.type === 'keychain') {
+        f.innerHTML = `
+            <div class="group"><label>尺寸 (长 x 宽 cm)</label><div class="comp-row"><input type="number" id="L" value="5" oninput="run()"> <input type="number" id="W" value="5" oninput="run()"></div></div>
+            <div class="group"><label>数量</label><input type="number" id="qty" value="100" oninput="run()"></div>`;
+    } else if (p.type === 'flash') {
+        f.innerHTML = `<div class="group"><label>订购数量</label><input type="number" id="qty" value="100" oninput="run()"></div>`;
+    } else if (p.type === 'stand') {
+        f.innerHTML = `
+            <div id="sList"><label>组件列表 (L x W cm)</label><div class="comp-row"><input type="number" class="sL" value="5" oninput="run()"> <input type="number" class="sW" value="5" oninput="run()"></div></div>
+            <button onclick="addS()" style="margin-bottom:15px; cursor:pointer">+ 增加组件</button>
+            <div class="group"><label>订单总数</label><input type="number" id="qty" value="200" oninput="run()"></div>`;
+    }
+    document.getElementById('modal').style.display = 'flex';
     run();
 }
 
-function updateKImg() {
-    const type = document.getElementById('kType').value;
-    document.getElementById('mImg').src = CONFIG.keychain.imgs[type] || "keychain_normal.jpg";
-    run();
+function getF1(q) {
+    if (q >= 3000) return 0.025; if (q >= 2000) return 0.028; if (q >= 1000) return 0.03;
+    if (q >= 500) return 0.035; if (q >= 200) return 0.04; if (q >= 100) return 0.045; return 0.05;
+}
+
+function run() {
+    const q = parseInt(document.getElementById('qty').value) || 0;
+    let unit = 0;
+
+    if (activeP.type === 'keychain') {
+        const l = parseFloat(document.getElementById('L').value), w = parseFloat(document.getElementById('W').value);
+        const area = q >= 200 ? (l+0.5)*(w+0.5) : l*w;
+        unit = (area * getF1(q) * activeP.fMulti * activeP.premium) / 7;
+    } else if (activeP.type === 'flash') {
+        const idx = q>=3000?6:q>=2000?5:q>=600?4:q>=300?3:q>=100?2:q>=10?1:0;
+        unit = (activeP.price[idx] * activeP.premium) / 7;
+    } else if (activeP.type === 'stand') {
+        let rmb = 0; const f1 = getF1(q);
+        document.querySelectorAll('.comp-row').forEach(row => {
+            const l = parseFloat(row.querySelector('.sL').value), w = parseFloat(row.querySelector('.sW').value);
+            rmb += ((q >= 200 ? (l+0.5)*(w+0.5) : l*w) * f1 * 1.5);
+        });
+        unit = rmb / 7;
+    }
+    document.getElementById('resU').innerText = unit.toFixed(2);
 }
 
 function addS() {
     const div = document.createElement('div'); div.className = 'comp-row';
     div.innerHTML = `<input type="number" class="sL" value="5" oninput="run()"> <input type="number" class="sW" value="5" oninput="run()">`;
-    document.getElementById('sList').appendChild(div); run();
+    document.getElementById('sList').appendChild(div);
 }
 
-function getF1(q) {
-    if (q >= 3000) return 0.025; if (q >= 2000) return 0.028; if (q >= 1000) return 0.03;
-    if (q >= 500) return 0.035; if (q >= 200) return 0.04; return 0.05;
-}
-
-function run() {
-    const qty = parseInt(document.getElementById('qty').value) || 0;
-    let unit = 0, note = "";
-
-    if (currentMode === 'keychain') {
-        const L = parseFloat(document.getElementById('L').value), W = parseFloat(document.getElementById('W').value);
-        const f1 = getF1(qty), multi = CONFIG.keychain.types[document.getElementById('kType').value];
-        const area = qty >= 200 ? (L+0.5)*(W+0.5) : L*W;
-        unit = (area * f1 * multi * 1.5) / 7;
-        note = `公式: 面积(${area.toFixed(1)}) * Factor(${f1}) * 工艺(${multi}) * 1.5溢价 / 7`;
-    } else if (currentMode.startsWith('badge')) {
-        const premium = currentMode === 'badge_normal' ? 1.5 : 1.3;
-        const prices = CONFIG[currentMode][document.getElementById('bSize').value];
-        const idx = qty>=3000?6:qty>=2000?5:qty>=600?4:qty>=300?3:qty>=100?2:qty>=10?1:0;
-        unit = (prices[idx] * premium) / 7;
-        note = `公式: RMB单价(${prices[idx]}) * ${premium}溢价 / 7`;
-    } else if (currentMode === 'stand') {
-        const f1 = getF1(qty); let totalRMB = 0;
-        document.querySelectorAll('.comp-row').forEach(row => {
-            const l = parseFloat(row.querySelector('.sL').value), w = parseFloat(row.querySelector('.sW').value);
-            const area = qty >= 200 ? (l+0.5)*(w+0.5) : l*w;
-            totalRMB += (area * f1 * 1.5);
-        });
-        unit = totalRMB / 7;
-        note = `公式: 组件总面积 * Factor(${f1}) * 1.5溢价 / 7`;
-    }
-    document.getElementById('resUnit').innerText = unit.toFixed(2);
-    document.getElementById('resNote').innerText = note;
-}
-
-function closeModal() { document.getElementById('calcModal').style.display = 'none'; }
+function closeM() { document.getElementById('modal').style.display = 'none'; }
+init();
 </script>
 </body>
 </html>
