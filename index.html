@@ -3,93 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Factory | Custom Acrylic & Badges</title>
+    <title>Pingyang Shenyi Trading - Professional Custom Merch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333; }
-        header { background: #2c3e50; color: white; padding: 20px; text-align: center; }
-        section { padding: 40px 20px; max-width: 1200px; margin: auto; }
-        .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-        .card { border: 1px solid #ddd; border-radius: 8px; width: 300px; overflow: hidden; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        .calc-box { background: #f9f9f9; padding: 30px; border-radius: 10px; border: 2px solid #3498db; }
-        input, select { padding: 10px; margin: 10px 0; width: 100%; box-sizing: border-box; }
-        .price-display { font-size: 24px; color: #e74c3c; font-weight: bold; }
-        .btn { background: #27ae60; color: white; padding: 15px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+        /* 电商风格通用样式 */
+        :root { --primary: #ff6600; --dark: #333; --light: #f4f4f4; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; color: var(--dark); line-height: 1.6; }
+        
+        /* 1. 顶部导航栏 (仿阿里巴巴) */
+        nav { background: #fff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary); text-decoration: none; }
+        .nav-links a { margin-left: 25px; text-decoration: none; color: #555; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* 2. 横幅区 (Hero) */
+        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('gongchang-q.jpg') center/cover; height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 0 20px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; margin-bottom: 20px; }
+
+        /* 3. 产品展示大厅 (仿Vograce) */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .product-card img { width: 100%; height: 250px; object-fit: cover; }
+        .product-info { padding: 20px; text-align: left; }
+        .product-info h3 { margin: 0 0 10px; font-size: 1.2rem; }
+        .price-tag { color: var(--primary); font-size: 1.3rem; font-weight: bold; }
+
+        /* 4. 报价器区块 */
+        .calculator-section { background: var(--light); padding: 60px 20px; border-radius: 20px; margin: 50px 0; }
+        .calc-container { background: white; padding: 30px; border-radius: 15px; max-width: 600px; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn-order { background: var(--primary); color: white; text-decoration: none; padding: 15px; display: block; text-align: center; border-radius: 8px; font-weight: bold; margin-top: 20px; }
+
+        /* 页脚 */
+        footer { background: var(--dark); color: white; padding: 40px 5%; text-align: center; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Direct Factory: Custom Merch Solution</h1>
-    <p>Professional UV Printing & Acrylic Cutting</p>
-</header>
-
-<section id="about">
-    <h2>About Our Factory</h2>
-    <div class="grid">
-        <div style="flex: 1; min-width: 300px;">
-            <p>We are a specialized factory located in China, focusing on high-quality acrylic products and custom badges. With our advanced UV printers and CNC cutting machines, we provide one-stop service from design to shipping.</p>
-            <img src="gongchang-q.jpg" style="width: 100%; border-radius: 8px;" alt="Factory Machine">
+    <nav>
+        <a href="#" class="logo">SHENYI MERCH</a>
+        <div class="nav-links">
+            <a href="#products">Products</a>
+            <a href="#about">Factory</a>
+            <a href="#calculator">Quote</a>
+            <a href="#">Contact</a>
         </div>
-        <div style="flex: 1; min-width: 300px;">
-            <img src="gongchang11 (1).jpg" style="width: 100%; border-radius: 8px; margin-bottom: 10px;" alt="Factory Environment">
-            <p>✓ Fast Turnaround | ✓ Low MOQ | ✓ Worldwide Shipping</p>
-        </div>
-    </div>
-</section>
+    </nav>
 
-<section id="calculator" style="background: #ecf0f1;">
-    <h2>Instant Quote (Custom Badge)</h2>
-    <div class="calc-box">
-        <p>Select Quantity for 58mm Standard Badge:</p>
-        <input type="number" id="quantity" placeholder="Enter quantity (e.g. 100)" oninput="calculatePrice()">
-        <div id="result">
-            <p>Unit Price: <span class="price-display" id="unitPrice">$0.00</span></p>
-            <p>Total Cost: <span class="price-display" id="totalPrice">$0.00</span></p>
-        </div>
-        <a href="https://wa.me/YOURNUMBER" class="btn">Order via WhatsApp</a>
-    </div>
-</section>
+    <section class="hero">
+        <h1>Your Professional Custom Partner</h1>
+        <p>Premium Quality | Direct Factory Price | Global Shipping</p>
+        <a href="#products" class="btn-order" style="width: 200px;">Explore Products</a>
+    </section>
 
-<section id="products">
-    <h2>Our Hot Products</h2>
-    <div class="grid">
-        <div class="card">
-            <img src="shuangshanbaji.jpg" alt="Badge">
-            <div style="padding:15px;"><h3>Holographic Badge</h3><p>Vivid colors with flash effect.</p></div>
+    <section class="container" id="products">
+        <div class="section-title">
+            <h2>Best Selling Categories</h2>
+            <p>High-quality UV printing and precision cutting</p>
         </div>
-        <div class="card">
-            <img src="yakelilipai.jpg" alt="Standee">
-            <div style="padding:15px;"><h3>Acrylic Standee</h3><p>Clear edges and high transparency.</p></div>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="shuangshanbaji.jpg" alt="Badge">
+                <div class="product-info">
+                    <h3>Standard/Holo Badge</h3>
+                    <p>Size: 58mm | Material: Tinplate</p>
+                    <div class="price-tag">From $0.09</div>
+                    <a href="#calculator" class="btn-order">Calculate Price</a>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="yakelilipai.jpg" alt="Standee">
+                <div class="product-info">
+                    <h3>Acrylic Standee</h3>
+                    <p>Crystal Clear | Double Sided</p>
+                    <div class="price-tag">MOQ: 10 PCS</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="yaoyaole.jpg" alt="Shaker">
+                <div class="product-info">
+                    <h3>Acrylic Shaker</h3>
+                    <p>Interative Custom Design</p>
+                    <div class="price-tag">Custom Shape</div>
+                </div>
+            </div>
         </div>
-        <div class="card">
-            <img src="yaoyaole.jpg" alt="Shaker">
-            <div style="padding:15px;"><h3>Acrylic Shaker</h3><p>Interactive and fun custom merch.</p></div>
+    </section>
+
+    <section class="container" id="calculator">
+        <div class="calculator-section">
+            <h2 style="text-align: center;">Instant Price Calculator</h2>
+            <div class="calc-container">
+                <label>Input Quantity (58mm Badge):</label>
+                <input type="number" id="qty" placeholder="e.g. 1000" oninput="runCalc()">
+                <div style="font-size: 1.2rem; margin: 20px 0;">
+                    Unit Price: <span id="uPrice" style="color:var(--primary); font-weight:bold;">$0.00</span><br>
+                    Total Cost: <span id="tPrice" style="color:var(--primary); font-size:2rem; font-weight:bold;">$0.00</span>
+                </div>
+                <a href="https://wa.me/86123456789" class="btn-order"><i class="fab fa-whatsapp"></i> Order via WhatsApp</a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<script>
-    function calculatePrice() {
-        let qty = document.getElementById('quantity').value;
-        let unitPrice = 0;
+    <section class="container" id="about">
+        <div class="section-title">
+            <h2>Factory Strength</h2>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <img src="gongchang11.jpg" style="flex: 1; min-width: 300px; border-radius: 10px; height: 300px; object-fit: cover;">
+            <div style="flex: 1; min-width: 300px;">
+                <h3>Advanced Equipment</h3>
+                <p>We utilize the latest UV digital printers and high-precision laser cutting machines to ensure every detail of your design is perfectly reproduced. Our factory capacity exceeds 10,000 units per day.</p>
+                <ul>
+                    <li>Professional QC Team</li>
+                    <li>SGS Certified Material</li>
+                    <li>Global Express (FedEx/UPS/DHL)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        // 逻辑来自你的 Google 表格 Sheet4 (吧唧报价)
-        if (qty >= 1 && qty <= 49) unitPrice = 0.29;
-        else if (qty >= 50 && qty <= 99) unitPrice = 0.25;
-        else if (qty >= 100 && qty <= 199) unitPrice = 0.18;
-        else if (qty >= 200 && qty <= 499) unitPrice = 0.14;
-        else if (qty >= 500 && qty <= 999) unitPrice = 0.12;
-        else if (qty >= 1000 && qty <= 1999) unitPrice = 0.11;
-        else if (qty >= 2000 && qty <= 2999) unitPrice = 0.10;
-        else if (qty >= 3000) unitPrice = 0.09;
+    <footer>
+        <p>&copy; 2026 Pingyang Shenyi Trading Co., Ltd. All Rights Reserved.</p>
+    </footer>
 
-        if (qty > 0) {
-            document.getElementById('unitPrice').innerText = '$' + unitPrice.toFixed(2);
-            document.getElementById('totalPrice').innerText = '$' + (unitPrice * qty).toFixed(2);
+    <script>
+        function runCalc() {
+            let q = document.getElementById('qty').value;
+            let p = 0;
+            if (q >= 1 && q <= 49) p = 0.29;
+            else if (q >= 50 && q <= 99) p = 0.25;
+            else if (q >= 100 && q <= 199) p = 0.18;
+            else if (q >= 200 && q <= 499) p = 0.14;
+            else if (q >= 500 && q <= 999) p = 0.12;
+            else if (q >= 1000 && q <= 1999) p = 0.11;
+            else if (q >= 2000 && q <= 2999) p = 0.10;
+            else if (q >= 3000) p = 0.09;
+            
+            if(q > 0) {
+                document.getElementById('uPrice').innerText = '$' + p.toFixed(2);
+                document.getElementById('tPrice').innerText = '$' + (p * q).toFixed(2);
+            }
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>
