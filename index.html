@@ -6,35 +6,29 @@
     <title>SHENYI MERCH Quoting</title>
     <style>
         :root {
-            --primary-blue: #007AFF; /* Apple Blue */
+            --primary-blue: #007AFF;
             --bg-gray: #f2f2f7;
             --card-white: #ffffff;
             --text-dark: #1c1c1e;
         }
 
         body {
-            font-family: -apple-system, system-ui, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-gray);
             color: var(--text-dark);
             margin: 0;
             padding: 15px;
-            -webkit-font-smoothing: antialiased;
         }
 
-        header {
-            padding: 20px 0;
-            text-align: center;
-        }
-
-        header h1 { font-size: 1.4rem; margin: 0; font-weight: 700; }
+        header { padding: 20px 0; text-align: center; }
+        header h1 { font-size: 1.4rem; margin: 0; font-weight: 700; color: var(--primary-blue); }
         header p { font-size: 0.8rem; color: #8e8e93; margin-top: 5px; }
 
-        /* 移动端网格：2列显示 */
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin-bottom: 50px;
+            padding-bottom: 50px;
         }
 
         .card {
@@ -43,23 +37,21 @@
             padding: 12px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid transparent;
-            transition: all 0.2s;
+            cursor: pointer;
         }
-
-        .card:active { transform: scale(0.96); background: #f9f9f9; border-color: var(--primary-blue); }
 
         .card img {
             width: 100%;
             height: 100px;
             object-fit: contain;
             margin-bottom: 8px;
+            background: #f9f9f9;
             border-radius: 6px;
         }
 
-        .card h3 { font-size: 0.75rem; margin: 0; line-height: 1.2; height: 32px; display: flex; align-items: center; justify-content: center; }
+        .card h3 { font-size: 0.75rem; margin: 0; color: #3a3a3c; height: 32px; display: flex; align-items: center; justify-content: center; }
 
-        /* 底部弹出计算器 */
+        /* Mobile Bottom Drawer */
         .drawer {
             display: none;
             position: fixed;
@@ -75,172 +67,12 @@
             border-radius: 20px 20px 0 0;
             padding: 25px 20px;
             box-sizing: border-box;
-            animation: slideUp 0.3s ease-out;
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-        .close-bar { width: 40px; height: 5px; background: #ddd; border-radius: 10px; margin: -10px auto 20px; }
+        .close-bar { width: 40px; height: 5px; background: #ddd; border-radius: 10px; margin: -10px auto 20px; cursor: pointer; }
 
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: #666; }
         .input-row { display: flex; gap: 10px; }
-        
-        input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #e5e5ea;
-            border-radius: 10px;
-            font-size: 1rem;
-            background: #f9f9f9;
-        }
-
-        .result-box {
-            background: #f0f7ff;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .result-box label { font-size: 0.75rem; color: var(--primary-blue); font-weight: 700; text-transform: uppercase; }
-        .result-box .price { font-size: 2.2rem; color: var(--primary-blue); font-weight: 800; margin-top: 5px; }
-
-        .btn-add {
-            width: 100%;
-            padding: 10px;
-            background: #f2f2f7;
-            border: 1px dashed #c7c7cc;
-            border-radius: 8px;
-            color: #3a3a3c;
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>SHENYI MERCH</h1>
-    <p>Professional Merch Quoting System</p>
-</header>
-
-<div class="grid" id="mainGrid"></div>
-
-<div id="calcDrawer" class="drawer">
-    <div class="drawer-content">
-        <div class="close-bar" id="closeBtn"></div>
-        <h2 id="mTitle" style="margin:0 0 20px 0; font-size: 1.1rem;">Pricing</h2>
-        
-        <div id="mFields"></div>
-
-        <div class="result-box">
-            <label>Estimated Unit Price (USD)</label>
-            <div class="price">$<span id="resPrice">0.00</span></div>
-        </div>
-        <div style="text-align:center; color:#999; font-size:0.65rem; margin-top:15px;">
-            *Exchange rate 1:7. Final price varies by design.
-        </div>
-    </div>
-</div>
-
-<script>
-/**
- * 配置数据 - 已同步你的图二逻辑并翻译为英文
- */
-const DATA = [
-    { type: 'key', name: 'Standard Acrylic Keychain', img: 'k1.jpg', pre: 1.5, multi: 1 },
-    { type: 'key', name: 'CNC Edge Keychain', img: 'k2.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'key', name: 'Iridescent Keychain', img: 'k3.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'key', name: 'Holographic Keychain', img: 'k4.jpg', pre: 1.5, multi: 1.5 },
-    
-    { type: 'badge', name: 'Standard Badge (25-58mm)', img: 'b1.jpg', pre: 1.5, prices: [1.0, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65] },
-    { type: 'badge', name: 'Standard Badge (65-75mm)', img: 'b2.jpg', pre: 1.5, prices: [2.0, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2] },
-    
-    { type: 'badge', name: 'Glitter Round (25-58mm)', img: 'f1.jpg', pre: 1.3, prices: [3.0, 2.5, 2.4, 2.3, 2.1, 1.9, 1.8] },
-    { type: 'badge', name: 'Glitter Round (65-75mm)', img: 'f2.jpg', pre: 1.3, prices: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
-    { type: 'badge', name: 'Glitter Geometric Shape', img: 'f3.jpg', pre: 1.3, prices: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
-    { type: 'badge', name: 'Glitter Custom Shape', img: 'f4.jpg', pre: 1.3, prices: [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8] },
-    { type: 'badge', name: 'Glitter Oval Shape', img: 'f5.jpg', pre: 1.3, prices: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
-    { type: 'badge', name: 'Glitter Coffin Shape', img: 'f6.jpg', pre: 1.3, prices: [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8] },
-    
-    { type: 'stand', name: 'Acrylic Standee (Multi-Part)', img: 's1.jpg', pre: 1.5 }
-];
-
-let selectedItem = null;
-
-function init() {
-    const grid = document.getElementById('mainGrid');
-    DATA.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.onclick = () => showDrawer(idx);
-        card.innerHTML = `<img src="${item.img}" onerror="this.src='https://via.placeholder.com/150x100?text=IMAGE'"><h3>${item.name}</h3>`;
-        grid.appendChild(card);
-    });
-}
-
-function showDrawer(idx) {
-    selectedItem = DATA[idx];
-    document.getElementById('mTitle').innerText = selectedItem.name;
-    const fields = document.getElementById('mFields');
-    fields.innerHTML = "";
-
-    if (selectedItem.type === 'key') {
-        fields.innerHTML = `
-            <div class="input-group"><label>Size L*W (cm)</label><div class="input-row"><input type="number" id="inpL" value="5"> <input type="number" id="inpW" value="5"></div></div>
-            <div class="input-group"><label>Quantity</label><input type="number" id="inpQ" value="100"></div>`;
-    } else if (selectedItem.type === 'badge') {
-        fields.innerHTML = `<div class="input-group"><label>Quantity</label><input type="number" id="inpQ" value="100"></div>`;
-    } else if (selectedItem.type === 'stand') {
-        fields.innerHTML = `
-            <div id="sCont"><div class="input-group"><label>Main Part Size (cm)</label><div class="input-row"><input type="number" class="sL" value="10"> <input type="number" class="sW" value="10"></div></div></div>
-            <button class="btn-add" onclick="addPart()">+ Add Sub-Part</button>
-            <div class="input-group"><label>Total Order Quantity</label><input type="number" id="inpQ" value="200"></div>`;
-    }
-    
-    document.getElementById('calcDrawer').style.display = 'flex';
-    document.querySelectorAll('input').forEach(i => i.oninput = calc);
-    calc();
-}
-
-function getF1(q) {
-    if (q >= 3000) return 0.025; if (q >= 2000) return 0.028; if (q >= 1000) return 0.03;
-    if (q >= 500) return 0.035; if (q >= 200) return 0.04; if (q >= 100) return 0.045; return 0.05;
-}
-
-function calc() {
-    const q = parseInt(document.getElementById('inpQ').value) || 0;
-    let res = 0;
-    
-    if (selectedItem.type === 'key') {
-        const l = parseFloat(document.getElementById('inpL').value) || 0, w = parseFloat(document.getElementById('inpW').value) || 0;
-        const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
-        res = (area * getF1(q) * selectedItem.multi * selectedItem.pre) / 7;
-    } else if (selectedItem.type === 'badge') {
-        const idx = q>=3000?6:q>=2000?5:q>=600?4:q>=300?3:q>=100?2:q>=10?1:0;
-        res = (selectedItem.prices[idx] * selectedItem.pre) / 7;
-    } else if (selectedItem.type === 'stand') {
-        let totalRmb = 0; const f1 = getF1(q);
-        document.querySelectorAll('#sCont > .input-group').forEach(row => {
-            const l = parseFloat(row.querySelector('.sL').value) || 0, w = parseFloat(row.querySelector('.sW').value) || 0;
-            const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
-            totalRmb += (area * f1 * 1.5);
-        });
-        res = totalRmb / 7;
-    }
-    document.getElementById('resPrice').innerText = res.toFixed(2);
-}
-
-function addPart() {
-    const div = document.createElement('div'); div.className = 'input-group';
-    div.innerHTML = `<label>Sub-Part Size (cm)</label><div class="input-row"><input type="number" class="sL" value="5" oninput="calc()"> <input type="number" class="sW" value="5" oninput="calc()"></div>`;
-    document.getElementById('sCont').appendChild(div);
-    calc();
-}
-
-document.getElementById('closeBtn').onclick = () => { document.getElementById('calcDrawer').style.display = 'none'; };
-window.onload = init;
-</script>
-</body>
-</html>
