@@ -3,76 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHENYI MERCH Quoting</title>
+    <title>SHENYI Merch Quote</title>
     <style>
-        :root {
-            --primary-blue: #007AFF;
-            --bg-gray: #f2f2f7;
-            --card-white: #ffffff;
-            --text-dark: #1c1c1e;
-        }
+        :root { --p: #007AFF; --orange: #FF6600; --bg: #F2F2F7; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); margin: 0; padding: 0; }
+        
+        /* 导航栏样式 */
+        nav { background: #fff; display: flex; justify-content: space-around; padding: 15px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        nav span { font-weight: bold; color: #888; cursor: pointer; font-size: 0.95rem; padding-bottom: 5px; }
+        nav span.active { color: var(--p); border-bottom: 3px solid var(--p); }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-gray);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 15px;
-        }
+        .container { padding: 15px; max-width: 800px; margin: 0 auto; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        header { padding: 20px 0; text-align: center; }
-        header h1 { font-size: 1.4rem; margin: 0; font-weight: 700; color: var(--primary-blue); }
-        header p { font-size: 0.8rem; color: #8e8e93; margin-top: 5px; }
+        /* 核价系统网格 */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card { background: #fff; border-radius: 12px; padding: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); cursor: pointer; }
+        .card img { width: 100%; height: 110px; object-fit: contain; border-radius: 8px; background: #f9f9f9; margin-bottom: 8px; }
+        .card h3 { font-size: 0.85rem; margin: 0; color: #333; line-height: 1.2; }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding-bottom: 50px;
-        }
+        /* 抽屉式计算器 */
+        #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1001; backdrop-filter: blur(2px); }
+        #drawer { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 20px 20px 0 0; padding: 25px 20px; z-index: 1002; transform: translateY(100%); transition: transform 0.3s ease-out; }
+        #drawer.active { transform: translateY(0); }
+        .res-panel { background: #F0F7FF; padding: 20px; border-radius: 16px; text-align: center; margin-top: 15px; border: 1px solid #D0E5FF; }
+        .price { font-size: 2.2rem; font-weight: 800; color: var(--p); }
+        
+        input { width: 100%; padding: 12px; border: 1px solid #DDD; border-radius: 10px; font-size: 1rem; margin-top: 5px; margin-bottom: 15px; box-sizing: border-box; }
 
-        .card {
-            background: var(--card-white);
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            cursor: pointer;
-        }
+        /* 联系方式模块样式 */
+        .btn-box { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .btn-box a { text-decoration: none; color: #fff; padding: 15px 5px; border-radius: 10px; text-align: center; font-size: 0.85rem; font-weight: bold; }
+        .info-block { background: #fff; padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .tag { background: #eee; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; margin-right: 5px; display: inline-block; margin-top: 5px; }
+    </style>
+</head>
+<body>
 
-        .card img {
-            width: 100%;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 8px;
-            background: #f9f9f9;
-            border-radius: 6px;
-        }
+<nav>
+    <span id="tab-p" class="active" onclick="switchTab('pricing')">Quoting System</span>
+    <span id="tab-c" onclick="switchTab('contact')">Contact & Order</span>
+</nav>
 
-        .card h3 { font-size: 0.75rem; margin: 0; color: #3a3a3c; height: 32px; display: flex; align-items: center; justify-content: center; }
+<div class="container">
+    <div id="pricing-sec" class="section active">
+        <div class="grid" id="productGrid"></div>
+        <p style="font-size: 0.75rem; color: #999; text-align: center; margin-top: 25px; line-height: 1.4;">
+            * All prices include a 1.5x premium automatically.<br>
+            * Exchange Rate: 1 USD = 7 RMB.
+        </p>
+    </div>
 
-        /* Mobile Bottom Drawer */
-        .drawer {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: flex-end;
-        }
+    <div id="contact-sec" class="section">
+        <h3 style="margin: 0 0 15px 0;">Contact Us</h3>
+        <div class="btn-box">
+            <a href="https://wa.me/8615180463235" target="_blank" style="background:#25D366;">WhatsApp</a>
+            <a href="mailto:ncyitong01@gmail.com" style="background:#EA4335;">Email</a>
+            <a href="catalog.pdf" target="_blank" style="background:#333;">Catalog</a>
+        </div>
 
-        .drawer-content {
-            background: white;
-            width: 100%;
-            border-radius: 20px 20px 0 0;
-            padding: 25px 20px;
-            box-sizing: border-box;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
+        <h3>Secure Payment</h3>
+        <div class="info-block">
+            <div style="color:var(--orange); font-weight:bold; margin-bottom:10px;">
+                ⭐ Alibaba Trade Assurance
+            </div>
+            <p style="font-size:0.85rem; color:#666; margin:0 0 15px 0;">Highly recommended! It protects your payment and ensures order security through <strong>Alibaba International</strong>.</p>
+            <div>
+                <span class="tag">PayPal</span>
+                <span class="tag">Bank Transfer</span>
+                <span class="tag">Other Payments</span>
+            </div>
+            <a href="https://yito-badge.en.alibaba.com/zh_CN/company_profile.html" target="_blank" style="display:block; text-align:center; background:var(--orange); color:#fff; padding:12px; border-radius:10px; text-decoration:none; margin-top:15px; font-weight:bold;">View Our Alibaba Shop</a>
+        </div>
 
-        .close-bar { width: 40px; height: 5px; background: #ddd; border-radius: 10px; margin: -10px auto 20px; cursor: pointer; }
+        <h3>Lead Time & Policy</h3>
+        <div class="info-block" style="font-size:0.9rem; line-height:1.6;">
+            <strong>🕒 Production Time:</strong><br>
+            • Under 500 pcs: <strong>3 Days</strong> after approval.<br>
+            • Under 1000 pcs: <strong>6 Days</strong> after approval.<br>
+            <small>*Excl. Sundays. Epoxy/Special crafts subject to communication.</small>
+            
+            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+            
+            <strong style="color:#D93025;">🛡️ Quality Warranty:</strong><br>
+            We take full responsibility for quality. In case of issues, we provide <strong>100% compensation or full refund</strong>.
+        </div>
+        <p style="text-align: center; color: #999; font-size: 0.8rem;">Jiangxi Yitong Zhengda Crafts Co., Ltd. | Dylan</p>
+    </div>
+</div>
 
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: #666; }
-        .input-row { display: flex; gap: 10px; }
+<div id="overlay" onclick="closeBox()"></div>
+<div id="drawer">
+    <div style="width:40px;height:4px;background:#DDD;border-radius:2px;margin:-10px auto 20px;"></div>
+    <h2 id="draw-title" style="margin:0 0 20px; font-size:1.1rem; text-align:center;"></h2>
+    <div id="inputs"></div>
+    <div class="res-panel">
+        <div style="font-size:0.75rem; color:var(--p); font-weight:bold;">ESTIMATED UNIT PRICE (USD)</div>
+        <div class="price">$<span id="unitPrice">0.00</span></div>
+    </div>
+    <button onclick="closeBox()" style="width:100%; margin-top:20px; padding:15px; border:none; background:#333; color:#fff; border-radius:12px; font-weight:bold;">Done</button>
+</div>
+
+<script>
+// 完整产品数据
+const DATA = [
+    { name: 'Acrylic Standee', img: 'gongchang-1.jpg' },
+    { name: 'Acrylic Keychain', img: 'gongchang-2.jpg' },
+    { name: 'Iridescent Standee', img: 'gongchang-3.jpg' },
+    { name: 'Holographic Badge', img: 'gongchang-4.jpg' },
+    { name: 'Epoxy Keychain', img: 'gongchang-5.jpg' },
+    { name: 'Quick-Sand Standee', img: 'gongchang-6.jpg' },
+    { name: 'Shaking Standee', img: 'gongchang-7.jpg' },
+    { name: 'Quicksand Keychain', img: 'gongchang-8.jpg' },
+    { name: 'Candy Keychain', img: 'gongchang-9.jpg' },
+    { name: 'Spinning Standee', img: 'gongchang-10.jpg' },
+    { name: 'Acrylic Clock', img: 'gongchang-11.jpg' },
+    { name: 'Mobile Stand', img: 'gongchang-q.jpg' },
+    { name: 'Customized Acrylic', img: 'gongchang-p.jpg' }
+];
+
+function switchTab(tab) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav span').forEach(s => s.classList.remove('active'));
+    if(tab === 'pricing') {
+        document.getElementById('pricing-sec').classList.add('active');
+        document.getElementById('tab-p').classList.add('active');
+    } else {
+        document.getElementById('contact-sec').classList.add('active');
+        document.getElementById('tab-c').classList.add('active');
+    }
+}
+
+function init() {
+    const grid = document.getElementById('productGrid');
+    DATA.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.onclick = () => openBox(i);
+        div.innerHTML = `<img src="${item.img}"><h3>${item.name}</h3>`;
+        grid.appendChild(div);
+    });
+}
+
+function openBox(i) {
+    const item = DATA[i];
+    document.getElementById('draw-title').innerText = item.name;
+    document.getElementById('inputs').innerHTML = `
+        <label>Length (cm)</label><input type="number" id="l" value="5" oninput="calc()">
+        <label>Width (cm)</label><input type="number" id="w" value="5" oninput="calc()">
+        <label>Quantity</label><input type="number" id="q" value="100" oninput="calc()">
+    `;
+    document.getElementById('overlay').style.display = 'block';
+    setTimeout(() => document.getElementById('drawer').classList.add('active'), 10);
+    calc();
+}
+
+function closeBox() {
+    document.getElementById('drawer').classList.remove('active');
+    setTimeout(() => document.getElementById('overlay').style.display = 'none', 300);
+}
+
+function calc() {
+    let l = parseFloat(document.getElementById('l').value) || 0;
+    let w = parseFloat(document.getElementById('w').value) || 0;
+    const q = parseFloat(document.getElementById('q').value) || 1;
+    
+    // 面积核算逻辑：数量 ≥ 200 时自动应用 (L+0.5) × (W+0.5)
+    let calcL = (q >= 200) ? l + 0.5 : l;
+    let calcW = (q >= 200) ? w + 0.5 : w;
+    
+    // 假设基础成本公式（此处可以根据你的详细表格调整）
+    let baseRMB = (calcL * calcW * 0.12) + (50 / q); 
+    
+    // 强制执行 1.5 倍溢价，不打折；汇率换算除以 7
+    let finalUSD = (baseRMB * 1.5) / 7;
+    
+    document.getElementById('unitPrice').innerText = finalUSD.toFixed(2);
+}
+
+init();
+</script>
+</body>
+</html>
