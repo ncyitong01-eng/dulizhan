@@ -1,328 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHENYI MERCH Quoting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHENYI MERCH System</title>
     <style>
-        :root {
-            --primary-blue: #007AFF;
-            --bg-gray: #f2f2f7;
-            --card-white: #ffffff;
-            --text-dark: #1c1c1e;
-            --orange: #FF6600;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-gray);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-        }
-
-        /* 置顶导航栏 */
-        nav {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            z-index: 1000;
-            box-shadow: 0 1px 10px rgba(0,0,0,0.05);
-            border-bottom: 1px solid #e5e5ea;
-        }
-        nav span {
-            font-weight: 600;
-            color: #8e8e93;
-            cursor: pointer;
-            font-size: 0.9rem;
-            padding: 5px 12px;
-            transition: all 0.2s;
-        }
-        nav span.active {
-            color: var(--primary-blue);
-            border-bottom: 2px solid var(--primary-blue);
-        }
-
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
-        .section { display: none; }
-        .section.active { display: block; }
-
-        header { padding: 10px 0 20px; text-align: center; }
-        header h1 { font-size: 1.4rem; margin: 0; font-weight: 700; color: var(--primary-blue); }
-        header p { font-size: 0.8rem; color: #8e8e93; margin-top: 5px; }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding-bottom: 50px;
-        }
-
-        .card {
-            background: var(--card-white);
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            cursor: pointer;
-        }
-
-        .card img {
-            width: 100%;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 8px;
-            background: #f9f9f9;
-            border-radius: 6px;
-        }
-
-        .card h3 { font-size: 0.75rem; margin: 0; color: #3a3a3c; height: 32px; display: flex; align-items: center; justify-content: center; }
-
-        /* 移动端底部抽屉 */
-        .drawer {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: flex-end;
-        }
-
-        .drawer-content {
-            background: white;
-            width: 100%;
-            border-radius: 20px 20px 0 0;
-            padding: 25px 20px;
-            box-sizing: border-box;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-
-        .close-bar { width: 40px; height: 5px; background: #ddd; border-radius: 10px; margin: -10px auto 20px; cursor: pointer; }
-
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: #666; }
-        .input-row { display: flex; gap: 10px; }
+        :root { --blue: #007AFF; --bg: #f2f2f7; }
+        body { font-family: sans-serif; margin: 0; background: var(--bg); }
         
-        input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #e5e5ea;
-            border-radius: 10px;
-            font-size: 1rem;
-            background: #f9f9f9;
-        }
+        /* 导航栏置顶 */
+        nav { position: sticky; top: 0; background: white; display: flex; justify-content: space-around; padding: 15px; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav span { cursor: pointer; font-weight: bold; color: #888; }
+        nav span.active { color: var(--blue); border-bottom: 2px solid var(--blue); }
 
-        .result-box {
-            background: #f0f7ff;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 10px;
-        }
+        .content { padding: 15px; }
+        .page { display: none; }
+        .page.active { display: block; }
 
-        .result-box label { font-size: 0.7rem; color: var(--primary-blue); font-weight: 700; }
-        .result-box .price { font-size: 2.2rem; color: var(--primary-blue); font-weight: 800; }
+        /* 网格卡片 */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { background: white; border-radius: 10px; padding: 10px; text-align: center; }
+        .card img { width: 100%; height: 100px; object-fit: contain; background: #eee; }
 
-        .btn-add {
-            width: 100%; padding: 10px; background: #f2f2f7;
-            border: 1px dashed #c7c7cc; border-radius: 8px;
-            color: #3a3a3c; font-size: 0.8rem; margin-bottom: 15px;
-        }
-
-        /* 联系页面样式 */
-        .contact-card { background: #fff; padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-        .contact-btn {
-            display: block; text-decoration: none; padding: 15px; border-radius: 10px;
-            margin-bottom: 10px; text-align: center; font-weight: bold; color: #fff;
-        }
-        .tag { background: #f2f2f7; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; margin-right: 5px; color: #666; }
+        /* 弹窗抽屉 */
+        .drawer { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; align-items:flex-end; }
+        .drawer-content { background:white; width:100%; border-radius:20px 20px 0 0; padding:20px; max-height:80vh; overflow-y:auto; }
+        
+        .input-group { margin-bottom: 10px; }
+        input { width: 80%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px; }
+        .res-box { background: #eef7ff; padding: 15px; border-radius: 10px; text-align: center; margin-top: 15px; color: var(--blue); }
+        
+        /* 联系页面 */
+        .contact-item { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
+        .btn { display: block; padding: 12px; border-radius: 5px; text-align: center; color: white; text-decoration: none; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <nav>
-    <span id="nav-calc" class="active" onclick="switchTab('calc')">Pricing System</span>
-    <span id="nav-contact" onclick="switchTab('contact')">Contact Us</span>
+    <span id="t-calc" class="active" onclick="show('calc')">价格核算</span>
+    <span id="t-info" onclick="show('info')">联系我们</span>
 </nav>
 
-<div class="container">
-    <div id="section-calc" class="section active">
-        <header>
-            <h1>SHENYI MERCH</h1>
-            <p>Smart Quote Tool</p>
-        </header>
+<div class="content">
+    <div id="p-calc" class="page active">
         <div class="grid" id="mainGrid"></div>
     </div>
 
-    <div id="section-contact" class="section">
-        <header>
-            <h1>CONTACT US</h1>
-            <p>Ready to help with your order</p>
-        </header>
-
-        <div class="contact-card">
-            <h3 style="margin-top:0; font-size:1rem;">Quick Actions</h3>
-            <a href="https://wa.me/8615180463235" class="contact-btn" style="background: #25D366;">WhatsApp Direct</a>
-            <a href="mailto:ncyitong01@gmail.com" class="contact-btn" style="background: var(--primary-blue);">Send Email</a>
-            <a href="catalog.pdf" target="_blank" class="contact-btn" style="background: #333;">Product Catalog (PDF)</a>
+    <div id="p-info" class="page">
+        <div class="contact-item">
+            <h3>快捷联系</h3>
+            <a href="https://wa.me/8615180463235" class="btn" style="background:#25D366">WhatsApp</a>
+            <a href="mailto:ncyitong01@gmail.com" class="btn" style="background:#007AFF">发送邮箱</a>
+            <a href="catalog.pdf" class="btn" style="background:#333">产品目录</a>
         </div>
-
-        <div class="contact-card">
-            <h3 style="margin-top:0; font-size:1rem; color:var(--orange);">Secure Payment</h3>
-            <p style="font-size:0.85rem; line-height:1.5;">
-                <strong>⭐ Alibaba Trade Assurance:</strong><br>
-                Highly recommended! It 100% protects your payment security and order quality.<br><br>
-                <a href="https://yito-badge.en.alibaba.com/zh_CN/company_profile.html" target="_blank" style="color:var(--orange); font-weight:bold;">Visit Our Alibaba Store →</a>
-            </p>
-            <div style="margin-top:10px;">
-                <span class="tag">PayPal</span><span class="tag">Bank Transfer</span><span class="tag">Other Options</span>
-            </div>
+        <div class="contact-item">
+            <h3 style="color:#f60">支付选项</h3>
+            <p>1. <b>阿里巴巴支付</b> (首选，保障支付安全)</p>
+            <p>2. 贝宝支付 / 银行转账</p>
         </div>
-
-        <div class="contact-card">
-            <h3 style="margin-top:0; font-size:1rem;">Delivery & Warranty</h3>
-            <p style="font-size:0.85rem; line-height:1.6; color:#444;">
-                <strong>🕒 Lead Time:</strong><br>
-                • 500 pcs: Within 3 days after final proof.<br>
-                • 1000 pcs: Within 6 days after final proof.<br>
-                <small>* Excluding weekends. Epoxy items timeline depends on communication.</small>
-            </p>
-            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
-            <p style="font-size:0.85rem; line-height:1.6; color:#444;">
-                <strong style="color:#d93025;">🛡️ Quality Warranty:</strong><br>
-                We promise a <b>100% full refund or compensation</b> if any product quality issues occur.
-            </p>
+        <div class="contact-item">
+            <h3>货期与售后</h3>
+            <p>• 500个：定稿后3天内 (不含周末)</p>
+            <p>• 1000个：定稿后6天内 (不含周末)</p>
+            <p><b>售后承诺：</b>出现产品质量问题全额赔付。</p>
         </div>
     </div>
 </div>
 
-<div id="calcDrawer" class="drawer">
-    <div class="drawer-content">
-        <div class="close-bar" id="closeHandle"></div>
-        <h2 id="mTitle" style="margin:0 0 20px 0; font-size: 1.1rem; text-align: center;">Item Pricing</h2>
+<div id="drawer" class="drawer" onclick="closeDrawer(event)">
+    <div class="drawer-content" onclick="event.stopPropagation()">
+        <h3 id="mTitle">产品价格</h3>
         <div id="mFields"></div>
-        <div class="result-box">
-            <label>UNIT PRICE (USD)</label>
-            <div class="price">$<span id="resPrice">0.00</span></div>
+        <div class="res-box">
+            <div>UNIT PRICE (USD)</div>
+            <div id="resPrice" style="font-size:2rem; font-weight:bold;">$0.00</div>
         </div>
-        <p style="text-align:center; color:#999; font-size:0.65rem; margin-top:15px;">
-            *Exchange rate 1:7. 1.5x Premium Included.
-        </p>
     </div>
 </div>
 
 <script>
 const DATA = [
-    { type: 'key', name: 'Standard Acrylic Keychain', img: 'k1.jpg', pre: 1.5, multi: 1 },
-    { type: 'key', name: 'CNC Edge Keychain', img: 'k2.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'key', name: 'Iridescent Keychain', img: 'k3.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'key', name: 'Holographic Keychain', img: 'k4.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'badge', name: 'Standard Badge (25-58mm)', img: 'b1.jpg', pre: 1.5, prices: [1.0, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65] },
-    { type: 'badge', name: 'Standard Badge (65-75mm)', img: 'b2.jpg', pre: 1.5, prices: [2.0, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2] },
-    { type: 'badge', name: 'Glitter Round (25-58mm)', img: 'f1.jpg', pre: 1.3, prices: [3.0, 2.5, 2.4, 2.3, 2.1, 1.9, 1.8] },
-    { type: 'badge', name: 'Glitter Round (65-75mm)', img: 'f2.jpg', pre: 1.3, prices: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
-    { type: 'badge', name: 'Glitter Custom Shape', img: 'f4.jpg', pre: 1.3, prices: [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8] },
-    { type: 'stand', name: 'Acrylic Standee (Multi-Part)', img: 's1.jpg', pre: 1.5 }
+    { type: 'key', name: '亚克力钥匙扣', multi: 1, pre: 1.5 },
+    { type: 'badge', name: '马口铁徽章', prices: [1.0, 0.9, 0.8, 0.7, 0.6, 0.55, 0.5], pre: 1.5 },
+    { type: 'stand', name: '亚克力立牌', pre: 1.5 }
 ];
 
-let selectedItem = null;
+let currentItem = null;
 
-function switchTab(t) {
-    document.getElementById('section-calc').className = 'section' + (t==='calc'?' active':'');
-    document.getElementById('section-contact').className = 'section' + (t==='contact'?' active':'');
-    document.getElementById('nav-calc').className = (t==='calc'?'active':'');
-    document.getElementById('nav-contact').className = (t==='contact'?'active':'');
+function show(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav span').forEach(s => s.classList.remove('active'));
+    document.getElementById('p-' + id).classList.add('active');
+    document.getElementById('t-' + id).classList.add('active');
 }
 
-function renderGrid() {
-    const grid = document.getElementById('mainGrid');
-    grid.innerHTML = "";
-    DATA.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.onclick = () => openDrawer(idx);
-        card.innerHTML = `<img src="${item.img}" onerror="this.src='https://via.placeholder.com/100?text=Merch'"><h3>${item.name}</h3>`;
-        grid.appendChild(card);
-    });
+function render() {
+    const g = document.getElementById('mainGrid');
+    g.innerHTML = DATA.map((item, i) => `
+        <div class="card" onclick="openDrawer(${i})">
+            <div style="height:80px; background:#f9f9f9; line-height:80px">ITEM</div>
+            <h4>${item.name}</h4>
+        </div>
+    `).join('');
 }
 
-function openDrawer(idx) {
-    selectedItem = DATA[idx];
-    document.getElementById('mTitle').innerText = selectedItem.name;
-    const fields = document.getElementById('mFields');
-    fields.innerHTML = "";
-
-    if (selectedItem.type === 'key') {
-        fields.innerHTML = `
-            <div class="input-group"><label>Size L*W (cm)</label><div class="input-row"><input type="number" id="inpL" value="5"> <input type="number" id="inpW" value="5"></div></div>
-            <div class="input-group"><label>Quantity</label><input type="number" id="inpQ" value="100"></div>`;
-    } else if (selectedItem.type === 'badge') {
-        fields.innerHTML = `<div class="input-group"><label>Quantity</label><input type="number" id="inpQ" value="100"></div>`;
-    } else if (selectedItem.type === 'stand') {
-        fields.innerHTML = `
-            <div id="sCont"><div class="input-group"><label>Main Part Size (cm)</label><div class="input-row"><input type="number" class="sL" value="10"> <input type="number" class="sW" value="10"></div></div></div>
-            <button class="btn-add" onclick="addPartRow()">+ Add Sub-Part</button>
-            <div class="input-group"><label>Total Order Quantity</label><input type="number" id="inpQ" value="200"></div>`;
+function openDrawer(i) {
+    currentItem = DATA[i];
+    document.getElementById('mTitle').innerText = currentItem.name;
+    let html = '';
+    if(currentItem.type === 'badge') {
+        html = `<label>数量</label><br><input type="number" id="inpQ" value="100" oninput="calc()">`;
+    } else {
+        html = `<label>尺寸 (cm)</label><br>
+                <input type="number" id="inpL" value="5" placeholder="长">
+                <input type="number" id="inpW" value="5" placeholder="宽">
+                <br><label>数量</label><br><input type="number" id="inpQ" value="100" oninput="calc()">`;
     }
-    
-    document.getElementById('calcDrawer').style.display = 'flex';
-    document.querySelectorAll('#mFields input').forEach(input => {
-        input.oninput = calculatePrice;
-    });
-    calculatePrice();
+    document.getElementById('mFields').innerHTML = html;
+    document.getElementById('drawer').style.display = 'flex';
+    calc();
 }
 
-function calculatePrice() {
-    const qInput = document.getElementById('inpQ');
-    const q = qInput ? parseInt(qInput.value) || 0 : 0;
-    let res = 0;
-    const getBase = (qty) => {
-        if (qty >= 3000) return 0.025; if (qty >= 2000) return 0.028; if (qty >= 1000) return 0.03;
-        if (qty >= 500) return 0.035; if (qty >= 200) return 0.04; if (qty >= 100) return 0.045; return 0.05;
-    };
+function closeDrawer(e) { document.getElementById('drawer').style.display = 'none'; }
 
-    if (selectedItem.type === 'key') {
+function calc() {
+    const q = parseInt(document.getElementById('inpQ').value) || 0;
+    let price = 0;
+    const getF = (v) => v>=3000?0.025:v>=2000?0.028:v>=1000?0.03:v>=500?0.035:v>=200?0.04:v>=100?0.045:0.05;
+
+    if(currentItem.type === 'badge') {
+        const idx = q>=3000?6:q>=2000?5:q>=600?4:q>=300?3:q>=100?2:q>=10?1:0;
+        price = (currentItem.prices[idx] * currentItem.pre) / 7;
+    } else {
         const l = parseFloat(document.getElementById('inpL').value) || 0;
         const w = parseFloat(document.getElementById('inpW').value) || 0;
-        const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
-        res = (area * getBase(q) * selectedItem.multi * selectedItem.pre) / 7;
-    } else if (selectedItem.type === 'badge') {
-        const idx = q>=3000?6:q>=2000?5:q>=600?4:q>=300?3:q>=100?2:q>=10?1:0;
-        res = (selectedItem.prices[idx] * selectedItem.pre) / 7;
-    } else if (selectedItem.type === 'stand') {
-        let totalRmb = 0;
-        document.querySelectorAll('#sCont .input-row').forEach(row => {
-            const inputs = row.querySelectorAll('input');
-            const l = parseFloat(inputs[0].value) || 0;
-            const w = parseFloat(inputs[1].value) || 0;
-            const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
-            totalRmb += (area * getBase(q) * 1.5);
-        });
-        res = totalRmb / 7;
+        const area = q >= 200 ? (l+0.5)*(w+0.5) : l*w;
+        price = (area * getF(q) * (currentItem.multi || 1) * currentItem.pre) / 7;
     }
-    document.getElementById('resPrice').innerText = res.toFixed(2);
+    document.getElementById('resPrice').innerText = '$' + price.toFixed(2);
 }
 
-function addPartRow() {
-    const cont = document.getElementById('sCont');
-    const div = document.createElement('div');
-    div.className = 'input-group';
-    div.innerHTML = `<label>Sub-Part Size (cm)</label><div class="input-row"><input type="number" class="sL" value="5"> <input type="number" class="sW" value="5"></div>`;
-    cont.appendChild(div);
-    div.querySelectorAll('input').forEach(i => i.oninput = calculatePrice);
-    calculatePrice();
-}
-
-window.onload = () => {
-    renderGrid();
-    document.getElementById('closeHandle').onclick = () => document.getElementById('calcDrawer').style.display = 'none';
-    document.getElementById('calcDrawer').onclick = (e) => { if(e.target.id === 'calcDrawer') document.getElementById('calcDrawer').style.display = 'none'; };
-};
+render();
 </script>
 </body>
 </html>
