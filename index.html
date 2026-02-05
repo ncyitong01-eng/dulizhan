@@ -139,8 +139,20 @@
         .contact-btn {
             display: block; text-decoration: none; padding: 15px; border-radius: 10px;
             margin-bottom: 10px; text-align: center; font-weight: bold; color: #fff;
+            cursor: pointer; border: none; width: 100%; box-sizing: border-box; font-size: 1rem;
         }
         .tag { background: #f2f2f7; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; margin-right: 5px; color: #666; }
+
+        /* Toast 提示样式 */
+        #toast {
+            visibility: hidden; min-width: 200px; background-color: #333; color: #fff;
+            text-align: center; border-radius: 50px; padding: 12px;
+            position: fixed; z-index: 3000; left: 50%; bottom: 100px;
+            transform: translateX(-50%); font-size: 0.8rem;
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 100px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 100px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
 </head>
 <body>
@@ -168,161 +180,3 @@
         <div class="contact-card">
             <h3 style="margin-top:0; font-size:1rem;">Quick Actions</h3>
             <a href="https://wa.me/8615180463235" class="contact-btn" style="background: #25D366;">WhatsApp Direct</a>
-            <a href="mailto:ncyitong01@gmail.com" class="contact-btn" style="background: var(--primary-blue);">Send Email</a>
-            <a href="catalog.pdf" target="_blank" class="contact-btn" style="background: #333;">Product Catalog (PDF)</a>
-        </div>
-
-        <div class="contact-card">
-            <h3 style="margin-top:0; font-size:1rem; color:var(--orange);">Secure Payment</h3>
-            <p style="font-size:0.85rem; line-height:1.5;">
-                <strong>⭐ Alibaba Trade Assurance:</strong><br>
-                Highly recommended! It 100% protects your payment security and order quality.<br><br>
-                <a href="https://yito-badge.en.alibaba.com/zh_CN/company_profile.html" target="_blank" style="color:var(--orange); font-weight:bold;">Visit Our Alibaba Store →</a>
-            </p>
-            <div style="margin-top:10px;">
-                <span class="tag">PayPal</span><span class="tag">Bank Transfer</span><span class="tag">Other Options</span>
-            </div>
-        </div>
-
-        <div class="contact-card">
-            <h3 style="margin-top:0; font-size:1rem;">Delivery & Warranty</h3>
-            <p style="font-size:0.85rem; line-height:1.6; color:#444;">
-                <strong>🕒 Lead Time:</strong><br>
-                • 500 pcs: Within 3 days after final proof.<br>
-                • 1000 pcs: Within 6 days after final proof.<br>
-                <small>* Excluding weekends. Epoxy items timeline depends on communication.</small>
-            </p>
-            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
-            <p style="font-size:0.85rem; line-height:1.6; color:#444;">
-                <strong style="color:#d93025;">🛡️ Quality Warranty:</strong><br>
-                We promise a <b>100% full refund or compensation</b> if any product quality issues occur.
-            </p>
-        </div>
-    </div>
-</div>
-
-<div id="calcDrawer" class="drawer">
-    <div class="drawer-content">
-        <div class="close-bar" id="closeHandle"></div>
-        <h2 id="mTitle" style="margin:0 0 20px 0; font-size: 1.1rem; text-align: center;">Item Pricing</h2>
-        <div id="mFields"></div>
-        <div class="result-box">
-            <label>UNIT PRICE (USD)</label>
-            <div class="price">$<span id="resPrice">0.00</span></div>
-        </div>
-        <p style="text-align:center; color:#999; font-size:0.65rem; margin-top:15px;">
-            *Exchange rate 1:7. 1.5x Premium Included.
-        </p>
-    </div>
-</div>
-
-<script>
-const DATA = [
-    { type: 'key', name: 'Standard Acrylic Keychain', img: 'k1.jpg', pre: 1.5, multi: 1 },
-    { type: 'key', name: 'CNC Edge Keychain', img: 'k2.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'key', name: 'Iridescent Keychain', img: 'k3.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'key', name: 'Holographic Keychain', img: 'k4.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'badge', name: 'Standard Badge (25-58mm)', img: 'b1.jpg', pre: 1.5, prices: [1.0, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65] },
-    { type: 'badge', name: 'Standard Badge (65-75mm)', img: 'b2.jpg', pre: 1.5, prices: [2.0, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2] },
-    { type: 'badge', name: 'Glitter Round (25-58mm)', img: 'f1.jpg', pre: 1.3, prices: [3.0, 2.5, 2.4, 2.3, 2.1, 1.9, 1.8] },
-    { type: 'badge', name: 'Glitter Round (65-75mm)', img: 'f2.jpg', pre: 1.3, prices: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
-    { type: 'badge', name: 'Glitter Custom Shape', img: 'f4.jpg', pre: 1.3, prices: [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8] },
-    { type: 'stand', name: 'Acrylic Standee (Multi-Part)', img: 's1.jpg', pre: 1.5 }
-];
-
-let selectedItem = null;
-
-function switchTab(t) {
-    document.getElementById('section-calc').className = 'section' + (t==='calc'?' active':'');
-    document.getElementById('section-contact').className = 'section' + (t==='contact'?' active':'');
-    document.getElementById('nav-calc').className = (t==='calc'?'active':'');
-    document.getElementById('nav-contact').className = (t==='contact'?'active':'');
-}
-
-function renderGrid() {
-    const grid = document.getElementById('mainGrid');
-    grid.innerHTML = "";
-    DATA.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.onclick = () => openDrawer(idx);
-        card.innerHTML = `<img src="${item.img}" onerror="this.src='https://via.placeholder.com/100?text=Merch'"><h3>${item.name}</h3>`;
-        grid.appendChild(card);
-    });
-}
-
-function openDrawer(idx) {
-    selectedItem = DATA[idx];
-    document.getElementById('mTitle').innerText = selectedItem.name;
-    const fields = document.getElementById('mFields');
-    fields.innerHTML = "";
-
-    if (selectedItem.type === 'key') {
-        fields.innerHTML = `
-            <div class="input-group"><label>Size L*W (cm)</label><div class="input-row"><input type="number" id="inpL" value="5"> <input type="number" id="inpW" value="5"></div></div>
-            <div class="input-group"><label>Quantity</label><input type="number" id="inpQ" value="100"></div>`;
-    } else if (selectedItem.type === 'badge') {
-        fields.innerHTML = `<div class="input-group"><label>Quantity</label><input type="number" id="inpQ" value="100"></div>`;
-    } else if (selectedItem.type === 'stand') {
-        fields.innerHTML = `
-            <div id="sCont"><div class="input-group"><label>Main Part Size (cm)</label><div class="input-row"><input type="number" class="sL" value="10"> <input type="number" class="sW" value="10"></div></div></div>
-            <button class="btn-add" onclick="addPartRow()">+ Add Sub-Part</button>
-            <div class="input-group"><label>Total Order Quantity</label><input type="number" id="inpQ" value="200"></div>`;
-    }
-    
-    document.getElementById('calcDrawer').style.display = 'flex';
-    document.querySelectorAll('#mFields input').forEach(input => {
-        input.oninput = calculatePrice;
-    });
-    calculatePrice();
-}
-
-function calculatePrice() {
-    const qInput = document.getElementById('inpQ');
-    const q = qInput ? parseInt(qInput.value) || 0 : 0;
-    let res = 0;
-    const getBase = (qty) => {
-        if (qty >= 3000) return 0.025; if (qty >= 2000) return 0.028; if (qty >= 1000) return 0.03;
-        if (qty >= 500) return 0.035; if (qty >= 200) return 0.04; if (qty >= 100) return 0.045; return 0.05;
-    };
-
-    if (selectedItem.type === 'key') {
-        const l = parseFloat(document.getElementById('inpL').value) || 0;
-        const w = parseFloat(document.getElementById('inpW').value) || 0;
-        const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
-        res = (area * getBase(q) * selectedItem.multi * selectedItem.pre) / 7;
-    } else if (selectedItem.type === 'badge') {
-        const idx = q>=3000?6:q>=2000?5:q>=600?4:q>=300?3:q>=100?2:q>=10?1:0;
-        res = (selectedItem.prices[idx] * selectedItem.pre) / 7;
-    } else if (selectedItem.type === 'stand') {
-        let totalRmb = 0;
-        document.querySelectorAll('#sCont .input-row').forEach(row => {
-            const inputs = row.querySelectorAll('input');
-            const l = parseFloat(inputs[0].value) || 0;
-            const w = parseFloat(inputs[1].value) || 0;
-            const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
-            totalRmb += (area * getBase(q) * 1.5);
-        });
-        res = totalRmb / 7;
-    }
-    document.getElementById('resPrice').innerText = res.toFixed(2);
-}
-
-function addPartRow() {
-    const cont = document.getElementById('sCont');
-    const div = document.createElement('div');
-    div.className = 'input-group';
-    div.innerHTML = `<label>Sub-Part Size (cm)</label><div class="input-row"><input type="number" class="sL" value="5"> <input type="number" class="sW" value="5"></div>`;
-    cont.appendChild(div);
-    div.querySelectorAll('input').forEach(i => i.oninput = calculatePrice);
-    calculatePrice();
-}
-
-window.onload = () => {
-    renderGrid();
-    document.getElementById('closeHandle').onclick = () => document.getElementById('calcDrawer').style.display = 'none';
-    document.getElementById('calcDrawer').onclick = (e) => { if(e.target.id === 'calcDrawer') document.getElementById('calcDrawer').style.display = 'none'; };
-};
-</script>
-</body>
-</html>
