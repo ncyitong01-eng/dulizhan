@@ -1,67 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us - SHENYI MERCH</title>
+  <title>联系我们 - 沈义商贸</title>
   <style>
-    body { font-family: Arial, sans-serif; background:#f8f9fa; margin:0; padding:0; color:#333; }
-    header { background:#fff; padding:1rem 2rem; box-shadow:0 2px 10px rgba(0,0,0,0.1); position:sticky; top:0; z-index:100; }
-    nav { max-width:1400px; margin:auto; display:flex; justify-content:space-between; align-items:center; }
-    .logo { font-size:1.8rem; font-weight:bold; color:#e91e63; }
-    .menu a { margin-left:2rem; text-decoration:none; color:#333; font-weight:500; }
-    .container { max-width:900px; margin:40px auto; padding:0 20px; }
-    h1 { text-align:center; color:#e91e63; font-size:2.5rem; margin-bottom:10px; }
-    p.subtitle { text-align:center; color:#666; font-size:1.2rem; margin-bottom:40px; }
-    .card { background:#fff; padding:30px; border-radius:16px; box-shadow:0 5px 20px rgba(0,0,0,0.08); margin-bottom:30px; }
-    .card h3 { color:#e91e63; margin-top:0; font-size:1.5rem; }
-    .btn { display:block; width:100%; padding:16px; margin:12px 0; border-radius:12px; text-align:center; color:#fff; text-decoration:none; font-weight:bold; font-size:1.1rem; }
-    .whatsapp { background:#25D366; }
-    .email { background:#007AFF; }
-    .pdf { background:#333; }
-    .secure h3 { color:#FF6600; }
-    .tag { background:#f2f2f7; padding:6px 12px; border-radius:20px; margin-right:8px; font-size:0.9rem; display:inline-block; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #e91e63;
+    }
+    .menu a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .menu a:hover { color: #e91e63; }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #e91e63;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+    }
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+    }
+    .card h3 {
+      color: #e91e63;
+      margin-top: 0;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      margin: 12px 0;
+      border-radius: 12px;
+      text-align: center;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+    .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+    .whatsapp { background: #25D366; }
+    .email { background: #007AFF; }
+    .pdf { background: #333; }
+    .secure h3 { color: #FF6600; }
+    .tag {
+      background: #f2f2f7;
+      padding: 6px 12px;
+      border-radius: 20px;
+      margin-right: 8px;
+      font-size: 0.9rem;
+      display: inline-block;
+    }
+    #toast {
+      visibility: hidden;
+      min-width: 200px;
+      background: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 50px;
+      padding: 12px;
+      position: fixed;
+      z-index: 3000;
+      left: 50%;
+      bottom: 100px;
+      transform: translateX(-50%);
+      font-size: 0.9rem;
+    }
+    #toast.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 100px; opacity: 1;} }
+    @keyframes fadeout { from {bottom: 100px; opacity: 1;} to {bottom: 0; opacity: 0;} }
   </style>
 </head>
 <body>
 
 <header>
   <nav>
-    <div class="logo">SHENYI MERCH</div>
+    <div class="logo">沈义商贸</div>
     <div class="menu">
-      <a href="/">Home</a>
-      <a href="contact.html">Contact</a>
+      <a href="/">首页</a>
+      <a href="contact.html">联系我们</a>
     </div>
   </nav>
 </header>
 
 <div class="container">
-  <h1>CONTACT US</h1>
-  <p class="subtitle">Ready to help with your order</p>
+  <h1>联系我们</h1>
+  <p class="subtitle">随时准备协助您下单</p>
 
   <div class="card">
-    <h3>Quick Actions</h3>
-    <a href="https://wa.me/8615180463235" class="btn whatsapp">WhatsApp Direct</a>
-    <button onclick="sendEmail()" class="btn email">Send Email (Auto-Copy)</button>
-    <a href="catalog.pdf" target="_blank" class="btn pdf">Product Catalog (PDF)</a>
+    <h3>快速操作</h3>
+    <a href="https://wa.me/8615180463235" class="btn whatsapp">WhatsApp 直接</a>
+    <button onclick="sendEmail()" class="btn email">发送电子邮件（自动复制）</button>
+    <a href="catalog.pdf" target="_blank" class="btn pdf">产品目录（PDF）</a>
   </div>
 
   <div class="card">
-    <h3 class="secure">Secure Payment</h3>
-    <p><strong>⭐ Alibaba Trade Assurance:</strong><br>Highly recommended! It 100% protects your payment security and order quality.</p>
-    <a href="https://yito-badge.en.alibaba.com/" target="_blank" style="color:#FF6600; font-weight:bold; display:inline-block; margin-top:10px;">Visit Our Alibaba Store →</a>
+    <h3 class="secure">安全支付</h3>
+    <p><strong>⭐ 阿里巴巴贸易保障：</strong><br>强烈推荐！它能100%保障您的支付安全和订单质量。</p>
+    <a href="https://yito-badge.en.alibaba.com/" target="_blank" style="color:#FF6600; font-weight:bold; display:inline-block; margin-top:10px;">访问我们的阿里巴巴店铺 →</a>
     <div style="margin-top:15px;">
       <span class="tag">PayPal</span>
-      <span class="tag">Bank Transfer</span>
-      <span class="tag">Other Options</span>
+      <span class="tag">银行转账</span>
+      <span class="tag">其他选项</span>
     </div>
   </div>
 
   <div class="card">
-    <h3>Delivery & Warranty</h3>
-    <p><strong>Lead Time:</strong><br>• 500 pcs: Within 3 days after final proof.<br>• 1000 pcs: Within 6 days after final proof.<br>* Excluding weekends. Epoxy items timeline depends on communication.</p>
+    <h3>交付与保修</h3>
+    <p><strong>交货时间：</strong><br>• 500件：终稿确认后3天内。<br>• 1000件：终稿确认后6天内。<br>* 不含周末。环氧产品时间取决于沟通。</p>
     <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-    <p><strong style="color:#d93025;">Quality Warranty:</strong><br>We promise a <b>100% full refund or compensation</b> if any product quality issues occur.</p>
+    <p><strong style="color:#d93025;">质量保修：</strong><br>我们承诺：若出现任何产品质量问题，将提供<b>100%全额退款或赔偿</b>。</p>
   </div>
 </div>
 
@@ -69,9 +166,17 @@
 function sendEmail() {
   const email = "ncyitong01@gmail.com";
   navigator.clipboard.writeText(email).then(() => {
-    alert("Email copied to clipboard!");
+    const toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.textContent = '邮箱已复制到剪贴板！';
+    document.body.appendChild(toast);
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 3000);
+    }, 2500);
   });
-  window.location.href = `mailto:${email}?subject=Inquiry from SHENYI MERCH&body=Hello, I have questions about your products.`;
+  window.location.href = `mailto:${email}?subject=询价咨询 - 沈义商贸&body=您好，我对贵司产品感兴趣，请提供更多信息。`;
 }
 </script>
 
