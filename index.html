@@ -1,370 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHENYI MERCH Quoting</title>
-    <style>
-        :root {
-            --primary-blue: #007AFF;
-            --bg-gray: #f2f2f7;
-            --card-white: #ffffff;
-            --text-dark: #1c1c1e;
-            --orange: #FF6600;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SHENYI MERCH | Custom Anime Keychains, Badges & Nameplates - 10pcs MOQ</title>
+  <meta name="description" content="Factory direct custom anime merch from China. Acrylic keychains, button badges, nameplates with 10pcs MOQ. Worldwide shipping, fast production." />
+  <style>
+    :root {
+      --primary: #e91e63;
+      --dark: #1a1a1a;
+      --gray: #f5f5f5;
+      --white: #ffffff;
+    }
+    body { font-family: Arial, sans-serif; background: var(--gray); color: var(--dark); margin:0; }
+    header { background: var(--white); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    nav { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.8rem; font-weight: bold; color: var(--primary); }
+    .menu a { margin-left: 2rem; text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
+    .menu a:hover { color: var(--primary); }
+    .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('产品图片文件夹/gongchang-10 (2).jpg'); background-size: cover; background-position: center; height: 60vh; color: white; display: flex; align-items: center; justify-content: center; text-align: center; }
+    .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.5rem; margin-bottom: 2rem; }
+    .btn { background: var(--primary); color: white; padding: 1rem 2.5rem; border-radius: 50px; text-decoration: none; font-weight: bold; transition: all 0.3s; }
+    .btn:hover { background: #c2185b; transform: translateY(-3px); }
+    .section { max-width: 1400px; margin: 4rem auto; padding: 0 2rem; }
+    h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+    .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
+    .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
+    .card img { width: 100%; height: 300px; object-fit: cover; }
+    .card-info { padding: 1.5rem; text-align: center; }
+    .card-info h3 { margin: 0 0 0.8rem; font-size: 1.3rem; }
+    .moq { color: #666; font-size: 0.95rem; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-gray);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-        }
-
-        /* 置顶导航栏 */
-        nav {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            z-index: 1000;
-            box-shadow: 0 1px 10px rgba(0,0,0,0.05);
-            border-bottom: 1px solid #e5e5ea;
-        }
-        nav span {
-            font-weight: 600;
-            color: #8e8e93;
-            cursor: pointer;
-            font-size: 0.9rem;
-            padding: 5px 12px;
-            transition: all 0.2s;
-        }
-        nav span.active {
-            color: var(--primary-blue);
-            border-bottom: 2px solid var(--primary-blue);
-        }
-
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
-        .section { display: none; }
-        .section.active { display: block; }
-
-        header { padding: 10px 0 20px; text-align: center; }
-        header h1 { font-size: 1.4rem; margin: 0; font-weight: 700; color: var(--primary-blue); }
-        header p { font-size: 0.8rem; color: #8e8e93; margin-top: 5px; }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding-bottom: 50px;
-        }
-
-        .card {
-            background: var(--card-white);
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            cursor: pointer;
-        }
-
-        .card img {
-            width: 100%;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 8px;
-            background: #f9f9f9;
-            border-radius: 6px;
-        }
-
-        .card h3 { font-size: 0.75rem; margin: 0; color: #3a3a3c; height: 32px; display: flex; align-items: center; justify-content: center; }
-
-        /* 移动端底部抽屉 */
-        .drawer {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: flex-end;
-        }
-
-        .drawer-content {
-            background: white;
-            width: 100%;
-            border-radius: 20px 20px 0 0;
-            padding: 25px 20px;
-            box-sizing: border-box;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-
-        .close-bar { width: 40px; height: 5px; background: #ddd; border-radius: 10px; margin: -10px auto 20px; cursor: pointer; }
-
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: #666; }
-        .input-row { display: flex; gap: 10px; }
-        
-        input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #e5e5ea;
-            border-radius: 10px;
-            font-size: 1rem;
-            background: #f9f9f9;
-        }
-
-        .result-box {
-            background: #f0f7ff;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .result-box label { font-size: 0.7rem; color: var(--primary-blue); font-weight: 700; }
-        .result-box .price { font-size: 2.2rem; color: var(--primary-blue); font-weight: 800; }
-
-        .btn-add {
-            width: 100%; padding: 10px; background: #f2f2f7;
-            border: 1px dashed #c7c7cc; border-radius: 8px;
-            color: #3a3a3c; font-size: 0.8rem; margin-bottom: 15px;
-        }
-
-        /* 联系页面样式 */
-        .contact-card { background: #fff; padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-        .contact-btn {
-            display: block; text-decoration: none; padding: 15px; border-radius: 10px;
-            margin-bottom: 10px; text-align: center; font-weight: bold; color: #fff;
-            cursor: pointer; border: none; width: 100%; box-sizing: border-box; font-size: 1rem;
-        }
-        .tag { background: #f2f2f7; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; margin-right: 5px; color: #666; }
-
-        /* Toast 提示样式 */
-        #toast {
-            visibility: hidden; min-width: 200px; background-color: #333; color: #fff;
-            text-align: center; border-radius: 50px; padding: 12px;
-            position: fixed; z-index: 3000; left: 50%; bottom: 100px;
-            transform: translateX(-50%); font-size: 0.8rem;
-        }
-        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2s; }
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 100px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 100px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-    </style>
+    /* 弹窗 */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-content { background: white; width: 90%; max-width: 600px; max-height: 90vh; border-radius: 15px; overflow-y: auto; padding: 25px; position: relative; }
+    .close { position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer; color: #999; }
+    .modal-img { width: 100%; max-height: 300px; object-fit: contain; border-radius: 10px; margin-bottom: 15px; background: #f9f9f9; }
+    .input-group { margin-bottom: 15px; }
+    .input-group label { display: block; font-weight: bold; margin-bottom: 6px; }
+    input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+    .result { margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 10px; text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+    .result small { font-size: 0.9rem; color: #666; display: block; margin-top: 8px; }
+    .action-btn { display: block; width: 100%; padding: 12px; margin-top: 15px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; cursor: pointer; }
+    .whatsapp-btn { background: #25D366; color: white; }
+    .email-btn { background: #007AFF; color: white; }
+    .pdf-btn { background: #333; color: white; }
+    #toast { visibility: hidden; min-width: 200px; background: #333; color: white; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 3000; left: 50%; bottom: 100px; transform: translateX(-50%); font-size: 0.9rem; }
+    #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+    @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 100px; opacity: 1;} }
+    @keyframes fadeout { from {bottom: 100px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+  </style>
 </head>
 <body>
 
-<nav>
-    <span id="nav-calc" class="active" onclick="switchTab('calc')">Pricing System</span>
-    <span id="nav-contact" onclick="switchTab('contact')">Contact Us</span>
-</nav>
-
-<div class="container">
-    <div id="section-calc" class="section active">
-        <header>
-            <h1>SHENYI MERCH</h1>
-            <p>Smart Quote Tool</p>
-        </header>
-        <div class="grid" id="mainGrid"></div>
+<header>
+  <nav>
+    <div class="logo">SHENYI MERCH</div>
+    <div class="menu">
+      <a href="#">Home</a>
+      <a href="#">Keychains</a>
+      <a href="#">Badges</a>
+      <a href="#">Nameplates</a>
+      <a href="#">Contact</a>
     </div>
+  </nav>
+</header>
 
-    <div id="section-contact" class="section">
-        <header>
-            <h1>CONTACT US</h1>
-            <p>Ready to help with your order</p>
-        </header>
-
-        <div class="contact-card">
-            <h3 style="margin-top:0; font-size:1rem;">Quick Actions</h3>
-            <a href="https://wa.me/8615180463235" class="contact-btn" style="background: #25D366;">WhatsApp Direct</a>
-            
-            <button onclick="handleEmailClick('ncyitong01@gmail.com')" class="contact-btn" style="background: var(--primary-blue);">
-                Send Email (Auto-Copy)
-            </button>
-            
-            <a href="catalog.pdf" target="_blank" class="contact-btn" style="background: #333;">Product Catalog (PDF)</a>
-        </div>
-
-        <div class="contact-card">
-            <h3 style="margin-top:0; font-size:1rem; color:var(--orange);">Secure Payment</h3>
-            <p style="font-size:0.85rem; line-height:1.5;">
-                <strong>⭐ Alibaba Trade Assurance:</strong><br>
-                Highly recommended! It 100% protects your payment security and order quality.<br><br>
-                <a href="https://yito-badge.en.alibaba.com/zh_CN/company_profile.html" target="_blank" style="color:var(--orange); font-weight:bold;">Visit Our Alibaba Store →</a>
-            </p>
-            <div style="margin-top:10px;">
-                <span class="tag">PayPal</span><span class="tag">Bank Transfer</span><span class="tag">Other Options</span>
-            </div>
-        </div>
-
-        <div class="contact-card">
-            <h3 style="margin-top:0; font-size:1rem;">Delivery & Warranty</h3>
-            <p style="font-size:0.85rem; line-height:1.6; color:#444;">
-                <strong>🕒 Lead Time:</strong><br>
-                • 500 pcs: Within 3 days after final proof.<br>
-                • 1000 pcs: Within 6 days after final proof.<br>
-                <small>* Excluding weekends. Epoxy items timeline depends on communication.</small>
-            </p>
-            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
-            <p style="font-size:0.85rem; line-height:1.6; color:#444;">
-                <strong style="color:#d93025;">🛡️ Quality Warranty:</strong><br>
-                We promise a <b>100% full refund or compensation</b> if any product quality issues occur.
-            </p>
-        </div>
-    </div>
+<div class="hero">
+  <div>
+    <h1>Custom Anime Peripherals</h1>
+    <p>10pcs MOQ • Factory Direct from China • Worldwide Shipping</p>
+    <a href="#products" class="btn">Browse Products</a>
+  </div>
 </div>
 
-<div id="calcDrawer" class="drawer">
-    <div class="drawer-content">
-        <div class="close-bar" id="closeHandle"></div>
-        <h2 id="mTitle" style="margin:0 0 20px 0; font-size: 1.1rem; text-align: center;">Item Pricing</h2>
-        <div id="mFields"></div>
-        <div class="result-box">
-            <label>UNIT PRICE (USD)</label>
-            <div class="price">$<span id="resPrice">0.00</span></div>
-        </div>
-        <p style="text-align:center; color:#999; font-size:0.65rem; margin-top:15px;">
-            *Exchange rate 1:7. 1.5x Premium Included.
-        </p>
-    </div>
+<div class="section" id="products">
+  <h2>All Products</h2>
+  <div class="grid" id="productGrid"></div>
+</div>
+
+<!-- 产品详情弹窗 -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">×</span>
+    <h2 id="modalTitle"></h2>
+    <img id="modalMainImg" class="modal-img" src="" alt="Product">
+    <p id="modalDesc"></p>
+    <p id="modalFeatures"><strong>Key Features:</strong> </p>
+    <p id="modalNotes"><strong>Notes:</strong> </p>
+
+    <div id="modalInputs"></div>
+
+    <button onclick="calculatePrice()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:1rem; margin:15px 0;">Calculate Price</button>
+
+    <div id="result" class="result">Price will appear here...</div>
+
+    <a id="whatsappBtn" class="action-btn whatsapp-btn" href="#" target="_blank">WhatsApp Quote</a>
+    <button id="emailBtn" class="action-btn email-btn" onclick="sendEmail()">Send Email (Auto-Copy)</button>
+    <a href="catalog.pdf" target="_blank" class="action-btn pdf-btn">Product Catalog (PDF)</a>
+  </div>
 </div>
 
 <div id="toast">Email Copied to Clipboard!</div>
 
 <script>
-const DATA = [
-    { type: 'key', name: 'Standard Acrylic Keychain', img: 'k1.jpg', pre: 1.5, multi: 1 },
-    { type: 'key', name: 'CNC Edge Keychain', img: 'k2.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'key', name: 'Iridescent Keychain', img: 'k3.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'key', name: 'Holographic Keychain', img: 'k4.jpg', pre: 1.5, multi: 1.5 },
-    { type: 'badge', name: 'Standard Badge (25-58mm)', img: 'b1.jpg', pre: 1.5, prices: [1.0, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65] },
-    { type: 'badge', name: 'Standard Badge (65-75mm)', img: 'b2.jpg', pre: 1.5, prices: [2.0, 1.8, 1.6, 1.5, 1.4, 1.3, 1.2] },
-    { type: 'badge', name: 'Glitter Round (25-58mm)', img: 'f1.jpg', pre: 1.3, prices: [3.0, 2.5, 2.4, 2.3, 2.1, 1.9, 1.8] },
-    { type: 'badge', name: 'Glitter Round (65-75mm)', img: 'f2.jpg', pre: 1.3, prices: [3.5, 3.2, 2.9, 2.7, 2.3, 2.1, 2.0] },
-    { type: 'badge', name: 'Glitter Custom Shape', img: 'f4.jpg', pre: 1.3, prices: [5.0, 3.7, 3.5, 3.3, 3.0, 2.9, 2.8] },
-    { type: 'stand', name: 'Acrylic Standee (Multi-Part)', img: 's1.jpg', pre: 1.5 }
+// 9款产品数据（已匹配你的表格信息）
+const products = [
+  { name: "Double-sided acrylic keychain", img: "产品图片文件夹/Double-sided acrylic keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ 10 pieces, thickness 4mm by default, content double-sided by default, lead time for orders under 1000 pieces is within 7 days, sample production is within 2 days.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 1.5 },
+  { name: "Keychain accessory diagram", img: "产品图片文件夹/Holographic acrylic keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ 10 pieces, The surface features a glass-like projection. Under the light, it will exhibit different color variations. The cutting methods available are laser and CNC.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
+  { name: "Rainbow Acrylic Keychain", img: "产品图片文件夹/Rainbow Acrylic Keychain01.jpg", type: "key", moq: "10 pieces", desc: "Minimum order quantity is 10 pieces. The background features rainbow-like light changes. It can be paired with single-sided/double-sided epoxy resin. The cutting methods include laser/CNC.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
+  { name: "Shiny keychain", img: "产品图片文件夹/Shiny keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ10, The acrylic material is composed of evenly distributed reflective particles, and it is cut using laser/CNC technology.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
+  { name: "Single-sided epoxy keychain", img: "产品图片文件夹/Single-sided epoxy keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ10, Single-sided epoxy drop coating, the keychain is overall round and prominent.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
+  { name: "Double-sided epoxy keychain", img: "产品图片文件夹/Single-sided epoxy keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ10, double-sided epoxy dip coating process. This keychain is in a circular shape and has a striking design.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
+  { name: "Transparent acrylic nameplate", img: "产品图片文件夹/Transparent acrylic nameplate01.jpg", type: "stand", moq: "10 pieces", desc: "MOQ10 can be in various types such as three-pin, four-pin, etc.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 1.5 },
+  { name: "Standard button badge", img: "产品图片文件夹/Standard button badge01.jpg", type: "badge", moq: "10 pieces", desc: "Standard button badges are available in sizes ranging from 25mm to 75mm. They can meet most of the requirements for button badges. Production can be completed within 7 days for quantities up to 5000.", features: "Minimum order quantity is 10 units. Affordable price, SF600 printing nozzle, 14 types of laminating films available for selection.", notes: "Popular in anime fans, fast production", pre: 1.5 },
+  { name: "Double flash button badge", img: "产品图片文件夹/Double flash button badge01.jpg", type: "badge", moq: "10 pieces", desc: "Minimum order quantity is ten. Different metallic bases can produce different shining effects.", features: "There are as many as 22 different sizes to choose from, and over 70 colors for the glitter coating. The minimum order quantity is 10 pieces, ensuring that we can fully meet your needs.", notes: "Popular in anime fans, fast production", pre: 1.3 }
 ];
 
-let selectedItem = null;
+// 生成主页网格
+const grid = document.getElementById('productGrid');
+products.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <img src="${p.img}" alt="${p.name}">
+    <div class="card-info">
+      <h3>${p.name}</h3>
+      <div class="moq">MOQ: ${p.moq}</div>
+      <p>${p.desc.substring(0, 80)}...</p>
+    </div>
+  `;
+  card.onclick = () => showModal(i);
+  grid.appendChild(card);
+});
 
-function switchTab(t) {
-    document.getElementById('section-calc').className = 'section' + (t==='calc'?' active':'');
-    document.getElementById('section-contact').className = 'section' + (t==='contact'?' active':'');
-    document.getElementById('nav-calc').className = (t==='calc'?'active':'');
-    document.getElementById('nav-contact').className = (t==='contact'?'active':'');
+// 显示弹窗
+function showModal(i) {
+  const p = products[i];
+  document.getElementById('modalTitle').textContent = p.name;
+  document.getElementById('modalMainImg').src = p.img;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalFeatures').innerHTML = `<strong>Key Features:</strong> ${p.features}`;
+  document.getElementById('modalNotes').innerHTML = `<strong>Notes:</strong> ${p.notes}`;
+
+  const inputs = document.getElementById('modalInputs');
+  inputs.innerHTML = '';
+
+  if (p.type === 'key' || p.type === 'stand') {
+    inputs.innerHTML = `
+      <div class="input-group"><label>Length (cm)</label><input type="number" id="length" min="1" value="5" step="0.1"></div>
+      <div class="input-group"><label>Width (cm)</label><input type="number" id="width" min="1" value="5" step="0.1"></div>
+      <div class="input-group"><label>Quantity</label><input type="number" id="qty" min="1" value="10"></div>
+    `;
+  } else if (p.type === 'badge') {
+    inputs.innerHTML = `
+      <div class="input-group"><label>Quantity</label><input type="number" id="qty" min="1" value="100"></div>
+    `;
+  }
+
+  inputs.querySelectorAll('input').forEach(inp => inp.oninput = () => calcPrice(i));
+  calcPrice(i);
+
+  document.getElementById('productModal').style.display = 'flex';
 }
 
-function renderGrid() {
-    const grid = document.getElementById('mainGrid');
-    grid.innerHTML = "";
-    DATA.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.onclick = () => openDrawer(idx);
-        card.innerHTML = `<img src="${item.img}" onerror="this.src='https://via.placeholder.com/100?text=Merch'"><h3>${item.name}</h3>`;
-        grid.appendChild(card);
-    });
+// 计算价格
+function calcPrice(i) {
+  const p = products[i];
+  const qty = parseInt(document.getElementById('qty')?.value) || 10;
+  let price = 0;
+
+  const getBase = q => {
+    if (q >= 3000) return 0.025;
+    if (q >= 2000) return 0.028;
+    if (q >= 1000) return 0.030;
+    if (q >= 500) return 0.035;
+    if (q >= 200) return 0.040;
+    if (q >= 100) return 0.045;
+    return 0.050;
+  };
+
+  if (p.type === 'key' || p.type === 'stand') {
+    const l = parseFloat(document.getElementById('length')?.value) || 5;
+    const w = parseFloat(document.getElementById('width')?.value) || 5;
+    const area = qty >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
+    const base = getBase(qty);
+    price = (area * base * (p.multi || 1.0) * (p.pre || 1.5)) / 7;
+  } else if (p.type === 'badge') {
+    const idx = qty >= 3000 ? 6 : qty >= 2000 ? 5 : qty >= 600 ? 4 : qty >= 300 ? 3 : qty >= 100 ? 2 : qty >= 10 ? 1 : 0;
+    const prices = [1.0, 0.95, 0.9, 0.8, 0.7, 0.67, 0.65];
+    price = (prices[idx] * (p.pre || 1.5)) / 7;
+  }
+
+  const total = price * qty;
+  document.getElementById('result').innerHTML = `
+    单价: $${price.toFixed(2)} USD<br>
+    <strong>总价: $${total.toFixed(2)} USD</strong><br>
+    <small>Quantity: ${qty} pcs | Unit: cm</small>
+  `;
+
+  // 更新WhatsApp
+  const msg = encodeURIComponent(`报价咨询：${p.name}\n尺寸：${document.getElementById('length')?.value || ''}×${document.getElementById('width')?.value || ''} cm\n数量：${qty}\n单价：$${price.toFixed(2)} USD\n总价：$${total.toFixed(2)} USD`);
+  document.getElementById('whatsappBtn').href = `https://wa.me/8615180463235?text=${msg}`;
 }
 
-function openDrawer(idx) {
-    selectedItem = DATA[idx];
-    document.getElementById('mTitle').innerText = selectedItem.name;
-    const fields = document.getElementById('mFields');
-    fields.innerHTML = "";
-
-    if (selectedItem.type === 'key') {
-        fields.innerHTML = `
-            <div class="input-group"><label>Size L*W (cm)</label><div class="input-row"><input type="number" id="inpL" value="5"> <input type="number" id="inpW" value="5"></div></div>
-            <div class="input-group"><label>Quantity</label><input type="number" id="inpQ" value="100"></div>`;
-    } else if (selectedItem.type === 'badge') {
-        fields.innerHTML = `<div class="input-group"><label>Quantity</label><input type="number" id="inpQ" value="100"></div>`;
-    } else if (selectedItem.type === 'stand') {
-        fields.innerHTML = `
-            <div id="sCont"><div class="input-group"><label>Main Part Size (cm)</label><div class="input-row"><input type="number" class="sL" value="10"> <input type="number" class="sW" value="10"></div></div></div>
-            <button class="btn-add" onclick="addPartRow()">+ Add Sub-Part</button>
-            <div class="input-group"><label>Total Order Quantity</label><input type="number" id="inpQ" value="200"></div>`;
-    }
-    
-    document.getElementById('calcDrawer').style.display = 'flex';
-    document.querySelectorAll('#mFields input').forEach(input => {
-        input.oninput = calculatePrice;
-    });
-    calculatePrice();
+// 关闭弹窗
+function closeModal() {
+  document.getElementById('productModal').style.display = 'none';
 }
 
-function calculatePrice() {
-    const qInput = document.getElementById('inpQ');
-    const q = qInput ? parseInt(qInput.value) || 0 : 0;
-    let res = 0;
-    const getBase = (qty) => {
-        if (qty >= 3000) return 0.025; if (qty >= 2000) return 0.028; if (qty >= 1000) return 0.03;
-        if (qty >= 500) return 0.035; if (qty >= 200) return 0.04; if (qty >= 100) return 0.045; return 0.05;
-    };
-
-    if (selectedItem.type === 'key') {
-        const l = parseFloat(document.getElementById('inpL').value) || 0;
-        const w = parseFloat(document.getElementById('inpW').value) || 0;
-        const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
-        res = (area * getBase(q) * selectedItem.multi * selectedItem.pre) / 7;
-    } else if (selectedItem.type === 'badge') {
-        const idx = q>=3000?6:q>=2000?5:q>=600?4:q>=300?3:q>=100?2:q>=10?1:0;
-        res = (selectedItem.prices[idx] * selectedItem.pre) / 7;
-    } else if (selectedItem.type === 'stand') {
-        let totalRmb = 0;
-        document.querySelectorAll('#sCont .input-row').forEach(row => {
-            const inputs = row.querySelectorAll('input');
-            const l = parseFloat(inputs[0].value) || 0;
-            const w = parseFloat(inputs[1].value) || 0;
-            const area = q >= 200 ? (l + 0.5) * (w + 0.5) : l * w;
-            totalRmb += (area * getBase(q) * 1.5);
-        });
-        res = totalRmb / 7;
-    }
-    document.getElementById('resPrice').innerText = res.toFixed(2);
-}
-
-function addPartRow() {
-    const cont = document.getElementById('sCont');
-    const div = document.createElement('div');
-    div.className = 'input-group';
-    div.innerHTML = `<label>Sub-Part Size (cm)</label><div class="input-row"><input type="number" class="sL" value="5"> <input type="number" class="sW" value="5"></div>`;
-    cont.appendChild(div);
-    div.querySelectorAll('input').forEach(i => i.oninput = calculatePrice);
-    calculatePrice();
-}
-
-// 邮件处理核心函数
-function handleEmailClick(email) {
-    // 1. 尝试打开邮件客户端
-    window.location.href = "mailto:" + email;
-
-    // 2. 复制到剪贴板
-    const tempInput = document.createElement("input");
-    tempInput.value = email;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    tempInput.setSelectionRange(0, 99999); // 适配移动端
-    document.execCommand("copy");
-    document.body.removeChild(tempInput);
-
-    // 3. 显示提示
+// 发送邮件 + 复制
+function sendEmail() {
+  const email = "ncyitong01@gmail.com";
+  navigator.clipboard.writeText(email).then(() => {
     showToast();
+  });
+  window.location.href = `mailto:${email}?subject=报价咨询&body=您好，我对贵司产品感兴趣，请提供更多信息。`;
 }
 
 function showToast() {
-    const toast = document.getElementById("toast");
-    toast.className = "show";
-    setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
-window.onload = () => {
-    renderGrid();
-    document.getElementById('closeHandle').onclick = () => document.getElementById('calcDrawer').style.display = 'none';
-    document.getElementById('calcDrawer').onclick = (e) => { if(e.target.id === 'calcDrawer') document.getElementById('calcDrawer').style.display = 'none'; };
+// 初始化
+document.getElementById('productModal').onclick = e => {
+  if (e.target === document.getElementById('productModal')) closeModal();
 };
 </script>
+
 </body>
 </html>
