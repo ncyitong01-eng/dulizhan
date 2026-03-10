@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -25,7 +25,7 @@
     .card-info h3 { margin: 0 0 0.8rem; font-size: 1.3rem; }
     .moq { color: #666; font-size: 0.95rem; }
 
-    /* 弹窗 */
+    /* Modal */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
     .modal-content { background: white; width: 90%; max-width: 600px; max-height: 90vh; border-radius: 15px; overflow-y: auto; padding: 25px; position: relative; }
     .close { position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer; color: #999; }
@@ -50,8 +50,8 @@
   <nav>
     <div class="logo">SHENYI MERCH</div>
     <div class="menu">
-      <a href="/">首页</a>
-      <a href="/contact.html">联系我们</a>
+      <a href="/">Home</a>
+      <a href="/contact.html">Contact Us</a>
     </div>
   </nav>
 </header>
@@ -69,7 +69,7 @@
   <div class="grid" id="productGrid"></div>
 </div>
 
-<!-- 产品详情弹窗 -->
+<!-- Product Modal -->
 <div id="productModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">×</span>
@@ -81,9 +81,9 @@
 
     <div id="modalInputs"></div>
 
-    <button onclick="calculatePrice()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:1rem; margin:15px 0;">计算价格</button>
+    <button onclick="calculatePrice()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:1rem; margin:15px 0;">Calculate Price</button>
 
-    <div id="result" class="result">点击按钮后显示价格</div>
+    <div id="result" class="result">Click button to show price</div>
 
     <a id="whatsappBtn" class="action-btn whatsapp-btn" href="#" target="_blank">WhatsApp Quote</a>
     <button class="action-btn email-btn" onclick="sendEmail()">Send Email (Auto-Copy)</button>
@@ -94,7 +94,7 @@
 <div id="toast">Email Copied to Clipboard!</div>
 
 <script>
-// 9款产品数据（已按你要求调整系数）
+// 9 products with your price multipliers
 const products = [
   { name: "Double-sided acrylic keychain", img: "产品图片文件夹/Double-sided acrylic keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ 10 pieces, thickness 4mm by default, content double-sided by default, lead time for orders under 1000 pieces is within 7 days, sample production is within 2 days.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 1.5 },
   { name: "Keychain accessory diagram", img: "产品图片文件夹/Holographic acrylic keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ 10 pieces, The surface features a glass-like projection. Under the light, it will exhibit different color variations. The cutting methods available are laser and CNC.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
@@ -107,7 +107,6 @@ const products = [
   { name: "Double flash button badge", img: "产品图片文件夹/Double flash button badge01.jpg", type: "badge", moq: "10 pieces", desc: "Minimum order quantity is ten. Different metallic bases can produce different shining effects.", features: "There are as many as 22 different sizes to choose from, and over 70 colors for the glitter coating. The minimum order quantity is 10 pieces, ensuring that we can fully meet your needs.", notes: "Popular in anime fans, fast production", pre: 1.3 }
 ];
 
-// 生成产品网格
 const grid = document.getElementById('productGrid');
 products.forEach((p, i) => {
   const card = document.createElement('div');
@@ -139,7 +138,7 @@ function showModal(i) {
      <div class="input-group"><label>Quantity</label><input type="number" id="qty" value="10"></div>` :
     `<div class="input-group"><label>Quantity</label><input type="number" id="qty" value="100"></div>`;
 
-  document.getElementById('result').innerHTML = '点击“计算价格”按钮后显示结果';
+  document.getElementById('result').innerHTML = 'Click "Calculate Price" to show result';
   document.getElementById('productModal').style.display = 'flex';
 }
 
@@ -147,11 +146,9 @@ function closeModal() {
   document.getElementById('productModal').style.display = 'none';
 }
 
-// 计算价格（按钮触发，不再实时）
 function calculatePrice() {
-  const i = Array.from(document.querySelectorAll('.card')).findIndex(card => card.onclick.toString().includes('showModal'));
-  // 实际使用当前打开的弹窗索引（简化处理）
-  const p = products[0]; // 临时简化，实际可优化为当前索引
+  // Simplified - using first product for demo. In real use we would track current modal index
+  const p = products[0]; // placeholder - in full version we track index
   const qty = parseInt(document.getElementById('qty').value) || 10;
   let price = 0;
 
@@ -169,7 +166,7 @@ function calculatePrice() {
   }
 
   const total = price * qty;
-  document.getElementById('result').innerHTML = `单价: $${price.toFixed(2)} USD<br><strong>总价: $${total.toFixed(2)} USD</strong><br><small>Quantity: ${qty} pcs | Unit: cm</small>`;
+  document.getElementById('result').innerHTML = `Unit Price: $${price.toFixed(2)} USD<br><strong>Total: $${total.toFixed(2)} USD</strong><br><small>Quantity: ${qty} pcs | Unit: cm</small>`;
 }
 
 function sendEmail() {
@@ -179,7 +176,7 @@ function sendEmail() {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2500);
   });
-  window.location.href = `mailto:${email}?subject=询价咨询 - SHENYI MERCH`;
+  window.location.href = `mailto:${email}?subject=Product Inquiry`;
 }
 </script>
 
