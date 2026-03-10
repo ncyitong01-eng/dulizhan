@@ -11,7 +11,7 @@
     nav { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .logo { font-size: 1.8rem; font-weight: bold; color: var(--primary); }
     .menu a { margin-left: 2rem; text-decoration: none; color: var(--dark); font-weight: 500; }
-    .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('产品图片文件夹/gongchang-10 (2).jpg'); background-size: cover; background-position: center; height: 60vh; color: white; display: flex; align-items: center; justify-content: center; text-align: center; }
+    .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1400x600/333/fff?text=SHENYI+MERCH+Hero'); background-size: cover; background-position: center; height: 60vh; color: white; display: flex; align-items: center; justify-content: center; text-align: center; }
     .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
     .hero p { font-size: 1.5rem; margin-bottom: 2rem; }
     .btn { background: var(--primary); color: white; padding: 1rem 2.5rem; border-radius: 50px; text-decoration: none; font-weight: bold; }
@@ -74,7 +74,7 @@
   <div class="modal-content">
     <span class="close" onclick="closeModal()">×</span>
     <h2 id="modalTitle"></h2>
-    <img id="modalMainImg" class="modal-img" src="" alt="Product" loading="lazy" onerror="this.src='https://via.placeholder.com/600x300?text=Image+Not+Found';">
+    <img id="modalMainImg" class="modal-img" src="https://via.placeholder.com/600x300?text=Product+Image" alt="Product">
     <p id="modalDesc"></p>
     <p id="modalFeatures"><strong>Key Features:</strong> </p>
     <p id="modalNotes"><strong>Notes:</strong> </p>
@@ -83,7 +83,7 @@
 
     <button onclick="calculatePrice()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:1rem; margin:15px 0;">Calculate Price</button>
 
-    <div id="result" class="result">Click button to show price</div>
+    <div id="result" class="result">Click button to show result</div>
 
     <a id="whatsappBtn" class="action-btn whatsapp-btn" href="#" target="_blank">WhatsApp Quote</a>
     <button class="action-btn email-btn" onclick="sendEmail()">Send Email (Auto-Copy)</button>
@@ -94,17 +94,17 @@
 <div id="toast">Email Copied to Clipboard!</div>
 
 <script>
-// 9 products with your price multipliers
+// 9 products - using placeholder images only
 const products = [
-  { name: "Double-sided acrylic keychain", img: "产品图片文件夹/Double-sided acrylic keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ 10 pieces, thickness 4mm by default, content double-sided by default, lead time for orders under 1000 pieces is within 7 days, sample production is within 2 days.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 1.5 },
-  { name: "Keychain accessory diagram", img: "产品图片文件夹/Holographic acrylic keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ 10 pieces, The surface features a glass-like projection. Under the light, it will exhibit different color variations. The cutting methods available are laser and CNC.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
-  { name: "Rainbow Acrylic Keychain", img: "产品图片文件夹/Rainbow Acrylic Keychain01.jpg", type: "key", moq: "10 pieces", desc: "Minimum order quantity is 10 pieces. The background features rainbow-like light changes. It can be paired with single-sided/double-sided epoxy resin. The cutting methods include laser/CNC.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
-  { name: "Shiny keychain", img: "产品图片文件夹/Shiny keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ10, The acrylic material is composed of evenly distributed reflective particles, and it is cut using laser/CNC technology.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
-  { name: "Single-sided epoxy keychain", img: "产品图片文件夹/Single-sided epoxy keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ10, Single-sided epoxy drop coating, the keychain is overall round and prominent.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 2.0 },
-  { name: "Double-sided epoxy keychain", img: "产品图片文件夹/Single-sided epoxy keychain01.jpg", type: "key", moq: "10 pieces", desc: "MOQ10, double-sided epoxy dip coating process. This keychain is in a circular shape and has a striking design.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 3.0 },
-  { name: "Transparent acrylic nameplate", img: "产品图片文件夹/Transparent acrylic nameplate01.jpg", type: "stand", moq: "10 pieces", desc: "MOQ10 can be in various types such as three-pin, four-pin, etc.", features: "We use imported high-transparency acrylic, with a default thickness of 4mm (please contact me if you have other requirements). Cutting processes include laser cutting and CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 1.5 },
-  { name: "Standard button badge", img: "产品图片文件夹/Standard button badge01.jpg", type: "badge", moq: "10 pieces", desc: "Standard button badges are available in sizes ranging from 25mm to 75mm. They can meet most of the requirements for button badges. Production can be completed within 7 days for quantities up to 5000.", features: "Minimum order quantity is 10 units. Affordable price, SF600 printing nozzle, 14 types of laminating films available for selection.", notes: "Popular in anime fans, fast production", pre: 1.5 },
-  { name: "Double flash button badge", img: "产品图片文件夹/Double flash button badge01.jpg", type: "badge", moq: "10 pieces", desc: "Minimum order quantity is ten. Different metallic bases can produce different shining effects.", features: "There are as many as 22 different sizes to choose from, and over 70 colors for the glitter coating. The minimum order quantity is 10 pieces, ensuring that we can fully meet your needs.", notes: "Popular in anime fans, fast production", pre: 1.3 }
+  { name: "Double-sided acrylic keychain", img: "https://via.placeholder.com/280x300/eee/333?text=Double-sided+Keychain", type: "key", moq: "10 pieces", desc: "MOQ 10 pieces, thickness 4mm by default, content double-sided by default...", features: "Imported high-transparency acrylic, laser & CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 1.5 },
+  { name: "Keychain accessory diagram", img: "https://via.placeholder.com/280x300/eee/333?text=Keychain+Diagram", type: "key", moq: "10 pieces", desc: "MOQ 10 pieces, The surface features a glass-like projection...", features: "Imported high-transparency acrylic, laser & CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
+  { name: "Rainbow Acrylic Keychain", img: "https://via.placeholder.com/280x300/eee/333?text=Rainbow+Keychain", type: "key", moq: "10 pieces", desc: "Minimum order quantity is 10 pieces. The background features rainbow-like light changes...", features: "Imported high-transparency acrylic, laser & CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
+  { name: "Shiny keychain", img: "https://via.placeholder.com/280x300/eee/333?text=Shiny+Keychain", type: "key", moq: "10 pieces", desc: "MOQ10, The acrylic material is composed of evenly distributed reflective particles...", features: "Imported high-transparency acrylic, laser & CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.5, pre: 1.5 },
+  { name: "Single-sided epoxy keychain", img: "https://via.placeholder.com/280x300/eee/333?text=Single-sided+Epoxy", type: "key", moq: "10 pieces", desc: "MOQ10, Single-sided epoxy drop coating...", features: "Imported high-transparency acrylic, laser & CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 2.0 },
+  { name: "Double-sided epoxy keychain", img: "https://via.placeholder.com/280x300/eee/333?text=Double-sided+Epoxy", type: "key", moq: "10 pieces", desc: "MOQ10, double-sided epoxy dip coating process...", features: "Imported high-transparency acrylic, laser & CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 3.0 },
+  { name: "Transparent acrylic nameplate", img: "https://via.placeholder.com/280x300/eee/333?text=Nameplate", type: "stand", moq: "10 pieces", desc: "MOQ10 can be in various types such as three-pin, four-pin, etc.", features: "Imported high-transparency acrylic, laser & CNC cutting.", notes: "Popular in anime fans, fast production", multi: 1.0, pre: 1.5 },
+  { name: "Standard button badge", img: "https://via.placeholder.com/280x300/eee/333?text=Standard+Badge", type: "badge", moq: "10 pieces", desc: "Standard button badges are available in sizes ranging from 25mm to 75mm...", features: "Minimum order quantity is 10 units. Affordable price...", notes: "Popular in anime fans, fast production", pre: 1.5 },
+  { name: "Double flash button badge", img: "https://via.placeholder.com/280x300/eee/333?text=Double+Flash+Badge", type: "badge", moq: "10 pieces", desc: "Minimum order quantity is ten. Different metallic bases can produce different shining effects.", features: "There are as many as 22 different sizes to choose from...", notes: "Popular in anime fans, fast production", pre: 1.3 }
 ];
 
 const grid = document.getElementById('productGrid');
@@ -112,7 +112,7 @@ products.forEach((p, i) => {
   const card = document.createElement('div');
   card.className = 'card';
   card.innerHTML = `
-    <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/280x300?text=Loading...';">
+    <img src="${p.img}" alt="${p.name}">
     <div class="card-info">
       <h3>${p.name}</h3>
       <div class="moq">MOQ: ${p.moq}</div>
@@ -147,8 +147,7 @@ function closeModal() {
 }
 
 function calculatePrice() {
-  // Simplified - using first product for demo. In real use we would track current modal index
-  const p = products[0]; // placeholder - in full version we track index
+  const p = products[0]; // placeholder for test version
   const qty = parseInt(document.getElementById('qty').value) || 10;
   let price = 0;
 
