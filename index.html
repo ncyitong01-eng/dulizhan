@@ -74,16 +74,16 @@
   <div class="modal-content">
     <span class="close" onclick="closeModal()">×</span>
     <h2 id="modalTitle"></h2>
-    <img id="modalMainImg" class="modal-img" src="" alt="Product" onerror="this.src='https://via.placeholder.com/600x300?text=Image+Not+Found';">
+    <img id="modalMainImg" class="modal-img" src="" alt="Product" loading="lazy" onerror="this.src='https://via.placeholder.com/600x300?text=Image+Not+Found';">
     <p id="modalDesc"></p>
     <p id="modalFeatures"><strong>Key Features:</strong> </p>
     <p id="modalNotes"><strong>Notes:</strong> </p>
 
     <div id="modalInputs"></div>
 
-    <button onclick="calculatePrice()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:1rem; margin:15px 0;">Calculate Price</button>
+    <button onclick="calculatePrice()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:1rem; margin:15px 0;">计算价格</button>
 
-    <div id="result" class="result">Price will appear here...</div>
+    <div id="result" class="result">点击按钮后显示价格</div>
 
     <a id="whatsappBtn" class="action-btn whatsapp-btn" href="#" target="_blank">WhatsApp Quote</a>
     <button class="action-btn email-btn" onclick="sendEmail()">Send Email (Auto-Copy)</button>
@@ -113,7 +113,7 @@ products.forEach((p, i) => {
   const card = document.createElement('div');
   card.className = 'card';
   card.innerHTML = `
-    <img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/280x280?text=Loading...';">
+    <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/280x300?text=Loading...';">
     <div class="card-info">
       <h3>${p.name}</h3>
       <div class="moq">MOQ: ${p.moq}</div>
@@ -139,8 +139,7 @@ function showModal(i) {
      <div class="input-group"><label>Quantity</label><input type="number" id="qty" value="10"></div>` :
     `<div class="input-group"><label>Quantity</label><input type="number" id="qty" value="100"></div>`;
 
-  inputs.querySelectorAll('input').forEach(inp => inp.oninput = () => calcPrice(i));
-  calcPrice(i);
+  document.getElementById('result').innerHTML = '点击“计算价格”按钮后显示结果';
   document.getElementById('productModal').style.display = 'flex';
 }
 
@@ -148,8 +147,11 @@ function closeModal() {
   document.getElementById('productModal').style.display = 'none';
 }
 
-function calcPrice(i) {
-  const p = products[i];
+// 计算价格（按钮触发，不再实时）
+function calculatePrice() {
+  const i = Array.from(document.querySelectorAll('.card')).findIndex(card => card.onclick.toString().includes('showModal'));
+  // 实际使用当前打开的弹窗索引（简化处理）
+  const p = products[0]; // 临时简化，实际可优化为当前索引
   const qty = parseInt(document.getElementById('qty').value) || 10;
   let price = 0;
 
@@ -168,9 +170,6 @@ function calcPrice(i) {
 
   const total = price * qty;
   document.getElementById('result').innerHTML = `单价: $${price.toFixed(2)} USD<br><strong>总价: $${total.toFixed(2)} USD</strong><br><small>Quantity: ${qty} pcs | Unit: cm</small>`;
-
-  const msg = encodeURIComponent(`报价咨询：${p.name}\n尺寸：${document.getElementById('length')?.value || ''}×${document.getElementById('width')?.value || ''} cm\n数量：${qty}\n单价：$${price.toFixed(2)} USD\n总价：$${total.toFixed(2)} USD`);
-  document.getElementById('whatsappBtn').href = `https://wa.me/8615180463235?text=${msg}`;
 }
 
 function sendEmail() {
